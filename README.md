@@ -16,7 +16,7 @@
     ```     
 3. Install the View.js and Lumen dependencies
     ```
-    ./script/install.sh
+    ./scripts/install.sh
     ```
 4. Point the container's IP adress to the right hosts by adding these three lines to the `/etc/hosts` file
     ```
