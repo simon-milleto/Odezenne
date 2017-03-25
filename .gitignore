@@ -1,0 +1,9 @@
+# Exclude logs
+logs/lumen/*.log
+logs/wordpress/*.log
+
+# Mac OS System files
+.DS_Store
+
+# IDEA files
+/.idea
