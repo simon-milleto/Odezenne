@@ -1,15 +1,18 @@
 # Odezenne project
 
 ## Includes
-- Wordpress API with MariaDB database
-- Lumen API with MariaDB database
-- Vue.js client
+- [Wordpress REST API](http://v2.wp-api.org/) with MariaDB database
+- [Lumen](https://lumen.laravel.com/) API with MariaDB database
+- [Vue.js](https://vuejs.org/) client
 
 ## Dependencies
-- Docker & Docker-compose
+- [Docker](https://docs.docker.com/engine/installation/) & [Docker-compose](https://docs.docker.com/compose/install/)
 
 ## Installation
 1. Clone the repository
+    ```
+    git clone https://github.com/ecvdbdx1617/Odezenne.git
+    ```
 2. Build and launch the docker containers
     ```
     docker-compose up
