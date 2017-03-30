@@ -10,9 +10,9 @@
 
 ## Installation
 1. Clone the repository
-    ```
+    ```
     git clone https://github.com/ecvdbdx1617/Odezenne.git
-    ```
+    ```  
 2. Build and launch the docker containers
     ```
     docker-compose up
