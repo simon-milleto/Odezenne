@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+  import config from '../config';
   import Player from 'audio-player';
   import * as SC from 'soundcloud';
 
