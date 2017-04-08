@@ -69,3 +69,29 @@ docker exec -it o2n_client npm install
 ```
 docker exec -it o2n_client npm install {package_name} {--save || --save-dev}
 ```
+
+## Back-end development
+
+### Importing / Exporting the Wordpress database
+The database dump file is located in `config/wp_dump.sql`. To import this file, execute the following script
+```
+./scripts/importWordpressDb.sh
+```
+
+To export the latest version of the database, execute the following script
+```
+./scripts/exportWordpressDb.sh
+```
+
+### Seeding the Lumen database
+You can add data to the Lumen database using the seed file located in `api/lumen/database/seeds/DatabaseSeeder.php`. 
+Then, to seed the data to the database, execute the following command
+```
+docker exec -it o2n_lumen php artisan db:seed
+```
+
+### Emptying the Lumen database
+To empty the whole database whithout dropping all the tables, execute the following script
+```
+./script/emptyLumenDb.sh
+```

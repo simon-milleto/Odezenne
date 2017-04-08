@@ -41,7 +41,7 @@ services:
       - "MYSQL_PASSWORD=secret"
       - "MYSQL_ROOT_PASSWORD=password"
     ports:
-        - "33061:3306"
+      - "33061:3306"
 
   o2n_wordpress_db:
     container_name: o2n_wordpress_db
@@ -52,7 +52,7 @@ services:
       - "MYSQL_PASSWORD=password"
       - "MYSQL_ROOT_PASSWORD=password"
     ports:
-        - "33062:3306"
+      - "33062:3306"
 
   o2n_client:
     container_name: o2n_client

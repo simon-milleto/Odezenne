@@ -1,2 +1,2 @@
 #!/bin/bash
-docker run --name wordpress_backup --link o2n_wordpress_db -v config:/backup confirm/mysql-backup
+docker exec o2n_wordpress_db sh -c 'exec mysqldump --add-drop-database -u wordpress -ppassword wordpress' > config/wp_dump.sql
