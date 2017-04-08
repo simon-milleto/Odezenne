@@ -12,9 +12,10 @@
 
 <script>
   import axios from 'axios';
-  import config from '../config';
   import Player from 'audio-player';
   import * as SC from 'soundcloud';
+
+  import config from '../config';
 
   const player = new Player();
 
@@ -24,7 +25,7 @@
       return {
         tracks: [],
         currentTrack: '',
-        formattedCurrentTime: '0:01',
+        formattedCurrentTime: '0:00',
         barRatio: 0,
       };
     },
@@ -33,8 +34,11 @@
         client_id: 'aeb5b3f63ac0518f8362010439a77ca1',
       });
 
+      axios.get(`${config.apiEndpoint}/tracks`).then((response) => {
+        this.tracks = response.data;
+      });
+
       SC.get('/tracks/305230900').then((track) => {
-        this.tracks.push(track);
         this.currentTrack = track;
         const separator = track.stream_url.indexOf('?') === -1 ? '?' : '&';
         this.currentTrack.formattedUrl = `${track.stream_url}${separator}client_id=aeb5b3f63ac0518f8362010439a77ca1`;

@@ -1,4 +1,4 @@
 export default {
-  apiEndpoint: 'lumen.o2n:8080',
-  cmsEndpoint: 'wordpress.o2n:8080'
-}
+  apiEndpoint: 'http://lumen.o2n:8080/api/v1',
+  cmsEndpoint: 'http://wordpress.o2n:8080/wp-json/wp/v2',
+};
