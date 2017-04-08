@@ -8,13 +8,202 @@
  * Author URI: http://ecvdigital.fr/
  * License: GPL2
  */
+require_once 'soundcloud.php';
 
-add_action('admin_menu', 'o2n_soundcloud_menu');
+class O2nSoundcloudSettings
+{
+    /**
+     * Holds the values to be used in the fields callbacks
+     */
+    private $options;
 
-function o2n_soundcloud_menu() {
-    add_menu_page('Soundcloud', 'Soundcloud', 'administrator', 'soundcloud_settings', 'o2n_soundcloud_settings', 'dashicons-controls-play');
+    private $tracks;
+
+    /**
+     * Start up
+     */
+    public function __construct()
+    {
+        add_action('admin_menu', array($this, 'add_plugin_page'));
+        add_action('admin_init', array($this, 'page_init'));
+        add_action( 'update_option_soundcloud_tracks', array($this, 'update_track_list'), 10, 2);
+    }
+
+    /**
+     * Add options page
+     */
+    public function add_plugin_page()
+    {
+        add_menu_page(
+            'Soundcloud',
+            'Soundcloud',
+            'administrator',
+            'soundcloud-settings',
+            array($this, 'create_admin_page'),
+            'dashicons-controls-play'
+        );
+    }
+
+    public function update_track_list($old_value, $new_value)
+    {
+        // Call Lumen API to update its database
+    }
+
+    /**
+     * Options page callback
+     */
+    public function create_admin_page()
+    {
+        // Set class property
+        $this->options = get_option('soundcloud_options');
+        $this->tracks = get_option('soundcloud_tracks');
+        ?>
+        <div class="wrap">
+            <h1>Soundcloud Settings</h1>
+            <form method="post" action="options.php">
+                <?php
+                // This prints out all hidden setting fields
+                settings_fields('o2n_soundcloud_settings_group');
+                do_settings_sections('soundcloud-settings');
+                submit_button();
+                ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    /**
+     * Register and add settings
+     */
+    public function page_init()
+    {
+        register_setting(
+            'o2n_soundcloud_settings_group', // Option group
+            'soundcloud_options', // Option name
+            array($this, 'sanitize') // Sanitize
+        );
+
+        register_setting(
+            'o2n_soundcloud_settings_group', // Option group
+            'soundcloud_tracks' // Option name
+        );
+
+        // Options section
+        add_settings_section(
+            'setting_section_soundcloud_options', // ID
+            'Options', // Title
+            array($this, 'print_options_section_info'), // Callback
+            'soundcloud-settings' // Page
+        );
+
+        add_settings_field(
+            'client_id', // ID
+            'Soundcloud Client ID', // Title
+            array($this, 'client_id_callback'), // Callback
+            'soundcloud-settings', // Page
+            'setting_section_soundcloud_options' // Section
+        );
+
+        add_settings_field(
+            'enable_all_tracks', // ID
+            'Enable all Tracks', // Title
+            array($this, 'all_tracks_callback'), // Callback
+            'soundcloud-settings', // Page
+            'setting_section_soundcloud_options' // Section
+        );
+
+        // Tracks section
+        add_settings_section(
+            'setting_section_soundcloud_tracks', // ID
+            'Tracks', // Title
+            array($this, 'print_tracks_section_info'), // Callback
+            'soundcloud-settings' // Page
+        );
+
+        $soundcloud = new Soundcloud();
+        $tracks = $soundcloud->getAllTracks('2074352');
+
+        foreach ($tracks as $track) {
+            add_settings_field(
+                $track['id'], // ID
+                $track['title'], // Title
+                array($this, 'track_callback'), // Callback
+                'soundcloud-settings', // Page
+                'setting_section_soundcloud_tracks', // Section
+                $track
+            );
+        }
+    }
+
+    /**
+     * Sanitize each setting field as needed
+     *
+     * @param array $input Contains all settings fields as array keys
+     * @return array $new_input
+     */
+    public function sanitize($input)
+    {
+        $new_input = array();
+        if (isset($input['client_id']))
+            $new_input['client_id'] = sanitize_text_field($input['client_id']);
+        if (isset($input['enable_all_tracks']))
+            $new_input['enable_all_tracks'] = $input['enable_all_tracks'];
+        if (isset($input['305230910']))
+            $new_input['305230910'] = $input['305230910'];
+
+        return $new_input;
+    }
+
+    /**
+     * Print the Options Section text
+     */
+    public function print_options_section_info()
+    {
+        print 'Soundcloud options';
+    }
+
+    /**
+     * Print the Tracks Section text
+     */
+    public function print_tracks_section_info()
+    {
+        print 'Choose the tracks to enable';
+    }
+
+    /**
+     * Get the settings option array and print one of its values
+     */
+    public function client_id_callback()
+    {
+        printf(
+            '<input type="text" id="client_id" name="soundcloud_options[client_id]" value="%s" />',
+            isset($this->options['client_id']) ? esc_attr($this->options['client_id']) : ''
+        );
+    }
+
+    /**
+     * Get the settings option array and print one of its values
+     */
+    public function all_tracks_callback()
+    {
+        printf(
+            '<input type="checkbox" name="soundcloud_options[enable_all_tracks]" value="1" %s />',
+            checked(1 == $this->options['enable_all_tracks'], true, false)
+        );
+    }
+
+    /**
+     * Get the settings option array and print one of its values
+     */
+    public function track_callback($track)
+    {
+        printf(
+            '<input type="checkbox" name="soundcloud_tracks[%s]" value="1" %s />',
+            $track['id'],
+            checked(1 == $this->tracks[$track['id']], true, false)
+        );
+    }
 }
 
-function o2n_soundcloud_settings() {
-    //
-}
+if( is_admin() )
+    $my_settings_page = new O2nSoundcloudSettings();
