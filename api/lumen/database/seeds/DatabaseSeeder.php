@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
+        DB::table('settings')->insert([
+            'label' => 'soundcloud_client_id',
+            'value' => 'aeb5b3f63ac0518f8362010439a77ca1'
+        ]);
     }
 }
