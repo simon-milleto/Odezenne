@@ -32,7 +32,7 @@ Class Soundcloud
     function __construct()
     {
         if (empty(get_option( 'soundcloud_options' )['client_id'])) {
-            throw new Services_Soundcloud_Missing_Client_Id_Exception();
+            throw new Soundcloud_Missing_Client_Id_Exception();
         }
         $this->_clientId = get_option( 'soundcloud_options' )['client_id'];
         $this->_enableAllTracks = get_option( 'soundcloud_options' )['enable_all_tracks'];
@@ -40,7 +40,8 @@ Class Soundcloud
         $this->_apiEndpoint = 'https://api.soundcloud.com/';
     }
 
-    protected function _setDefaultCurlOptions() {
+    protected function _setDefaultCurlOptions()
+    {
         $this->_curlOptions = array(
             CURLOPT_HEADER => true,
             CURLOPT_RETURNTRANSFER => true,
@@ -48,11 +49,13 @@ Class Soundcloud
         );
     }
 
-    protected function _constructUrl($path) {
+    protected function _constructUrl($path)
+    {
         return $path.'?format=json&client_id='.$this->_clientId;
     }
 
-    protected function _request($path, $curlOptions = array()) {
+    protected function _request($path, $curlOptions = array())
+    {
         try {
             $options = $this->_curlOptions;
             $options += $curlOptions;
@@ -77,21 +80,6 @@ Class Soundcloud
         }
     }
 
-    /**
-     * Send a GET HTTP request
-     * @param $track_id string Id of the track to get information about
-     * @return mixed
-     */
-    function getTrack($track_id)
-    {
-        $baseUrl = $this->_apiEndpoint.'tracks/'.$track_id;
-        $formattedUrl = $this->_constructUrl($baseUrl);
-
-        $data = $this->_request($formattedUrl);
-
-        return $data;
-    }
-
     function getAllTracks($user_id)
     {
         $baseUrl = $this->_apiEndpoint.'users/'.$user_id.'/tracks';
@@ -103,7 +91,8 @@ Class Soundcloud
     }
 }
 
-class Services_Soundcloud_Missing_Client_Id_Exception extends Exception {
+class Soundcloud_Missing_Client_Id_Exception extends Exception
+{
     /**
      * Default message.
      * @var string

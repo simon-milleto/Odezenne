@@ -23,7 +23,8 @@ Class O2nApi
         $this->_apiEndpoint = 'o2n_nginx/api/v1/';
     }
 
-    protected function _setDefaultCurlOptions() {
+    protected function _setDefaultCurlOptions()
+    {
         $this->_curlOptions = array(
             CURLOPT_HEADER => false,
             CURLOPT_RETURNTRANSFER => true,
@@ -78,6 +79,6 @@ Class O2nApi
 
         $data = $this->_request($formattedUrl, $params);
 
-        return json_decode($data, true);
+        return $data;
     }
 }
