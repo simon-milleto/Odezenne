@@ -7,8 +7,8 @@
       <span class="c-player__bar"><span class="c-player__progress" v-bind:style="{ width: barRatio + '%' }"></span></span>
       <span class="c-player__total-time">{{currentTrack.formattedDuration}}</span>
     </span>
-    <button class="c-player__previous" v-on:click="playPrevious()"><<</button>
-    <button class="c-player__next" v-on:click="playNext()">>></button>
+    <button class="c-player__previous" v-if="itemsInPlaylist > 1" v-on:click="playPrevious()"><<</button>
+    <button class="c-player__next" v-if="itemsInPlaylist > 1" v-on:click="playNext()">>></button>
   </div>
 </template>
 
