@@ -21,4 +21,23 @@ class TracksController extends Controller
 
         return response()->json($tracks);
     }
+
+    /**
+     * Create Tracks
+     * @param $request Request
+     * @return \Illuminate\Http\Response
+     */
+    public function createTracks(Request $request){
+        $tracks = array();
+
+        foreach ($request->all() as $track) {
+            parse_str($track, $formattedTrack);
+
+            $Track = Track::create($formattedTrack);
+
+            array_push($tracks, $Track);
+        }
+
+        return response()->json($tracks);
+    }
 }

@@ -18,5 +18,6 @@ $app->get('/', function () use ($app) {
 $app->group(['prefix' => 'api/v1/'], function ($app) {
     $app->group(['prefix' => 'tracks/'], function ($app) {
         $app->get('/', 'TracksController@index');
+        $app->post('/all','TracksController@createTracks');
     });
 });
