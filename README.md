@@ -25,7 +25,7 @@
     ```
     127.0.0.1       lumen.o2n
     127.0.0.1       wordpress.o2n
-    127.0.0.1       client.o2n`
+    127.0.0.1       client.o2n
     ```
 5. You can now access the following urls:
     * **lumen.o2n** for the Lumen API
