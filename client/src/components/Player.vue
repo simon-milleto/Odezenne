@@ -1,12 +1,14 @@
 <template>
   <div class="c-player">
-    <button class="c-player__action" v-on:click="playPause()">></button>
+    <button class="c-player__play" v-on:click="playPause()">></button>
     <span class="c-player__title">{{currentTrack.title}}</span>
     <span class="c-player__time-bar">
       <span class="c-player__current-time">{{formattedCurrentTime}}</span>
       <span class="c-player__bar"><span class="c-player__progress" v-bind:style="{ width: barRatio + '%' }"></span></span>
       <span class="c-player__total-time">{{currentTrack.formattedDuration}}</span>
     </span>
+    <button class="c-player__previous" v-on:click="playPrevious()"><<</button>
+    <button class="c-player__next" v-on:click="playNext()">>></button>
   </div>
 </template>
 
@@ -27,6 +29,8 @@
         currentTrack: '',
         formattedCurrentTime: '0:00',
         barRatio: 0,
+        itemsInPlaylist: 0,
+        playlistItemNumber: 1,
       };
     },
     beforeCreate() {
@@ -35,23 +39,14 @@
       });
 
       axios.get(`${config.apiEndpoint}/tracks`).then((response) => {
-        this.tracks = response.data;
-      });
-
-      SC.get('/tracks/305230900').then((track) => {
-        this.currentTrack = track;
-        const separator = track.stream_url.indexOf('?') === -1 ? '?' : '&';
-        this.currentTrack.formattedUrl = `${track.stream_url}${separator}client_id=aeb5b3f63ac0518f8362010439a77ca1`;
-        this.currentTrack.isPlaying = true;
-        this.currentTrack.formattedDuration = this.formatTime(this.currentTrack.duration / 1000);
-        this.currentTrack.currentTimeInSeconds = 0;
-        this.startCurrentTime();
-        player.play(this.currentTrack.formattedUrl);
+        this.tracks = this.formatTracks(response.data);
+        this.itemsInPlaylist = response.data.length;
+        this.playTrack();
       });
     },
     methods: {
       playPause() {
-        player.playPause(this.currentTrack.formattedUrl);
+        player.playPause(this.currentTrack.formattedStreamUrl);
 
         if (this.currentTrack.isPlaying) {
           clearInterval(this.currentTimeInterval);
@@ -60,6 +55,47 @@
           this.startCurrentTime();
           this.currentTrack.isPlaying = true;
         }
+      },
+      playNext() {
+        clearInterval(this.currentTimeInterval);
+        if (this.playlistItemNumber >= this.itemsInPlaylist) {
+          this.playlistItemNumber = 1;
+        } else {
+          this.playlistItemNumber += 1;
+        }
+        this.playTrack();
+      },
+      playPrevious() {
+        clearInterval(this.currentTimeInterval);
+        if (this.playlistItemNumber <= 1) {
+          this.playlistItemNumber = 6;
+        } else {
+          this.playlistItemNumber -= 1;
+        }
+        this.playTrack();
+      },
+      playTrack() {
+        this.currentTrack = this.tracks[this.playlistItemNumber - 1];
+        this.reset();
+        this.currentTrack.isPlaying = true;
+        this.startCurrentTime();
+        player.play(this.currentTrack.formattedStreamUrl);
+      },
+      reset() {
+        this.currentTrack.currentTimeInSeconds = 0;
+        this.barRatio = 0;
+        this.formattedCurrentTime = '0:00';
+      },
+      formatTracks(tracks) {
+        const formattedTracks = [];
+
+        tracks.forEach((track) => {
+          const formattedTrack = track;
+          formattedTrack.formattedStreamUrl = `${track.stream_url}?client_id=aeb5b3f63ac0518f8362010439a77ca1`;
+          formattedTrack.formattedDuration = this.formatTime(track.total_time);
+          formattedTracks.push(formattedTrack);
+        });
+        return tracks;
       },
       formatTime(time) {
         const durationMinutes = Math.floor(time / 60);
@@ -72,9 +108,9 @@
           this.formattedCurrentTime =
             this.formatTime(this.currentTrack.currentTimeInSeconds);
           this.barRatio =
-            (this.currentTrack.currentTimeInSeconds / (this.currentTrack.duration / 1000)) * 100;
+            (this.currentTrack.currentTimeInSeconds / this.currentTrack.total_time) * 100;
 
-          if (this.currentTrack.currentTimeInSeconds === this.currentTrack.duration / 1000) {
+          if (this.currentTrack.currentTimeInSeconds === this.currentTrack.total_time) {
             clearInterval(this.currentTimeInterval);
           }
         }, 1000);
@@ -95,7 +131,10 @@
     color: white;
   }
 
-  .c-player__action {
+  .c-player__play,
+  .c-player__previous,
+  .c-player__next {
+    margin: 0 10px;
     color: white;
   }
 
@@ -121,6 +160,6 @@
     height: 3px;
     margin: 3px;
     background-color: black;
-    transition: width 1s linear;
+    /*transition: width 1s linear;*/
   }
 </style>
