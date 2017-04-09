@@ -81,4 +81,23 @@ Class O2nApi
 
         return $data;
     }
+
+    function setClientId($clientId)
+    {
+        $formattedUrl = $this->_apiEndpoint.'settings/soundcloud-client-id';
+
+        $formattedClientId = array(
+            'label' => 'soundcloud-client-id',
+            'value' => $clientId
+        );
+
+        $params = array(
+            CURLOPT_POST => 1,
+            CURLOPT_POSTFIELDS => $formattedClientId
+        );
+
+        $data = $this->_request($formattedUrl, $params);
+
+        return $data;
+    }
 }

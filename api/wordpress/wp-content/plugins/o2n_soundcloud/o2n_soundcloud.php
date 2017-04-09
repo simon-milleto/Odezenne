@@ -20,6 +20,8 @@ class O2nSoundcloudSettings
 
     private $tracks;
 
+    private $o2nApi;
+
     /**
      * Start up
      */
@@ -28,6 +30,8 @@ class O2nSoundcloudSettings
         add_action('admin_menu', array($this, 'add_plugin_page'));
         add_action('admin_init', array($this, 'page_init'));
         add_action( 'update_option_soundcloud_tracks', array($this, 'update_track_list'), 10, 2);
+        add_action( 'update_option_soundcloud_options', array($this, 'update_client_id'), 10, 2);
+        $this->o2nApi = new O2nApi();
     }
 
     /**
@@ -48,8 +52,13 @@ class O2nSoundcloudSettings
     public function update_track_list($old_value, $new_value)
     {
         // Call Lumen API to update its database
-        $api = new O2nApi();
-        $api->setTracksList($new_value);
+        $this->o2nApi->setTracksList($new_value);
+    }
+
+    public function update_client_id($old_value, $new_value)
+    {
+        // Call Lumen API to update its database
+        $this->o2nApi->setClientId($new_value['client_id']);
     }
 
     /**
@@ -103,14 +112,6 @@ class O2nSoundcloudSettings
             'client_id', // ID
             'Soundcloud Client ID', // Title
             array($this, 'client_id_callback'), // Callback
-            'soundcloud-settings', // Page
-            'setting_section_soundcloud_options' // Section
-        );
-
-        add_settings_field(
-            'enable_all_tracks', // ID
-            'Enable all Tracks', // Title
-            array($this, 'all_tracks_callback'), // Callback
             'soundcloud-settings', // Page
             'setting_section_soundcloud_options' // Section
         );
@@ -181,17 +182,6 @@ class O2nSoundcloudSettings
         printf(
             '<input type="text" id="client_id" name="soundcloud_options[client_id]" value="%s" />',
             isset($this->options['client_id']) ? esc_attr($this->options['client_id']) : ''
-        );
-    }
-
-    /**
-     * Get the settings option array and print one of its values
-     */
-    public function all_tracks_callback()
-    {
-        printf(
-            '<input type="checkbox" name="soundcloud_options[enable_all_tracks]" value="1" %s />',
-            checked(1 == $this->options['enable_all_tracks'], true, false)
         );
     }
 
