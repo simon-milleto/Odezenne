@@ -25,6 +25,7 @@
     name: 'player',
     data() {
       return {
+        soundcloudClientId: '',
         tracks: [],
         currentTrack: '',
         formattedCurrentTime: '0:00',
@@ -36,6 +37,10 @@
     beforeCreate() {
       SC.initialize({
         client_id: 'aeb5b3f63ac0518f8362010439a77ca1',
+      });
+
+      axios.get(`${config.apiEndpoint}/settings/soundcloud-client-id`).then((response) => {
+        this.soundcloudClientId = response.data;
       });
 
       axios.get(`${config.apiEndpoint}/tracks`).then((response) => {
@@ -91,7 +96,7 @@
 
         tracks.forEach((track) => {
           const formattedTrack = track;
-          formattedTrack.formattedStreamUrl = `${track.stream_url}?client_id=aeb5b3f63ac0518f8362010439a77ca1`;
+          formattedTrack.formattedStreamUrl = `${track.stream_url}?client_id=${this.soundcloudClientId}`;
           formattedTrack.formattedDuration = this.formatTime(track.total_time);
           formattedTracks.push(formattedTrack);
         });
