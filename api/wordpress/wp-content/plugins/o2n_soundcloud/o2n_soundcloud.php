@@ -9,6 +9,7 @@
  * License: GPL2
  */
 require_once 'soundcloud.php';
+require_once 'o2n_api.php';
 
 class O2nSoundcloudSettings
 {
@@ -47,6 +48,8 @@ class O2nSoundcloudSettings
     public function update_track_list($old_value, $new_value)
     {
         // Call Lumen API to update its database
+        $api = new O2nApi();
+        $api->setTracksList($new_value);
     }
 
     /**

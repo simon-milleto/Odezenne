@@ -53,19 +53,28 @@ Class Soundcloud
     }
 
     protected function _request($path, $curlOptions = array()) {
-        $options = $this->_curlOptions;
-        $options += $curlOptions;
+        try {
+            $options = $this->_curlOptions;
+            $options += $curlOptions;
 
-        // Get cURL resource
-        $curl = curl_init($path);
-        // Set cURL options
-        curl_setopt_array($curl, $options);
-        // Send the request & save response to $resp
-        $resp = curl_exec($curl);
-        // Close request to clear up some resources
-        curl_close($curl);
+            $curl = curl_init($path);
+            curl_setopt_array($curl, $options);
+            $response = curl_exec($curl);
 
-        return substr($resp, strpos($resp, "\r\n\r\n")+4);
+            if (FALSE === $response)
+                throw new Exception(curl_error($curl), curl_errno($curl));
+
+            curl_close($curl);
+
+            return substr($response, strpos($response, "\r\n\r\n")+4);
+
+        } catch(Exception $error) {
+            trigger_error(sprintf(
+                'Soundcloud request failed with error #%d: %s',
+                $error->getCode(), $error->getMessage()),
+                E_USER_ERROR);
+
+        }
     }
 
     /**
