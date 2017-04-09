@@ -90,8 +90,8 @@ Then, to seed the data to the database, execute the following command
 docker exec -it o2n_lumen php artisan db:seed
 ```
 
-### Emptying the Lumen database
-To empty the whole database whithout dropping all the tables, execute the following script
+### Rebuilding the Lumen database
+To rebuild the database (drop, recreate, migrate, seed), execute the following script
 ```
 ./script/emptyLumenDb.sh
 ```
