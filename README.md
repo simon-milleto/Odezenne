@@ -28,8 +28,8 @@
     127.0.0.1       client.o2n`
     ```
 5. You can now access the following urls:
-    * **lumen.o2n:8080** for the Lumen API
-    * **wordpress.o2n:8080** for Wordpress
+    * **lumen.o2n** for the Lumen API
+    * **wordpress.o2n** for Wordpress
     * **client.o2n:8081** for the Vue.js client
     
 ## Front-end development
