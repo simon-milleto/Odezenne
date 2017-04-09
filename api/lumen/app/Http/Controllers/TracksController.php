@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Track;
+use App\Settings;
 use App\Services\SoundcloudService;
 
 
 class TracksController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Returns a list of all active tracks
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,7 +25,6 @@ class TracksController extends Controller
     /**
      * Create Tracks
      * @param $request Request
-     * @param $soundcloud SoundcloudService
      * @return \Illuminate\Http\Response
      */
     public function createTracks(Request $request)
@@ -32,7 +32,8 @@ class TracksController extends Controller
         $tracks = $request->all();
         $createdTracks = array();
         $existingTracks = Track::all();
-        $soundcloud = new SoundcloudService('aeb5b3f63ac0518f8362010439a77ca1');
+        $soundcloudClientId = Settings::where('label', 'soundcloud_client_id')->limit(1)->pluck('value');
+        $soundcloud = new SoundcloudService($soundcloudClientId[0]);
 
         foreach ($tracks as $trackKey => $track) {
             foreach ($existingTracks as $existingTrackKey => $existingTrack) {
