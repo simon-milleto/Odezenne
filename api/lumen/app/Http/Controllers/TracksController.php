@@ -61,7 +61,7 @@ class TracksController extends Controller
                 'artwork_url' => $trackInformation['artwork_url'],
                 'track_url' => $trackInformation['permalink_url'],
                 'stream_url' => $trackInformation['stream_url'],
-                'status' => true
+                'status' => $formattedTrack['status']
             );
 
             var_dump($formattedTrackInformation);
