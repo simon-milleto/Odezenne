@@ -57,12 +57,14 @@ class TracksController extends Controller
             $formattedTrackInformation = array(
                 'track_id' => $trackInformation['id'],
                 'title' => $trackInformation['title'],
+                'artist' => $trackInformation['user']['username'],
                 'artwork_url' => $trackInformation['artwork_url'],
                 'track_url' => $trackInformation['permalink_url'],
                 'stream_url' => $trackInformation['stream_url'],
-                'total_time' => floor($trackInformation['duration'] / 1000),
-                'status' => $formattedTrack['status']
+                'status' => true
             );
+
+            var_dump($formattedTrackInformation);
 
             $Track = Track::create($formattedTrackInformation);
             array_push($createdTracks, $Track);
