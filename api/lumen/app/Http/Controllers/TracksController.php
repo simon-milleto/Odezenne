@@ -64,8 +64,6 @@ class TracksController extends Controller
                 'status' => $formattedTrack['status']
             );
 
-            var_dump($formattedTrackInformation);
-
             $Track = Track::create($formattedTrackInformation);
             array_push($createdTracks, $Track);
         }
