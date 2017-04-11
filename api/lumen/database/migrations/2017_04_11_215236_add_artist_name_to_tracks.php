@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Track extends Migration
+class AddArtistNameToTracks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class Track extends Migration
      */
     public function up()
     {
-        Schema::create('tracks', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('track_id');
-            $table->string('title');
-            $table->string('artwork_url')->nullable();
-            $table->string('track_url');
-            $table->string('stream_url');
+        Schema::table('tracks', function (Blueprint $table) {
+            $table->string('artist');
         });
     }
 
