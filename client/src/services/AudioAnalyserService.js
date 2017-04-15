@@ -11,7 +11,7 @@ export default class AudioAnalyserService {
 
     source.connect(analyser);
     analyser.connect(this.audioContext.destination);
-    analyser.fftSize = 2048;
+    analyser.fftSize = 1024;
     analyser.minDecibels = -90;
     analyser.maxDecibels = 0;
 

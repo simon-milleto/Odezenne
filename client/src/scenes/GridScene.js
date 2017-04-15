@@ -1,12 +1,11 @@
 import * as THREE from 'three';
 
-import AudioAnalyserService from '../services/AudioAnalyserService';
-
 export default class GridScene {
-  constructor(particlesPerLine, lineSpacement, canvas) {
+  constructor(particlesPerLine, lineSpacement, canvas, audioAnalyser) {
     this.particlesPerLine = particlesPerLine;
     this.lineSpacement = lineSpacement;
     this.canvas = canvas;
+    this.audioAnalyser = audioAnalyser;
     this.particles = [];
 
     this.initializeAnalyser();
@@ -16,10 +15,8 @@ export default class GridScene {
   }
 
   initializeAnalyser() {
-    this.audioAnalyserService = new AudioAnalyserService();
-    this.audioAnalyzer = this.audioAnalyserService.initializeAnalyser();
-
-    const bufferLength = this.audioAnalyzer.frequencyBinCount;
+    this.audioAnalyser.smoothingTimeConstant = 0.75;
+    const bufferLength = this.audioAnalyser.frequencyBinCount;
     this.frequencyData = new Uint8Array(bufferLength);
   }
 
@@ -56,12 +53,12 @@ export default class GridScene {
   }
 
   animateParticles() {
-    requestAnimationFrame(this.animateParticles.bind(this));
+    this.animationFrame = requestAnimationFrame(this.animateParticles.bind(this));
     this.renderParticles();
   }
 
   renderParticles() {
-    this.audioAnalyzer.getByteFrequencyData(this.frequencyData);
+    this.audioAnalyser.getByteFrequencyData(this.frequencyData);
     this.camera.position.set(0, 300, 100);
 
     let i = 0;
@@ -83,5 +80,9 @@ export default class GridScene {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  stopAnimation() {
+    cancelAnimationFrame(this.animationFrame);
   }
 }
