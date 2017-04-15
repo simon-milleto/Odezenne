@@ -103,6 +103,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: #000;
 
     audio {
       display: none;

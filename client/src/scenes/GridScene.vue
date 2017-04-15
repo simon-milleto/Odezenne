@@ -10,14 +10,19 @@
     props: ['analyser'],
     data() {
       return {
-        particlesPerLine: 150,
+        particlesPerXLine: 100,
+        particlesPerYLine: 50,
         lineSpacement: 10,
       };
     },
     mounted() {
-      /* eslint-disable no-new */
-      this.GridScene =
-        new GridScene(this.particlesPerLine, this.lineSpacement, this.$refs.canvas, this.analyser);
+      this.GridScene = new GridScene(
+        this.particlesPerXLine,
+        this.particlesPerYLine,
+        this.lineSpacement,
+        this.$refs.canvas,
+        this.analyser,
+      );
     },
     beforeDestroy() {
       this.GridScene.stopAnimation();

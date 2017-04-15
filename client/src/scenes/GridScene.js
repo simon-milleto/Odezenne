@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 
 export default class GridScene {
-  constructor(particlesPerLine, lineSpacement, canvas, audioAnalyser) {
-    this.particlesPerLine = particlesPerLine;
+  constructor(particlesPerXLine, particlesPerYLine, lineSpacement, canvas, audioAnalyser) {
+    this.particlesPerXLine = particlesPerXLine;
+    this.particlesPerYLine = particlesPerYLine;
     this.lineSpacement = lineSpacement;
     this.canvas = canvas;
     this.audioAnalyser = audioAnalyser;
@@ -31,7 +32,7 @@ export default class GridScene {
     this.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-    this.renderer.setClearColor(new THREE.Color(0x000000));
+    this.renderer.setClearColor(new THREE.Color(0xffffff));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
@@ -39,13 +40,13 @@ export default class GridScene {
 
   createParticles() {
     let i = 0;
-    for (let ix = 0; ix < this.particlesPerLine; ix += 1) {
-      for (let iy = 0; iy < this.particlesPerLine; iy += 1) {
+    for (let ix = 0; ix < this.particlesPerXLine; ix += 1) {
+      for (let iy = 0; iy < this.particlesPerYLine; iy += 1) {
         const particle = new THREE.Mesh(this.geometry, this.material);
         particle.position.x =
-          (ix * this.lineSpacement) - ((this.particlesPerLine * this.lineSpacement) / 2);
+          (ix * this.lineSpacement) - ((this.particlesPerXLine * this.lineSpacement) / 2);
         particle.position.z =
-          (iy * this.lineSpacement) - ((this.particlesPerLine * this.lineSpacement) / 2);
+          (iy * this.lineSpacement) - ((this.particlesPerYLine * this.lineSpacement) / 2);
         this.scene.add(particle);
         this.particles[i += 1] = particle;
       }
@@ -59,16 +60,16 @@ export default class GridScene {
 
   renderParticles() {
     this.audioAnalyser.getByteFrequencyData(this.frequencyData);
-    this.camera.position.set(0, 300, 100);
+    this.camera.position.set(0, 300, 500);
 
     let i = 0;
-    for (let ix = 0; ix < this.particlesPerLine; ix += 1) {
-      for (let iy = 0; iy < this.particlesPerLine; iy += 1) {
+    for (let ix = 0; ix < this.particlesPerXLine; ix += 1) {
+      for (let iy = 0; iy < this.particlesPerYLine; iy += 1) {
         const particle = this.particles[i += 1];
         particle.position.y = (this.frequencyData[ix] * this.frequencyData[iy]) / 75;
-        const red = (`0 ${parseInt(203, 10).toString(16)}`).slice(-2);
-        const green = (`0 ${parseInt(47, 10).toString(16)}`).slice(-2);
-        const formattedBlue = this.frequencyData[ix] * 10 > 10 ? this.frequencyData[ix] * 10 : '200';
+        const red = (`0 ${parseInt(20, 10).toString(16)}`).slice(-2);
+        const green = (`0 ${parseInt(72, 10).toString(16)}`).slice(-2);
+        const formattedBlue = this.frequencyData[ix] * 10 > 10 ? this.frequencyData[ix] * 10 : '240';
         const blue = (`0 ${parseInt(formattedBlue, 10).toString(16)}`).slice(-2);
         particle.material.color.setHex(`0x${red}${green}${blue}`);
       }

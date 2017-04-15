@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 
-/* eslint-disable */
 export default class CircleScene {
   constructor(canvas, audioAnalyser) {
     this.canvas = canvas;
@@ -32,7 +31,7 @@ export default class CircleScene {
     this.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-    this.renderer.setClearColor(new THREE.Color(0x000000));
+    this.renderer.setClearColor(new THREE.Color(0xffffff));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
@@ -41,8 +40,8 @@ export default class CircleScene {
   createParticles() {
     for (let i = 0; i < this.frequencyData.length; i += 1) {
       const particle = new THREE.Mesh(this.geometry, this.material);
-      particle.position.x = (Math.cos(i * Math.PI / 24) * 100);
-      particle.position.y = (Math.sin(i * Math.PI / 24) * 100);
+      particle.position.x = (Math.cos((i * Math.PI) / 24) * 100);
+      particle.position.y = (Math.sin((i * Math.PI) / 24) * 100);
       this.scene.add(particle);
       this.particles[i] = particle;
     }
@@ -55,14 +54,18 @@ export default class CircleScene {
 
   renderParticles() {
     this.audioAnalyser.getByteTimeDomainData(this.frequencyData);
-    this.camera.position.set(this.frequencyData[0] / 10, this.frequencyData[0] / 10, 100 + (this.frequencyData[0]));
+    this.camera.position.set(
+      this.frequencyData[0] / 10,
+      this.frequencyData[0] / 10,
+      100 + (this.frequencyData[0]),
+    );
 
     for (let i = 0; i < this.frequencyData.length; i += 1) {
       const particle = this.particles[i];
-      particle.position.x = (Math.cos(i * Math.PI / 24) * (this.frequencyData[i] / 0.8 - 50));
-      particle.position.y = (Math.sin(i * Math.PI / 24) * (this.frequencyData[i] / 0.8 - 50));
-      const red = (`0 ${parseInt(203, 10).toString(16)}`).slice(-2);
-      const green = (`0 ${parseInt(47, 10).toString(16)}`).slice(-2);
+      particle.position.x = (Math.cos((i * Math.PI) / 24) * ((this.frequencyData[i] / 0.8) - 50));
+      particle.position.y = (Math.sin((i * Math.PI) / 24) * ((this.frequencyData[i] / 0.8) - 50));
+      const red = (`0 ${parseInt(20, 10).toString(16)}`).slice(-2);
+      const green = (`0 ${parseInt(72, 10).toString(16)}`).slice(-2);
       const blue = (`0 ${parseInt(this.frequencyData[i] * i * 0.7, 10).toString(16)}`).slice(-2);
       particle.material.color.setHex(`0x${red}${green}${blue}`);
     }
