@@ -94,9 +94,6 @@
         audio.currentTime = audio.duration / percent;
       },
     },
-    components: {
-      'a-player': VueAplayer,
-    },
   };
 </script>
 
