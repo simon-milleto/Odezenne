@@ -66,10 +66,11 @@ export default class GridScene {
       for (let iy = 0; iy < this.particlesPerLine; iy += 1) {
         const particle = this.particles[i += 1];
         particle.position.y = (this.frequencyData[ix] * this.frequencyData[iy]) / 75;
-        // const red = (`0 ${parseInt(203, 10).toString(16)}`).slice(-2);
-        // const green = (`0 ${parseInt(47, 10).toString(16)}`).slice(-2);
-        // const blue = (`0 ${parseInt(this.frequencyData[ix], 10).toString(16)}`).slice(-2);
-        // particle.material.color.setHex(`0x${red}${green}${blue}`);
+        const red = (`0 ${parseInt(203, 10).toString(16)}`).slice(-2);
+        const green = (`0 ${parseInt(47, 10).toString(16)}`).slice(-2);
+        const formattedBlue = this.frequencyData[ix] * 10 > 10 ? this.frequencyData[ix] * 10 : '200';
+        const blue = (`0 ${parseInt(formattedBlue, 10).toString(16)}`).slice(-2);
+        particle.material.color.setHex(`0x${red}${green}${blue}`);
       }
     }
     this.renderer.render(this.scene, this.camera);

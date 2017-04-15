@@ -13,7 +13,10 @@
 <script>
   import axios from 'axios';
 
+  import AudioAnalyserService from '../services/AudioAnalyserService';
+
   import config from '../config';
+  import EventBus from '../eventBus';
 
   export default {
     name: 'player',
@@ -32,6 +35,11 @@
       });
     },
     mounted() {
+      const audioAnalyserService = new AudioAnalyserService();
+      this.audioAnalyser = audioAnalyserService.initializeAnalyser();
+
+      EventBus.$emit('audioAnalyser:loaded', this.audioAnalyser);
+
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
         if (event.keyCode === 13) {

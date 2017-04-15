@@ -17,6 +17,4 @@ export default class AudioAnalyserService {
 
     return analyser;
   }
-
-
 }

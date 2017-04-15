@@ -11,7 +11,7 @@
   import GridScene from '../scenes/GridScene';
   import CircleScene from '../scenes/CircleScene.vue';
 
-  import AudioAnalyserService from '../services/AudioAnalyserService';
+  import EventBus from '../eventBus';
 
   export default {
     name: 'home',
@@ -23,9 +23,10 @@
       };
     },
     mounted() {
-      const audioAnalyserService = new AudioAnalyserService();
-      this.audioAnalyser = audioAnalyserService.initializeAnalyser();
-      this.analyserLoaded = true;
+      EventBus.$on('audioAnalyser:loaded', (audioAnalyser) => {
+        this.audioAnalyser = audioAnalyser;
+        this.analyserLoaded = true;
+      });
 
       document.addEventListener('keyup', (event) => {
         event.preventDefault();

@@ -16,9 +16,6 @@ export default class CircleScene {
   }
 
   initializeAnalyser() {
-    // this.audioAnalyserService = new AudioAnalyserService();
-    // this.audioAnalyzer = this.audioAnalyserService.initializeAnalyser();
-
     this.audioAnalyser.smoothingTimeConstant = 0.75;
     const bufferLength = this.audioAnalyser.frequencyBinCount;
     this.frequencyData = new Uint8Array(bufferLength);
