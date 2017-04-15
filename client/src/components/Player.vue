@@ -31,6 +31,14 @@
         this.getTracks();
       });
     },
+    mounted() {
+      document.addEventListener('keyup', (event) => {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+          this.playPause();
+        }
+      });
+    },
     methods: {
       getTracks() {
         axios.get(`${config.apiEndpoint}/tracks`).then((response) => {
