@@ -60,7 +60,7 @@ export default class GridScene {
 
   renderParticles() {
     this.audioAnalyser.getByteFrequencyData(this.frequencyData);
-    this.camera.position.set(0, 300, 500);
+    this.camera.position.set(0, 300, 400);
 
     let i = 0;
     for (let ix = 0; ix < this.particlesPerXLine; ix += 1) {

@@ -1,8 +1,8 @@
 <template>
   <main>
     <div class="c-scene" v-if="analyserLoaded">
-      <grid-scene v-if="showGrid" :analyser="audioAnalyser"></grid-scene>
-      <circle-scene v-else="" :analyser="audioAnalyser"></circle-scene>
+      <grid-scene v-show="showGrid" :analyser="audioAnalyser" :is-animating="showGrid"></grid-scene>
+      <circle-scene v-show="!showGrid" :analyser="audioAnalyser" :is-animating="!showGrid"></circle-scene>
     </div>
   </main>
 </template>
@@ -51,5 +51,9 @@
   .c-scene {
     width: 100vw;
     height: 100vh;
+
+    canvas {
+      display: block;
+    }
   }
 </style>
