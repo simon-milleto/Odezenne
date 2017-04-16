@@ -1,8 +1,9 @@
 <template>
   <main>
     <div class="c-scene" v-if="analyserLoaded">
-      <grid-scene v-show="showGrid" :analyser="audioAnalyser" :is-animating="showGrid"></grid-scene>
-      <circle-scene v-show="!showGrid" :analyser="audioAnalyser" :is-animating="!showGrid"></circle-scene>
+      <grid-scene v-show="scene === 'grid'" :analyser="audioAnalyser" :is-animating="scene === 'grid'"></grid-scene>
+      <circle-scene v-show="scene === 'circle'" :analyser="audioAnalyser" :is-animating="scene === 'circle'"></circle-scene>
+      <half-circle-scene v-show="scene === 'halfCircle'" :analyser="audioAnalyser" :is-animating="scene === 'halfCircle'"></half-circle-scene>
     </div>
   </main>
 </template>
@@ -10,6 +11,7 @@
 <script>
   import GridScene from '../scenes/GridScene.vue';
   import CircleScene from '../scenes/CircleScene.vue';
+  import HalfCircleScene from '../scenes/HalfCircleScene.vue';
 
   import EventBus from '../eventBus';
 
@@ -17,7 +19,7 @@
     name: 'home',
     data() {
       return {
-        showGrid: true,
+        scene: 'grid',
         analyserLoaded: false,
         audioAnalyser: '',
       };
@@ -31,17 +33,24 @@
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
         if (event.keyCode === 32) {
-          this.toggleGrid();
+          this.toggleScene();
         }
       });
     },
     components: {
       GridScene,
       CircleScene,
+      HalfCircleScene,
     },
     methods: {
-      toggleGrid() {
-        this.showGrid = !this.showGrid;
+      toggleScene() {
+        if (this.scene === 'grid') {
+          this.scene = 'circle';
+        } else if (this.scene === 'circle') {
+          this.scene = 'halfCircle';
+        } else {
+          this.scene = 'grid';
+        }
       },
     },
   };
