@@ -25,6 +25,10 @@
         this.$refs.canvas,
         this.analyser,
       );
+
+      if (this.isAnimating) {
+        this.startAnimation();
+      }
     },
     methods: {
       startAnimation() {

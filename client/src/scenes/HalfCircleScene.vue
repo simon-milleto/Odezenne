@@ -3,16 +3,16 @@
 </template>
 
 <script>
-  import GridScene from './GridScene';
+  import HalfCircleScene from './HalfCircleScene';
 
   export default {
-    name: 'grid-scene',
+    name: 'half-circle-scene',
     props: ['analyser', 'is-animating'],
     data() {
       return {
-        particlesPerXLine: 100,
-        particlesPerYLine: 50,
-        lineSpacement: 10,
+        radius: 3,
+        numberOfCircles: 5,
+        numberOfParticles: 500,
       };
     },
     /* Can't use arrow function here because of problem with watch and this binding */
@@ -28,12 +28,12 @@
       },
     },
     mounted() {
-      this.GridScene = new GridScene(
-        this.particlesPerXLine,
-        this.particlesPerYLine,
-        this.lineSpacement,
+      this.HalfCircleScene = new HalfCircleScene(
         this.$refs.canvas,
         this.analyser,
+        this.radius,
+        this.numberOfCircles,
+        this.numberOfParticles,
       );
 
       if (this.isAnimating) {
@@ -42,10 +42,10 @@
     },
     methods: {
       startAnimation() {
-        this.GridScene.animateParticles();
+        this.HalfCircleScene.animateParticles();
       },
       stopAnimation() {
-        this.GridScene.stopAnimation();
+        this.HalfCircleScene.stopAnimation();
       },
     },
     beforeDestroy() {
