@@ -30,9 +30,9 @@ services:
     volumes_from:
       - o2n_lumen
       - o2n_wordpress
-      - o2n_client
     volumes:
       - ./logs:/var/www/logs
+      - ./client/dist:/var/www/html/client
     ports:
       - 80:80
 
