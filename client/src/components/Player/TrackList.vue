@@ -1,9 +1,16 @@
 <template>
   <div class="c-player__track-list">
-    <audio class="c-player__audio" controls="controls" ref="audio" @timeupdate="updateProgress"></audio>
+    <audio class="c-player__audio" controls="controls" ref="audio" @timeupdate="updateProgress" @ended="playNextTrack"></audio>
     <div class="c-player__tracks">
       <button class="c-player__scroll-tracks c-player__scroll-tracks--top" v-if="showUp" @click="moveTrackListUp">Up</button>
-      <track-item v-for="track in mutableTracks" v-if="track.index < itemsInList && track.index >= 0" :track="track" :isCurrent="track.id === currentTrackId" @playTrack="playTrack" @pauseTrack="pauseTrack" @changeTrack="changeTrack"></track-item>
+      <track-item v-for="track in mutableTracks"
+                  v-if="track.index < itemsInList && track.index >= 0"
+                  :track="track"
+                  :isCurrent="track.id === currentTrackId"
+                  :key="track.id"
+                  @playTrack="playTrack"
+                  @pauseTrack="pauseTrack"
+                  @changeTrack="changeTrack"></track-item>
       <button class="c-player__scroll-tracks c-player__scroll-tracks--bottom" v-if="showDown" @click="moveTrackListDown">Down</button>
     </div>
     <progress-bar :total="totalTime" :current="currentTime" @changeTime="changeTime"></progress-bar>
@@ -41,8 +48,8 @@
 
       EventBus.$emit('audioAnalyser:loaded', this.audioAnalyser);
 
-      this.changeTrack(this.tracks[0].id);
-      this.showDown = this.tracks.length > this.itemsInList;
+      this.changeTrack(this.mutableTracks[0].id);
+      this.showDown = this.mutableTracks.length > this.itemsInList;
 
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
@@ -57,8 +64,19 @@
     },
     methods: {
       getCurrentTrack() {
-        const resolvedTrack = this.tracks.filter(track => track.id === this.currentTrackId);
+        const resolvedTrack = this.mutableTracks.filter(track => track.id === this.currentTrackId);
         return resolvedTrack[0];
+      },
+      playNextTrack() {
+        let currentIndex = 0;
+        let nextIndex = 0;
+        this.mutableTracks.forEach((track, index) => {
+          if (track.id === this.currentTrackId) {
+            currentIndex = index;
+          }
+        });
+        nextIndex = currentIndex + 1 === this.mutableTracks ? 0 : currentIndex + 1;
+        this.changeTrack(this.mutableTracks[nextIndex].id);
       },
       playTrack() {
         const audio = this.$refs.audio;

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import GridScene from '../scenes/GridScene';
+  import GridScene from '../scenes/GridScene.vue';
   import CircleScene from '../scenes/CircleScene.vue';
 
   import EventBus from '../eventBus';

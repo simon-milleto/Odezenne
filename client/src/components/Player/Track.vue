@@ -1,6 +1,6 @@
 <template>
-  <div class="c-player__track">
-    <button class="c-player__action" @click="changeTrackStatus"><span class="c-player__play-icon" :class="{ 'c-player__play-icon--is-playing': track.isPlaying }"></span></button>
+  <div class="c-player__track" @click="changeTrackStatus">
+    <button class="c-player__action"><span class="c-player__play-icon" :class="{ 'c-player__play-icon--is-playing': track.isPlaying }"></span></button>
     <span class="c-player__list-title">{{track.title}}</span>
   </div>
 </template>
@@ -31,6 +31,7 @@
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, .25);
+    cursor: pointer;
   }
 
   .c-player__action {
