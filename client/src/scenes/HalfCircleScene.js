@@ -74,15 +74,15 @@ export default class HalfCircleScene {
     for (let i = 0; i <= this.numberOfParticles; i += 1) {
       this.audioAnalyser.getByteTimeDomainData(this.localFrequencyData);
       const angle = (Math.PI / this.numberOfParticles) * i;
-      const waveHeight = this.localFrequencyData[i];
+      const waveHeight = this.localFrequencyData[i] / 10;
       let radiusAddon = 0;
 
       switch (waveType) {
         case 0:
-          radiusAddon = Math.cos(waveHeight / 75);
+          radiusAddon = Math.cos((angle + ((Math.PI / 90) * 60)) * (waveHeight / 50));
           break;
         case 1:
-          radiusAddon = Math.sin(waveHeight / 75);
+          radiusAddon = Math.sin((angle + ((Math.PI / 90) * 60)) * (waveHeight / 50));
           break;
         case 2:
           radiusAddon = Math.cos((angle + ((Math.PI / 180) * 120)) * (waveHeight / 50));
@@ -91,7 +91,7 @@ export default class HalfCircleScene {
           radiusAddon = Math.cos((angle + ((Math.PI / 90) * 240)) * (waveHeight / 50));
           break;
         case 4:
-          radiusAddon = Math.sin((angle + ((Math.PI / 90) * 120)) * (waveHeight / 75));
+          radiusAddon = Math.sin((angle + ((Math.PI / 90) * 120)) * (waveHeight / 50));
           break;
         default:
           radiusAddon = Math.cos(waveHeight / 75);
