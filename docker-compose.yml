@@ -4,9 +4,9 @@ services:
   o2n_lumen:
     container_name: o2n_lumen
     build: images/lumen
-    working_dir: /var/www/html
+    working_dir: /var/www/html/lumen
     volumes:
-      - ./api/lumen:/var/www/html
+      - ./api/lumen:/var/www/html/lumen
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=o2n_lumen_db"
@@ -14,9 +14,9 @@ services:
   o2n_wordpress:
     container_name: o2n_wordpress
     build: images/wordpress
-    working_dir: /var/www
+    working_dir: /var/www/html/wordpress
     volumes:
-      - ./api/wordpress:/var/www
+      - ./api/wordpress:/var/www/html/wordpress
     environment:
       - "WORDPRESS_DB_HOST=o2n_wordpress_db:3306"
       - "WORDPRESS_DB_PASSWORD=password"
@@ -27,6 +27,7 @@ services:
     volumes_from:
       - o2n_lumen
       - o2n_wordpress
+      - o2n_client
     volumes:
       - ./logs:/var/www/logs
     ports:
@@ -57,9 +58,9 @@ services:
   o2n_client:
     container_name: o2n_client
     build: images/client
-    working_dir: /code
+    working_dir: /var/www/html/client
     command: npm run dev
     volumes:
-      - ./client:/code
+      - ./client:/var/www/html/client
     ports:
       - "8081:8080"
