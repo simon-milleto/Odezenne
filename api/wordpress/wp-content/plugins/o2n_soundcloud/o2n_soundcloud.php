@@ -124,19 +124,25 @@ class O2nSoundcloudSettings
             'soundcloud-settings' // Page
         );
 
-        $soundcloud = new Soundcloud();
-        $tracks = $soundcloud->getAllTracks('2074352');
+        if (!empty(get_option( 'soundcloud_options' )['client_id'])) {
+            $soundcloud = new Soundcloud();
+            // userId for Odezenne
+            $tracks = $soundcloud->getAllTracks('2074352');
+            // userId for Smokey Joe & The Kids
+            // $tracks = $soundcloud->getAllTracks('1794844');
 
-        foreach ($tracks as $track) {
-            add_settings_field(
-                $track['id'], // ID
-                $track['title'], // Title
-                array($this, 'track_callback'), // Callback
-                'soundcloud-settings', // Page
-                'setting_section_soundcloud_tracks', // Section
-                $track
-            );
+            foreach ($tracks as $track) {
+                add_settings_field(
+                    $track['id'], // ID
+                    $track['title'], // Title
+                    array($this, 'track_callback'), // Callback
+                    'soundcloud-settings', // Page
+                    'setting_section_soundcloud_tracks', // Section
+                    $track
+                );
+            }
         }
+
     }
 
     /**
