@@ -2,6 +2,7 @@ version: '2'
 
 services:
   o2n_lumen:
+    restart: always
     container_name: o2n_lumen
     build: images/lumen
     working_dir: /var/www/html/lumen
@@ -12,6 +13,7 @@ services:
       - "DB_HOST=o2n_lumen_db"
 
   o2n_wordpress:
+    restart: always
     container_name: o2n_wordpress
     build: images/wordpress
     working_dir: /var/www/html/wordpress
@@ -22,6 +24,7 @@ services:
       - "WORDPRESS_DB_PASSWORD=password"
 
   o2n_nginx:
+    restart: always
     container_name: o2n_nginx
     build: images/nginx
     volumes_from:
@@ -34,6 +37,7 @@ services:
       - 80:80
 
   o2n_lumen_db:
+    restart: always
     container_name: o2n_lumen_db
     image: mariadb:latest
     environment:
@@ -45,6 +49,7 @@ services:
       - "33061:3306"
 
   o2n_wordpress_db:
+    restart: always
     container_name: o2n_wordpress_db
     image: mariadb:latest
     environment:
@@ -56,6 +61,7 @@ services:
       - "33062:3306"
 
   o2n_client:
+    restart: always
     container_name: o2n_client
     build: images/client
     working_dir: /var/www/html/client
