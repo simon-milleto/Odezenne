@@ -11,7 +11,6 @@ export default class CircleScene {
     this.initializeAnalyser();
     this.createScene();
     this.createParticles();
-    this.animateParticles();
   }
 
   initializeAnalyser() {

@@ -12,7 +12,6 @@ export default class GridScene {
     this.initializeAnalyser();
     this.createScene();
     this.createParticles();
-    this.animateParticles();
   }
 
   initializeAnalyser() {
