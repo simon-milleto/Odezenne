@@ -9,19 +9,19 @@
 - [Docker](https://docs.docker.com/engine/installation/) & [Docker-compose](https://docs.docker.com/compose/install/)
 
 ## Installation
-1. Clone the repository
+1. Clone the repository:
     ```
     git clone https://github.com/ecvdbdx1617/Odezenne.git
     ``` 
-2. Install the View.js and Lumen dependencies
+2. Install the View.js and Lumen dependencies:
     ```
-    ./install.sh
+    ./scripts/installDevelopment.sh
     ```
-3. Build and launch the docker containers
+3. Build and launch the docker containers:
     ```
     docker-compose up
     ```     
-4. Point the container's IP address to the right hosts by adding these three lines to the `/etc/hosts` file
+4. Point the container's IP address to the right hosts by adding these three lines to the `/etc/hosts` file:
     ```
     127.0.0.1       lumen.o2n
     127.0.0.1       wordpress.o2n
@@ -37,7 +37,7 @@
 ### Testing
 The Vue.js project uses **unit** and **e2e** testing, using [Karma](https://karma-runner.github.io/1.0/index.html) and [Nightwatch](http://nightwatchjs.org/). These tests need to be placed in the `client/test` folder.
 
-To execute the tests, you have these three commands available
+To execute the tests, you have these three commands available:
 * **To run the unit tests**
     ```
     docker exec -it o2n_client npm run unit
@@ -54,18 +54,18 @@ To execute the tests, you have these three commands available
 ### Linting
 The Vue.js project follows the [AirBnB](https://github.com/airbnb/javascript) syntax rules using the [ESLint](http://eslint.org/) plugin.
 
-To execute the linter, you can use this command
+To execute the linter, you can use this command:
 ```
 docker exec -it o2n_client npm run lint
 ```
 
 ### Adding dependencies
 To add a dependency to the Vue.js project, you have two options:
-* Add your dependency to the `package.json` file and execute this command
+* Add your dependency to the `package.json` file and execute this command:
 ```
 docker exec -it o2n_client npm install
 ```
-* Install the dependency directly using the command line
+* Install the dependency directly using the command line:
 ```
 docker exec -it o2n_client npm install {package_name} {--save || --save-dev}
 ```
@@ -73,25 +73,37 @@ docker exec -it o2n_client npm install {package_name} {--save || --save-dev}
 ## Back-end development
 
 ### Importing / Exporting the Wordpress database
-The database dump file is located in `config/wp_dump.sql`. To import this file, execute the following script
+The database dump file is located in `config/wp_dump.sql`. To import this file, execute the following script:
 ```
 ./scripts/importWordpressDb.sh
 ```
+_If you choose to import the existing dump file, the admin username and password are both *admin*_
 
-To export the latest version of the database, execute the following script
+To export the latest version of the database, execute the following script:
 ```
 ./scripts/exportWordpressDb.sh
 ```
 
+To empty the database, execute the following script:
+```
+./scripts/emptyWordpressDb.sh
+```
+
+### Initializing the Lumen database
+To initialize the database (install & migrate), execute the following script:
+```
+./script/setupLumenDb.sh
+```
+
 ### Seeding the Lumen database
 You can add data to the Lumen database using the seed file located in `api/lumen/database/seeds/DatabaseSeeder.php`. 
-Then, to seed the data to the database, execute the following command
+Then, to seed the data to the database, execute the following command:
 ```
 docker exec -it o2n_lumen php artisan db:seed
 ```
 
 ### Rebuilding the Lumen database
-To rebuild the database (drop, recreate, migrate, seed), execute the following script
+To rebuild the database (drop, recreate, migrate, seed), execute the following script:
 ```
 ./script/emptyLumenDb.sh
 ```

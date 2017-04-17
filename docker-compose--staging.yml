@@ -17,7 +17,7 @@ services:
     volumes:
       - ./api/wordpress:/var/www/html/wordpress
     environment:
-      - "ENV=development"
+      - "ENV=staging"
       - "WORDPRESS_DB_NAME=wordpress"
       - "WORDPRESS_DB_USER=wordpress"
       - "WORDPRESS_DB_HOST=o2n_wordpress_db:3306"
@@ -26,7 +26,7 @@ services:
   o2n_nginx:
     restart: always
     container_name: o2n_nginx
-    build: images/nginx/development
+    build: images/nginx/staging
     volumes_from:
       - o2n_lumen
       - o2n_wordpress
@@ -55,14 +55,3 @@ services:
       - "MYSQL_USER=wordpress"
       - "MYSQL_PASSWORD=password"
       - "MYSQL_ROOT_PASSWORD=password"
-
-  o2n_client:
-    restart: always
-    container_name: o2n_client
-    build: images/client
-    working_dir: /var/www/html/client
-    command: npm run dev
-    volumes:
-      - ./client:/var/www/html/client
-    ports:
-      - "8081:8080"
