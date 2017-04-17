@@ -25,11 +25,26 @@ Class O2nApi
 
     protected function _setDefaultCurlOptions()
     {
+        $ENV = getenv('ENV');
+        switch ($ENV) {
+            case 'development':
+                $HTTPHEADER = array('Host: lumen.o2n');
+                break;
+            case 'staging':
+                $HTTPHEADER = array('Host: api.o2n.bramvanosta.com');
+                break;
+            case 'production':
+                $HTTPHEADER = array('Host: api.odezenne.com');
+                break;
+            default:
+                $HTTPHEADER = array();
+        }
+
         $this->_curlOptions = array(
             CURLOPT_HEADER => false,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT => '',
-            CURLOPT_HTTPHEADER => array('Host: lumen.o2n')
+            CURLOPT_HTTPHEADER => $HTTPHEADER,
         );
     }
 
