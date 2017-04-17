@@ -2,7 +2,15 @@
   <div class="c-player__track-list">
     <audio class="c-player__audio" controls="controls" ref="audio" @timeupdate="updateProgress" @ended="playNextTrack"></audio>
     <div class="c-player__tracks">
-      <button class="c-player__scroll-tracks c-player__scroll-tracks--top" v-if="showUp" @click="moveTrackListUp">Up</button>
+      <button class="c-player__scroll-tracks c-player__scroll-tracks--top" v-if="showUp" @click="moveTrackListUp">
+        <span class="c-player__scroll-tracks-icon">
+          <svg x="0px" y="0px" viewBox="0 0 62.5 34.4" style="enable-background:new 0 0 62.5 34.4;" xml:space="preserve">
+            <g transform="translate(0,-952.36218)">
+              <path d="M31.3,952.4l-3.3,2.8l-28,24l6.5,7.6l24.8-21.2L56,986.7l6.5-7.6l-28-24C34.5,955.1,31.3,952.4,31.3,952.4z"/>
+            </g>
+          </svg>
+        </span>
+      </button>
       <track-item v-for="track in mutableTracks"
                   v-if="track.index < itemsInList && track.index >= 0"
                   :track="track"
@@ -11,7 +19,15 @@
                   @playTrack="playTrack"
                   @pauseTrack="pauseTrack"
                   @changeTrack="changeTrack"></track-item>
-      <button class="c-player__scroll-tracks c-player__scroll-tracks--bottom" v-if="showDown" @click="moveTrackListDown">Down</button>
+      <button class="c-player__scroll-tracks c-player__scroll-tracks--bottom" v-if="showDown" @click="moveTrackListDown">
+        <span class="c-player__scroll-tracks-icon">
+          <svg x="0px" y="0px" viewBox="0 0 62.5 34.4" style="enable-background:new 0 0 62.5 34.4;" xml:space="preserve">
+            <g transform="translate(0,-952.36218)">
+              <path d="M31.2,986.7l3.3-2.8l28-24l-6.5-7.6l-24.8,21.2L6.5,952.4L0,960l28,24C28,984,31.2,986.7,31.2,986.7z"/>
+            </g>
+          </svg>
+        </span>
+      </button>
     </div>
     <progress-bar :total="totalTime" :current="currentTime" @changeTime="changeTime"></progress-bar>
   </div>
@@ -153,11 +169,12 @@
 
   .c-player__track-list {
     position: absolute;
-    top: calc(15% + 8.75vh);
-    left: 35%;
-    width: 450px;
+    top: 10%;
+    left: -25%;
+    width: 350px;
     background-color: $player-primary;
-    transform: translateX(calc(-50% - 450px));
+    transform: translateX(-40%);
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   }
 
   .c-player__audio {
@@ -171,7 +188,7 @@
   .c-player__scroll-tracks {
     position: absolute;
     left: 50%;
-    padding: 10px 15px;
+    padding: 8px 25px;
     background-color: $player-neutral;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
@@ -181,6 +198,15 @@
 
     &.c-player__scroll-tracks--bottom {
       transform: translate(-50%, -25%);
+    }
+
+    .c-player__scroll-tracks-icon {
+      display: block;
+      width: 20px;
+
+      path {
+        fill: $player-primary;
+      }
     }
   }
 </style>

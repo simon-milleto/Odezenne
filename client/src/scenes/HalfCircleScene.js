@@ -36,10 +36,10 @@ export default class HalfCircleScene {
 
     this.scene = new THREE.Scene();
 
-    this.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
+    this.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false, alpha: true });
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas, alpha: true });
-    this.renderer.setClearColor(new THREE.Color(0xffffff));
+    this.renderer.setClearColor(0xffffff, 0);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false);

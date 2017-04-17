@@ -1,9 +1,11 @@
 <template>
   <div class="c-player" v-if="tracksLoaded">
-    <div class="c-player__main-cover">
-      <img class="c-player__cover" :src="mainCoverUrl">
+    <div class="c-player__container">
+      <div class="c-player__main-cover">
+        <img class="c-player__cover" :src="mainCoverUrl">
+      </div>
+      <track-list :tracks="tracks" @currentTrackChanged="changeTrackInformation"></track-list>
     </div>
-    <track-list :tracks="tracks" @currentTrackChanged="changeTrackInformation"></track-list>
     <div class="c-player__track-information">
       <h2 class="c-player__artist">{{artistName}}</h2>
       <h3 class="c-player__title">{{trackName}}</h3>
@@ -76,17 +78,18 @@
 <style lang="scss">
   @import '../../assets/scss/01_settings/colors';
 
-  .c-player {
-    font-family: 'Work Sans', sans-serif;
+  .c-player__container {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -25%);
   }
 
   .c-player__main-cover {
-    position: absolute;
-    top: 15%;
-    left: 35%;
-    width: 35vw;
-    height: 35vw;
-    transform: translateX(-50%);
+    width: 60vh;
+    max-width: 50vw;
+    transform: translateX(-25%);
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   }
 
   .c-player__cover {
@@ -95,24 +98,28 @@
 
   .c-player__track-information {
     position: absolute;
-    top: 15%;
-    right: 50px;
+    top: 10%;
+    right: 5vw;
+    width: 900px;
     max-width: 40%;
-    text-align: right;
+    font-size: 3vw;
   }
 
   .c-player__artist {
     margin-bottom: 50px;
     color: $player-primary;
-    font-size: 8rem;
+    font-size: 2.2em;
     font-weight: 800;
-    letter-spacing: 1.5rem;
-    line-height: 12rem;
+    letter-spacing: .5em;
+    line-height: 1.2em;
+    word-break: break-all;
+    text-transform: uppercase;
   }
 
   .c-player__title {
-    font-size: 3rem;
+    font-size: .8em;
     font-weight: 600;
-    line-height: 5rem;
+    line-height: 1.8em;
+    text-align: right;
   }
 </style>

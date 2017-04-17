@@ -30,8 +30,8 @@ export default class GridScene {
     this.geometry = new THREE.SphereGeometry(1, 32, 32);
     this.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-    this.renderer.setClearColor(new THREE.Color(0xffffff));
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true });
+    this.renderer.setClearColor(0xffffff, 0);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
