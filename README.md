@@ -15,19 +15,25 @@
     ``` 
 2. Install the View.js and Lumen dependencies:
     ```
-    ./scripts/installDevelopment.sh
+    cd Odezenne/scripts
+    ./installDevelopment.sh
     ```
 3. Build and launch the docker containers:
     ```
+    cd ..
     docker-compose up
-    ```     
-4. Point the container's IP address to the right hosts by adding these three lines to the `/etc/hosts` file:
+    ```  
+4. Setup the Lumen database:
+    ```
+    ./scripts/setupLumenDb.sh
+    ```
+5. Point the container's IP address to the right hosts by adding these three lines to the `/etc/hosts` file:
     ```
     127.0.0.1       lumen.o2n
     127.0.0.1       wordpress.o2n
     127.0.0.1       client.o2n
     ```
-5. You can now access the following urls:
+6. You can now access the following urls:
     * **lumen.o2n** for the Lumen API
     * **wordpress.o2n** for Wordpress
     * **client.o2n:8081** for the Vue.js client
