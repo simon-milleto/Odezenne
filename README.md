@@ -18,6 +18,7 @@
     cd Odezenne/scripts
     ./installDevelopment.sh
     ```
+    You will need to install cygwin on windows to execute .sh script.
 3. Build and launch the docker containers:
     ```bash
     cd ..
