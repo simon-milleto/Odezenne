@@ -28,4 +28,8 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
         $app->post('/soundcloud-client-id','SettingsController@setSoundcloudClientId');
     });
 
+    $app->group(['prefix' => 'tickets/'], function ($app) {
+        $app->get('/', 'TicketsController@index');
+    });
+
 });
