@@ -32,9 +32,11 @@ services:
       - o2n_wordpress
     volumes:
       - ./logs:/var/www/logs
+      - ./config/certs:/var/www/letsencrypt
       - ./client/dist:/var/www/html/client
     ports:
       - 80:80
+      - 443:443
 
   o2n_lumen_db:
     restart: always

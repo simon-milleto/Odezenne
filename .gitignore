@@ -2,6 +2,11 @@
 logs/lumen/*.log
 logs/wordpress/*.log
 
+# Exclude certs
+config/certs/certificate.crt
+config/certs/dhparam.pem
+config/certs/privateKey.key
+
 # Mac OS System files
 .DS_Store
 
