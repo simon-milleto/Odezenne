@@ -1,0 +1,61 @@
+/* VARIABLED */
+$grid-size: 12;
+$gutter-size: 10px;
+$medias : l 1150px, m 1024px, s 760px, xs 480px;
+
+/* DEV SCOPE FOR DEBUGGING */
+.s-dev .o-grid {
+  border: 1px solid green;
+}
+
+.s-dev .o-grid__cell {
+  border: 1px solid pink;
+}
+
+/* FLEX GRID */
+.o-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* GUTTER MODIFIER */
+.o-grid.o-grid--guttered {
+  margin: 0 -#{$gutter-size}; /* Removes the gutter from the first and last row/column */
+}
+
+.o-grid.o-grid--guttered > .o-grid__cell {
+  margin: 0 $gutter-size;
+}
+
+@for $column from 1 through $grid-size {
+
+  /* GRID WITHOUT GUTTER */
+  .o-grid > .o-grid__cell--#{$column}\/#{$grid-size} {
+    flex-basis: calc(100% / #{$grid-size} * #{$column});
+  }
+
+  /* GRID WITH GUTTER */
+  .o-grid.o-grid--guttered > .o-grid__cell--#{$column}\/#{$grid-size} {
+    flex-basis: calc(100% / #{$grid-size} * #{$column} - #{$gutter-size} * 2);
+  }
+
+  @each $media in $medias {
+
+    @media screen and (max-width: #{nth($media, 2)}) {
+
+      /* GRID WITHOUT GUTTER */
+      .o-grid > .o-grid__cell--#{$column}\/#{$grid-size}\@#{nth($media, 1)} {
+        flex-basis: calc(100% / #{$grid-size} * #{$column});
+      }
+
+      /* GRID WITH GUTTER */
+      .o-grid.o-grid--guttered > .o-grid__cell--#{$column}\/#{$grid-size}\@#{nth($media, 1)} {
+        flex-basis: calc(100% / #{$grid-size} * #{$column} - #{$gutter-size} * 2);
+      }
+
+    }
+
+  }
+
+}
+

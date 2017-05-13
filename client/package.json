@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.16.0",
+    "currency.js": "^0.4.4",
+    "moment": "^2.18.1",
     "reset-css": "^2.2.0",
     "three": "^0.84.0",
     "vue": "^2.2.2",

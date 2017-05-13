@@ -3,12 +3,18 @@
  */
 
 $_blue: #0148FD;
+$_green: #95FE3E;
 $_white: #ffffff;
 
 
 /**
  * Colors in context
  */
+
+// Main colors
+$primary-color: $_green;
+
+$neutral-color: $_white;
 
 // Player
 $player-primary: $_blue;
