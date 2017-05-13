@@ -8,6 +8,9 @@ services:
     working_dir: /var/www/html/lumen
     volumes:
       - ./api/lumen:/var/www/html/lumen
+    environment:
+      - "WOOCOMMERCE_CONSUMER_KEY=ck_97f315f037d4d88e3214dd90c0982304adfabeae"
+      - "WOOCOMMERCE_CONSUMER_SECRET=cs_da3df60a56e260266f0fb43ff5843573a2f4a03e"
 
   o2n_wordpress:
     restart: always

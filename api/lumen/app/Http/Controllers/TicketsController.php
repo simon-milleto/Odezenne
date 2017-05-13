@@ -12,8 +12,8 @@ class TicketsController extends Controller
     {
         return new Client(
             'https://o2n_nginx',
-            'ck_97f315f037d4d88e3214dd90c0982304adfabeae',
-            'cs_da3df60a56e260266f0fb43ff5843573a2f4a03e',
+            env('WOOCOMMERCE_CONSUMER_KEY'),
+            env('WOOCOMMERCE_CONSUMER_SECRET'),
             [
                 'wp_api' => true,
                 'version' => 'wc/v2',
