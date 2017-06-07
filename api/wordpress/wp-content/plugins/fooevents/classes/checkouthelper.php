@@ -395,7 +395,7 @@ class FooEvents_Checkout_Helper
                     );
                     $posts = get_posts($args);
 
-                    if (sizeof($posts) === 0) {
+                    if (sizeof($posts) < $ticket['quantity']) {
                         $ticket['WooCommerceEventsTicketID'] = $this->create_ticket($customerDetails['customerID'], $ticket['product_id'], $order_id, $ticket['attribute_ticket-type'], $ticket['variations'], $ticket['variation_id'], $x);
                     }
 
@@ -466,6 +466,7 @@ class FooEvents_Checkout_Helper
                     $ticket['product_id'] = $product['product_id'];
                     $ticket['attribute_ticket-type'] = '';
                     $ticket['event_name'] = $product_data->post_title;
+                    $ticket['quantity'] = $product['quantity'];
 
                     if (!empty($product['variation']['attribute_ticket-type'])) {
 
@@ -499,7 +500,6 @@ class FooEvents_Checkout_Helper
      */
     public function create_ticket($customerID, $product_id, $order_id, $ticketType, $variations, $variationID, $x, $attendeeName = '', $attendeeLastName = '', $attendeeEmail = '', $attendeeTelephone = '', $attendeeCompany = '', $attendeeDesignation = '')
     {
-
         $order = new WC_Order($order_id);
 
         $rand = rand(111111, 999999);
