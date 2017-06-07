@@ -11,7 +11,7 @@ const getters = {
 
 // mutations
 const mutations = {
-  addToCart(state, { id, amount, city, place, date, price }) {
+  addToCart(state, { id, amount, city, place, date, price, information }) {
     const record = state.tickets.find(t => t.id === id);
     const currentDate = moment(new Date());
     const expirationDate = currentDate.add(1, 'days');
@@ -24,6 +24,7 @@ const mutations = {
         price,
         date,
         amount,
+        information,
       });
     } else {
       record.id = id;
@@ -32,6 +33,7 @@ const mutations = {
       record.price = price;
       record.date = date;
       record.amount = amount;
+      record.information = information;
     }
 
     // Set to LocalStorage

@@ -343,9 +343,10 @@ class FooEvents_Checkout_Helper
 
                 if ($WooCommerceEventsCaptureAttendeeDetails === 'on') {
 
-                    $attendeeName = $_POST[$ticket['product_id'] . '_attendee_' . $x];
-                    $attendeeLastName = $_POST[$ticket['product_id'] . '_attendeelastname_' . $x];
-                    $attendeeEmail = $_POST[$ticket['product_id'] . '_attendeeemail_' . $x];
+                    $attendeeName = get_post_meta($order_id, $ticket['product_id'] . '_attendee_' . $x, true);
+                    $attendeeLastName = get_post_meta($order_id, $ticket['product_id'] . '_attendeelastname_' . $x, true);
+//                    $attendeeEmail = $_POST[$ticket['product_id'] . '_attendeeemail_' . $x];
+                    $attendeeEmail = '';
                     $attendeeTelephone = '';
                     $attendeeCompany = '';
                     $attendeeDesignation = '';

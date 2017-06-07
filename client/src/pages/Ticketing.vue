@@ -33,6 +33,7 @@
       getTickets() {
         axios.get(`${config.apiEndpoint}/tickets`)
           .then((response) => {
+            console.log('GET Tickets : ', response.data);
             this.tickets = response.data;
           });
       },

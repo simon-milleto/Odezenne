@@ -4,14 +4,27 @@
     <div class="o-container">
       <div class="c-checkout__cart">
         <div class="c-checkout__cart-item"
-             v-for="ticket in tickets">
+             v-for="(ticket, index) in tickets">
           <div class="c-checkout__cart-item-label">
             <span class="c-checkout__cart-item-title">{{ ticket.city }} - {{ ticket.place }}</span>
             <span class="c-checkout__cart-item-date">{{ ticket.date }}</span>
           </div>
           <div class="c-checkout__cart-item-information">
             <span class="c-checkout__cart-item-price">{{ ticket.price | currency }}€</span>
-            <!--<counter :number="ticket.amount" :id="ticket.id" @onMinus="removeItem" @onPlus="addItem"></counter>-->
+            <div class="c-checkout__cart-item-person" v-for="(ticketInfo, index) in ticket.information">
+              <span class="c-checkout__cart-item-person-title">Informations personnelles du billet n°{{ index + 1
+                }}</span>
+              <div class="c-checkout__input">
+                <label :for="'firstName' + index + '-' + index">Prénom</label>
+                <input :id="'firstName' + index + '-' + index" type="text" :name="'firstName' + index + '-' + index"
+                       v-model="ticketInfo.firstName">
+              </div>
+              <div class="c-checkout__input">
+                <label :for="'lastName' + index + '-' + index">Nom</label>
+                <input :id="'lastName' + index + '-' + index" type="text" :name="'lastName' + index + '-' + index"
+                       v-model="ticketInfo.lastName">
+              </div>
+            </div>
           </div>
         </div>
         <div class="c-checkout__cart-action">
@@ -57,8 +70,6 @@
 </template>
 
 <script>
-//  import paypal from 'https://www.paypalobjects.com/api/checkout.js';
-
   import { mapGetters } from 'vuex';
   import currency from 'currency.js';
   import axios from 'axios';
@@ -105,6 +116,7 @@
           formattedItems.push({
             id: ticket.id,
             quantity: ticket.amount,
+            information: ticket.information,
           });
         });
 
@@ -150,8 +162,7 @@
         }, '#paypal-button');
       },
     },
-    components: {
-    },
+    components: {},
   };
 </script>
 

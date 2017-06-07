@@ -37,6 +37,7 @@
     data() {
       return {
         amount: 1,
+        ticketInformation: [],
       };
     },
     computed: {
@@ -53,13 +54,29 @@
       removeItem() {
         if (this.amount > 0) {
           this.amount -= 1;
+          this.ticketInformation.splice(0, 1);
         }
       },
       addItem() {
         this.amount += 1;
+        for (let i = 0; i < this.amount; i += 1) {
+          this.ticketInformation.push({
+            firstName: '',
+            lastName: '',
+          });
+        }
       },
       addToCart() {
-        store.commit('addToCart', { id: this.ticket.id, amount: this.amount, city: this.ticket.city, place: this.ticket.location, date: this.formattedDate, price: this.ticket.price });
+        store.commit('addToCart', {
+          id: this.ticket.id,
+          amount: this.amount,
+          city: this.ticket.city,
+          place: this.ticket.location,
+          date: this.formattedDate,
+          price: this.ticket.price,
+          information: this.ticketInformation,
+        })
+        ;
       },
     },
     components: {
@@ -72,7 +89,6 @@
 <style lang="scss">
   @import '../../assets/scss/01_settings/colors';
   @import '../../assets/scss/01_settings/typography';
-
   @import '../../assets/scss/05_objects/grid';
 
   .c-ticket {

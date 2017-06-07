@@ -65,12 +65,31 @@ class TicketsController extends Controller
         $items = $request->all()['items'];
         $user = $request->all()['user'];
         $formattedItems = array();
+        $metaData = array();
 
         foreach ($items as $item) {
             $formattedItems[] = [
                 'product_id' => $item['id'],
                 'quantity' => $item['quantity']
             ];
+
+            foreach ($item['information'] as $x => $information) {
+                $firstNameKey = $item['id'] . '_attendee_' . ($x + 1);
+                $lastNameKey = $item['id'] . '_attendeelastname_' . ($x + 1);
+                $metaData = array_merge(
+                    $metaData,
+                    [
+                        [
+                            'key' => $firstNameKey,
+                            'value' => $information['firstName']
+                        ],
+                        [
+                            'key' => $lastNameKey,
+                            'value' => $information['lastName']
+                        ]
+                    ]
+                );
+            }
         }
 
         $order = [
@@ -85,7 +104,8 @@ class TicketsController extends Controller
                 'email' => $user['email'],
                 'phone' => $user['phoneNumber'],
             ],
-            'line_items' => $formattedItems
+            'line_items' => $formattedItems,
+            'meta_data' => $metaData
         ];
 
         $orderResponse = $woocommerce->post('orders', $order);
