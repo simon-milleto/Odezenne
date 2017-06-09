@@ -370,7 +370,25 @@ class FooEvents_Checkout_Helper
                     }
 
                     //create ticket
-                    $ticket['WooCommerceEventsTicketID'] = $this->create_ticket($customerDetails['customerID'], $ticket['product_id'], $order_id, $ticket['attribute_ticket-type'], $ticket['variations'], $ticket['variation_id'], $x, $attendeeName, $attendeeLastName, $attendeeEmail, $attendeeTelephone, $attendeeCompany, $attendeeDesignation);
+                    $args = array(
+                        'meta_query' => array(
+                            array(
+                                'key' => 'WooCommerceEventsOrderID',
+                                'value' => $order_id
+                            ),
+                            array(
+                                'key' => 'WooCommerceEventsProductID',
+                                'value' => $ticket['product_id']
+                            )
+                        ),
+                        'post_type' => 'event_magic_tickets',
+                        'posts_per_page' => -1
+                    );
+                    $posts = get_posts($args);
+
+                    if (sizeof($posts) < $ticket['quantity']) {
+                        $ticket['WooCommerceEventsTicketID'] = $this->create_ticket($customerDetails['customerID'], $ticket['product_id'], $order_id, $ticket['attribute_ticket-type'], $ticket['variations'], $ticket['variation_id'], $x, $attendeeName, $attendeeLastName, $attendeeEmail, $attendeeTelephone, $attendeeCompany, $attendeeDesignation);
+                    }
 
                 } else {
 
