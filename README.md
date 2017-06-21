@@ -1,4 +1,4 @@
-# Odezenne project
+# Odezenne project [![Build Status](https://travis-ci.org/ecvdbdx1617/Odezenne.svg?branch=master)](https://travis-ci.org/ecvdbdx1617/Odezenne)
 
 ## Includes
 - [Wordpress REST API](http://v2.wp-api.org/) with MariaDB database
