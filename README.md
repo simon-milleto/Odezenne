@@ -1,4 +1,4 @@
-# Odezenne project [![Build Status](https://travis-ci.org/ecvdbdx1617/Odezenne.svg?branch=master)](https://travis-ci.org/ecvdbdx1617/Odezenne)
+# Odezenne project [![Build Status](https://travis-ci.org/ecvdbdx1617/Odezenne.svg?branch=master)](https://travis-ci.org/ecvdbdx1617/Odezenne) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e98066734dbe435d959c3388f61bdb38)](https://www.codacy.com/app/bramvanosta/Odezenne?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ecvdbdx1617/Odezenne&amp;utm_campaign=Badge_Grade)
 
 ## Includes
 - [Wordpress REST API](http://v2.wp-api.org/) with MariaDB database
