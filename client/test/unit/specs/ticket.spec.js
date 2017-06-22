@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import Ticket from '../../../src/components/Ticket/Ticket';
 
 describe('Ticket', () => {
