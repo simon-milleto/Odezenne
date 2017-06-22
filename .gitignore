@@ -1,6 +1,7 @@
 # Exclude logs
 logs/lumen/*.log
 logs/wordpress/*.log
+logs/letsencrypt/*.log*
 
 # Exclude certs
 config/certs
