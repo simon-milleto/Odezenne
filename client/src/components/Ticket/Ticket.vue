@@ -32,7 +32,7 @@
   import Counter from './Counter';
 
   export default {
-    name: 'track',
+    name: 'ticket',
     props: ['ticket'],
     data() {
       return {
