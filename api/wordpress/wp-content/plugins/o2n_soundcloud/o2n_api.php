@@ -21,7 +21,7 @@ Class O2nApi
     function __construct()
     {
         $this->_setDefaultCurlOptions();
-        $this->_apiEndpoint = 'o2n_nginx/api/v1/';
+        $this->_apiEndpoint = getenv('API_HOST') . '/api/v1/';
     }
 
     protected function _setDefaultCurlOptions()
@@ -30,12 +30,6 @@ Class O2nApi
         switch ($ENV) {
             case 'development':
                 $HTTPHEADER = array('Host: lumen.o2n');
-                break;
-            case 'staging':
-                $HTTPHEADER = array('Host: api.o2n.bramvanosta.com');
-                break;
-            case 'production':
-                $HTTPHEADER = array('Host: api.odezenne.com');
                 break;
             default:
                 $HTTPHEADER = array();

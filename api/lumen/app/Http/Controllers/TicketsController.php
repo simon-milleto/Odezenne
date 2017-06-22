@@ -176,9 +176,10 @@ class TicketsController extends Controller
             ->setDescription("Achat billet")
             ->setInvoiceNumber($orderResponse['order_key']);
 
+        $host = env('APP_HOST');
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("http://lumen.o2n/api/v1/tickets/checkout/payment/execute?success=true")
-            ->setCancelUrl("http://lumen.o2n/api/v1/tickets/checkout/payment/execute?success=false");
+        $redirectUrls->setReturnUrl($host . "/api/v1/tickets/checkout/payment/execute?success=true")
+                     ->setCancelUrl($host . "/api/v1/tickets/checkout/payment/execute?success=false");
 
         $payment = new Payment();
         $payment->setIntent("sale")
@@ -234,14 +235,16 @@ class TicketsController extends Controller
 
     protected function _setupWoocommerce()
     {
+        $host = env('APP_ADMIN');
+
         return new Client(
-            'https://o2n_nginx',
+            $host,
             env('WOOCOMMERCE_CONSUMER_KEY'),
             env('WOOCOMMERCE_CONSUMER_SECRET'),
             [
                 'wp_api' => true,
                 'version' => 'wc/v2',
-                'verify_ssl' => false
+                'verify_ssl' => env('APP_ENV') != 'development'
             ]
         );
     }

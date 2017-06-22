@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-# Going to the parent folder
-cd ./..
+# Go to the installation folder
+cd ~/odezenne/
+
+# Get the latest version via git
+echo "### Getting the latest version via git ###"
+git fetch origin
+git reset origin/master --hard
 
 # Install Front-end dependencies for Vue.js
 echo "### Installing Front-end depenencies for Vue.js ###"
@@ -18,6 +23,12 @@ cp "$(pwd)"/api/lumen/.env.staging "$(pwd)"/api/lumen/.env
 # Install Back-end dependencies for Lumen
 echo "### Installing Back-end dependencies for Lumen ###"
 docker run --rm -v "$(pwd)"/api/lumen:/app -w /app composer/composer install
+
+# Rebuilding and Restarting the docker containers
+set -a
+source .env
+docker-compose -f docker-compose--staging.yml stop
+docker-compose -f docker-compose--staging.yml up -d --build
 
 # Setup Lumen database
 docker exec -i o2n_lumen php artisan migrate:install

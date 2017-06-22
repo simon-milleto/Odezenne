@@ -43,9 +43,9 @@ return [
     S::KEY_ALLOWED_ORIGINS => [
         'http://client.o2n'                     => true,
         'http://client.o2n:8081'                => true,
-        'http://o2n.bramvanosta.com'            => true,
+        'https://o2n.bramvanosta.com'           => true,
         'http://wordpress.o2n'                  => true,
-        'http://admin.o2n.bramvanosta.com'      => true,
+        'https://admin.o2n.bramvanosta.com'     => true,
         // Enabling all origins might be insecure. Consider before using in production.
         S::VALUE_ALLOW_ORIGIN_ALL  => false,
     ],
