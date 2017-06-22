@@ -11,6 +11,5 @@
 <style lang="scss">
   @import '~reset-css/_reset';
   @import 'assets/scss/03_generic/button';
-  @import 'assets/scss/03_generic/fonts';
   @import 'assets/scss/04_elements/body';
 </style>
