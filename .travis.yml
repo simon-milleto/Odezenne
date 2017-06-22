@@ -19,10 +19,7 @@ before_script:
 - . $HOME/.nvm/nvm.sh
 - nvm install node
 - nvm use node
-- npm --version
-- node --version
 - npm install
-- ls ~
 
 script:
 - cd ../api/lumen && ./vendor/bin/phpunit
