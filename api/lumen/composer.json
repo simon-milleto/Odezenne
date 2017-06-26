@@ -10,7 +10,8 @@
         "vlucas/phpdotenv": "~2.2",
         "neomerx/cors-illuminate": "^2.0",
         "automattic/woocommerce": "^1.2",
-        "paypal/rest-api-sdk-php": "^1.11"
+        "paypal/rest-api-sdk-php": "^1.11",
+        "j7mbo/twitter-api-php": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

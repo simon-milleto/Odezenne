@@ -5,7 +5,7 @@ cd ./..
 
 # Create the Lumen .env file
 echo "### Creating the Lumen .env file ###"
-cp "$(pwd)"/api/lumen/.env.staging "$(pwd)"/api/lumen/.env
+cp "$(pwd)"/api/lumen/.env.development "$(pwd)"/api/lumen/.env
 
 # Install Back-end dependencies for Lumen
 echo "### Installing Back-end dependencies for Lumen ###"

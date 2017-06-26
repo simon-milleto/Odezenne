@@ -22,6 +22,14 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
         $app->post('/all','TracksController@createTracks');
     });
 
+    $app->group(['prefix' => 'socials/'], function ($app) {
+        $app->get('/', 'SocialController@index');
+
+        $app->group(['prefix' => 'twitter/'], function ($app) {
+            $app->get('/', 'SocialController@twitterFeed');
+        });
+    });
+
     $app->group(['prefix' => 'settings/'], function ($app) {
         $app->get('/', 'SettingsController@index');
         $app->get('/soundcloud-client-id','SettingsController@getSoundcloudClientId');
