@@ -12,6 +12,7 @@ services:
       - "WOOCOMMERCE_CONSUMER_SECRET=${WOOCOMMERCE_CONSUMER_SECRET}"
       - "PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}"
       - "PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}"
+      - "YOUTUBE_API_KEY=${YOUTUBE_API_KEY}"
 
   o2n_wordpress:
     container_name: o2n_wordpress
