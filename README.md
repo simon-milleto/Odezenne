@@ -20,25 +20,47 @@
     ```
    _You will need to install [Cygwin](https://www.cygwin.com/) on windows to execute .sh scripts_
 3. Install locally generated certificates to enable HTTPS for Wordpress
-    ```bash
+   ```bash
     cd ..
-   ./generateCertificates.sh
+   ./scripts/generateCertificates.sh
    ```
-4. Build and launch the docker containers:
+
+   Then complete with the following entries:
+   ```
+   Country Name (2 letter code) [AU]:FR
+   State or Province Name (full name) [Some-State]:Gironde
+   Locality Name (eg, city) []:Bordeaux
+   Organization Name (eg, company) [Internet Widgits Pty Ltd]:Odezenne
+   Organizational Unit Name (eg, section) []:
+   Common Name (e.g. server FQDN or YOUR name) []:wordpress.o2n
+   Email Address []:o2n@test.fr
+   ```
+4. Create a `.env` file at the root of the project with the different ENV variables for the project. Here is an example of environment variables if using the development WP DB dump
+   ```
+   ENV=development
+
+   API_HOST=https://lumen.o2n
+
+   WOOCOMMERCE_CONSUMER_KEY=ck_3f882288b4d50fe35759a14619c6f643c421822a
+   WOOCOMMERCE_CONSUMER_SECRET=cs_045193a1d84bbbdd8dae7ab9328d49b3081f4d3c
+   PAYPAL_CLIENT_ID=AY4uJnG0aQ8UQ_7CGFg6RqWlJqQGEHDFp8MCsmh0WCao_hqZPC5nMGAXlXiMj9-eKIBR8wpLEL1JlhUu
+   PAYPAL_CLIENT_SECRET=ENzIaOv5S1L7yE41m2vWOiowiVgoaOuqEEkDBtoNJIyYewxJXShBzm4zDmiMqtercOLpInxJIg71djj3
+   ```
+5. Build and launch the docker containers:
     ```bash
     docker-compose up
     ```  
-5. Setup the Lumen database:  
+6. Setup the Lumen database:  
     ```bash
     ./scripts/setupLumenDb.sh
     ``` 
-6. Point the container's IP address to the right hosts by adding these three lines to the `/etc/hosts` file:
+7. Point the container's IP address to the right hosts by adding these three lines to the `/etc/hosts` file:
     ```bash
     127.0.0.1       lumen.o2n
     127.0.0.1       wordpress.o2n
     127.0.0.1       client.o2n
     ```
-7. You can now access the following urls:
+8. You can now access the following urls:
     * **lumen.o2n** for the Lumen API
     * **wordpress.o2n** for Wordpress
     * **client.o2n:8081** for the Vue.js client
