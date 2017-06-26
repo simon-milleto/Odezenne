@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:8.1.2
 
 MAINTAINER Bram van Osta <bramvanosta@gmail.com>
 

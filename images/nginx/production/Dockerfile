@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.13.1
 
 MAINTAINER Bram van Osta <bramvanosta@gmail.com>
 
