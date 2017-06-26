@@ -37,7 +37,10 @@
     data() {
       return {
         amount: 1,
-        ticketInformation: [],
+        ticketInformation: [{
+          firstName: '',
+          lastName: '',
+        }],
       };
     },
     computed: {
@@ -59,12 +62,10 @@
       },
       addItem() {
         this.amount += 1;
-        for (let i = 0; i < this.amount; i += 1) {
-          this.ticketInformation.push({
-            firstName: '',
-            lastName: '',
-          });
-        }
+        this.ticketInformation.push({
+          firstName: '',
+          lastName: '',
+        });
       },
       addToCart() {
         store.commit('addToCart', {
