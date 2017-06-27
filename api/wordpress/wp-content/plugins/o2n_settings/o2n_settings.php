@@ -173,6 +173,41 @@ class O2nSettings
         );
 
         /***********************************
+        ************* INSTAGRAM ************
+        ***********************************/
+
+        add_settings_section(
+            'setting_section_instagram_options', // ID
+            'Instagram settings', // Title
+            array($this, 'print_options_section_info'), // Callback
+            'api-settings' // Page
+        );
+
+        add_settings_field(
+            'instagram_username', // ID
+            'Username', // Title
+            array($this, 'instagram_username_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_instagram_options' // Section
+        );
+
+        add_settings_field(
+            'instagram_client_id', // ID
+            'Client Id', // Title
+            array($this, 'instagram_client_id_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_instagram_options' // Section
+        );
+
+        add_settings_field(
+            'instagram_client_secret', // ID
+            'Client Secret', // Title
+            array($this, 'instagram_client_secret_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_instagram_options' // Section
+        );
+
+        /***********************************
         ************** PAYPAL **************
         ***********************************/
 
@@ -268,6 +303,19 @@ class O2nSettings
 
         if (isset($input['youtube_max_results']))
             $new_input['youtube_max_results'] = sanitize_text_field($input['youtube_max_results']);
+
+        /***********************************
+        ************** INSTAGRAM ***********
+        ***********************************/
+
+        if (isset($input['instagram_username']))
+            $new_input['instagram_username'] = sanitize_text_field($input['instagram_username']);
+
+        if (isset($input['instagram_client_id']))
+            $new_input['instagram_client_id'] = sanitize_text_field($input['instagram_client_id']);
+
+        if (isset($input['instagram_client_secret']))
+            $new_input['instagram_client_secret'] = sanitize_text_field($input['instagram_client_secret']);
 
         /***********************************
         ************** PAYPAL **************
@@ -373,6 +421,34 @@ class O2nSettings
         printf(
             '<input type="number" id="youtube_max_results" name="settings_options[youtube_max_results]" value="%s" />',
             isset($this->options['youtube_max_results']) ? esc_attr($this->options['youtube_max_results']) : ''
+        );
+    }
+
+    /***********************************
+    ************** INSTAGRAM ***********
+    ***********************************/
+
+    public function instagram_username_callback()
+    {
+        printf(
+            '<input type="text" id="instagram_username" name="settings_options[instagram_username]" value="%s" />',
+            isset($this->options['instagram_username']) ? esc_attr($this->options['instagram_username']) : ''
+        );
+    }
+
+    public function instagram_client_id_callback()
+    {
+        printf(
+            '<input type="text" id="instagram_client_id" name="settings_options[instagram_client_id]" value="%s" />',
+            isset($this->options['instagram_client_id']) ? esc_attr($this->options['instagram_client_id']) : ''
+        );
+    }
+
+    public function instagram_client_secret_callback()
+    {
+        printf(
+            '<input type="text" id="instagram_client_secret" name="settings_options[instagram_client_secret]" value="%s" />',
+            isset($this->options['instagram_client_secret']) ? esc_attr($this->options['instagram_client_secret']) : ''
         );
     }
 
