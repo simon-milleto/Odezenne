@@ -291,7 +291,7 @@ class O2nSettings
     public function youtube_max_results_callback()
     {
         printf(
-            '<input type="text" id="youtube_max_results" name="settings_options[youtube_max_results]" value="%s" />',
+            '<input type="number" id="youtube_max_results" name="settings_options[youtube_max_results]" value="%s" />',
             isset($this->options['youtube_max_results']) ? esc_attr($this->options['youtube_max_results']) : ''
         );
     }
