@@ -25,7 +25,9 @@
    ./scripts/generateCertificates.sh
    ```
 
-   Then complete with the following entries:
+   Then complete with the following entries.
+
+   For the first time:
    ```
    Country Name (2 letter code) [AU]:FR
    State or Province Name (full name) [Some-State]:Gironde
@@ -33,6 +35,17 @@
    Organization Name (eg, company) [Internet Widgits Pty Ltd]:Odezenne
    Organizational Unit Name (eg, section) []:
    Common Name (e.g. server FQDN or YOUR name) []:wordpress.o2n
+   Email Address []:o2n@test.fr
+   ```
+
+   For the second time:
+   ```
+   Country Name (2 letter code) [AU]:FR
+   State or Province Name (full name) [Some-State]:Gironde
+   Locality Name (eg, city) []:Bordeaux
+   Organization Name (eg, company) [Internet Widgits Pty Ltd]:Odezenne
+   Organizational Unit Name (eg, section) []:
+   Common Name (e.g. server FQDN or YOUR name) []:lumen.o2n
    Email Address []:o2n@test.fr
    ```
 4. Create a `.env` file at the root of the project with the different ENV variables for the project. Here is an example of environment variables if using the development WP DB dump

@@ -40,6 +40,8 @@ Class O2nApi
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT => 'O2N Wordpress',
             CURLOPT_HTTPHEADER => $HTTPHEADER,
+            CURLOPT_SSL_VERIFYPEER => getenv('ENV') != 'development',
+            CURLOPT_SSL_VERIFYHOST => getenv('ENV') != 'development'
         );
     }
 
