@@ -8,6 +8,7 @@ import Home from '../pages/Home';
 import Ticketing from '../pages/Ticketing';
 import Checkout from '../pages/Checkout';
 import Store from '../store/index';
+import Blog from '../pages/Blog';
 
 Vue.use(Router);
 
@@ -47,6 +48,11 @@ const router = new Router({
       path: '*',
       name: '404',
       component: Page404,
+    },
+    {
+      path: '/blog',
+      name: 'Blog',
+      component: Blog,
     },
   ],
 });
