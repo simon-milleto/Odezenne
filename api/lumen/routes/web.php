@@ -25,8 +25,12 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
     $app->group(['prefix' => 'socials/'], function ($app) {
         $app->get('/', 'SocialController@index');
 
-        $app->group(['prefix' => 'twitter/'], function ($app) {
+        $app->group(['prefix' => 'twitterFeed/'], function ($app) {
             $app->get('/', 'SocialController@twitterFeed');
+        });
+
+        $app->group(['prefix' => 'fanTweets/'], function ($app) {
+            $app->get('/', 'SocialController@fanTweets');
         });
 
         $app->group(['prefix' => 'youtube/'], function ($app) {

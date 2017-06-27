@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Player from '../pages/Player';
 import Home from '../pages/Home';
 import Ticketing from '../pages/Ticketing';
 import Checkout from '../pages/Checkout';
@@ -14,6 +15,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
+    },
+    {
+      path: '/player',
+      name: 'Player',
+      component: Player,
     },
     {
       path: '/billetterie',
