@@ -185,4 +185,71 @@
 
 <style lang="scss">
   @import '../assets/scss/05_objects/container';
+  @import '../assets/scss/01_settings/colors';
+  @import '../assets/scss/01_settings/typography';   
+
+.c-checkout__cart{
+    width: 350px;
+    padding: 20px;
+    margin: auto;
+    position: relative;
+    border: 5px solid #000000;}
+
+    .c-checkout__cart-item-title{
+    display: block;
+    font-size: 2.6rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    }
+
+.c-checkout__cart-item-date{
+    display: block;
+    font-size: 2rem;
+    font-weight: lighter;
+    text-transform: uppercase;}
+
+.c-checkout__input input{
+    width: 100%;
+    padding: 10px 20px;
+    border: 2px solid $_black;
+    font-size: $font-smallest;
+}
+
+.c-checkout__form{
+    max-width: 350px;
+    margin: auto;
+    padding-top: 35px;
+}
+
+.c-checkout__cart-item-price{
+    padding-top: 15px;
+    display: block;
+}
+
+.c-checkout__cart-item-person-title{
+    display: block;
+    padding-bottom: 10px;
+    font-weight: 600;
+    margin-top: 23px;
+}
+
+.c-checkout__cart-action{
+  padding-top: 25px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.c-checkout__input label{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.c-checkout__form button{
+    margin-top: 25px;
+    padding: 10px 20px;
+    border: 2px solid $_black;
+    float: right;
+    margin-bottom: 25px;
+}
 </style>

@@ -42,4 +42,12 @@
     font-weight: bold;
     color:$_white;
   }
+
+  .c-cart__content span{
+    color:$_black;
+  }
+
+  .c-cart__content button{
+    color:$_black;
+  }
 </style>
