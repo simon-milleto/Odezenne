@@ -131,7 +131,7 @@
       },
       updateOrder(transactionId, creationTime) {
         axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId: this.order.id, transactionId, creationTime })
-          .then((response) => {
+          .then(() => {
             localStorage.clear();
           });
       },
@@ -151,7 +151,7 @@
               })
               .then((response) => {
                 axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId, transactionId: response.id })
-                  .then((response2) => {
+                  .then(() => {
                     localStorage.clear();
                   });
               });
