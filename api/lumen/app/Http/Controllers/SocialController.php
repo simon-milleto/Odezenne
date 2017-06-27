@@ -19,16 +19,22 @@ class SocialController extends Controller
   {
     $count = $request->input('count') ? $request->input('count') : 5;
 
+    $oauth_access_token = Settings::where('label', 'twitter_oauth_access_token')->limit(1)->pluck('value')[0];
+    $oauth_access_token_secret = Settings::where('label', 'twitter_oauth_access_token_secret')->limit(1)->pluck('value')[0];
+    $consumer_key = Settings::where('label', 'twitter_consumer_key')->limit(1)->pluck('value')[0];
+    $consumer_secret = Settings::where('label', 'twitter_consumer_secret')->limit(1)->pluck('value')[0];
+    $user_name = Settings::where('label', 'twitter_user_name')->limit(1)->pluck('value')[0];
+
     $settings = array(
-      'oauth_access_token' => env('OAUTH_ACCESS_TOKEN'),
-      'oauth_access_token_secret' => env('OAUTH_ACCESS_TOKEN_SECRET'),
-      'consumer_key' => env('CONSUMER_KEY'),
-      'consumer_secret' => env('CONSUMER_SECRET'),
+      'oauth_access_token' => $oauth_access_token,
+      'oauth_access_token_secret' => $oauth_access_token_secret,
+      'consumer_key' => $consumer_key,
+      'consumer_secret' => $consumer_secret,
     );
 
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
     $requestMethod = 'GET';
-    $getfield = "?user_id=264754437&count={$count}&include_rts=false";
+    $getfield = "?screen_name={$user_name}&count={$count}&include_rts=false";
 
     $twitter = new TwitterAPIExchange($settings);
     $tweets = $twitter->setGetfield($getfield)
@@ -59,11 +65,16 @@ class SocialController extends Controller
   {
     $count = $request->input('count') ? $request->input('count') : 5;
 
+    $oauth_access_token = Settings::where('label', 'twitter_oauth_access_token')->limit(1)->pluck('value')[0];
+    $oauth_access_token_secret = Settings::where('label', 'twitter_oauth_access_token_secret')->limit(1)->pluck('value')[0];
+    $consumer_key = Settings::where('label', 'twitter_consumer_key')->limit(1)->pluck('value')[0];
+    $consumer_secret = Settings::where('label', 'twitter_consumer_secret')->limit(1)->pluck('value')[0];
+
     $settings = array(
-      'oauth_access_token' => env('OAUTH_ACCESS_TOKEN'),
-      'oauth_access_token_secret' => env('OAUTH_ACCESS_TOKEN_SECRET'),
-      'consumer_key' => env('CONSUMER_KEY'),
-      'consumer_secret' => env('CONSUMER_SECRET'),
+      'oauth_access_token' => $oauth_access_token,
+      'oauth_access_token_secret' => $oauth_access_token_secret,
+      'consumer_key' => $consumer_key,
+      'consumer_secret' => $consumer_secret,
     );
 
     $url = 'https://api.twitter.com/1.1/search/tweets.json';

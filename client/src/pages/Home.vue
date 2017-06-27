@@ -3,7 +3,7 @@
     <tweet v-for="tweet in tweets"
             :tweet="tweet"
             :key="tweet.id"></tweet>
-    <tweet v-for="tweet in fan_tweets"
+    <tweet v-for="tweet in fanTweets"
             :tweet="tweet"
             :key="tweet.id"></tweet>
   </main>
@@ -20,7 +20,9 @@
     data() {
       return {
         tweets: [],
-        fan_tweets: [],
+        fanTweets: [],
+        twitterFeedCount: 5,
+        twitterFansCount: 5,
       };
     },
     mounted() {
@@ -32,15 +34,15 @@
     },
     methods: {
       getTwitterFeed() {
-        axios.get(`${config.apiEndpoint}/socials/twitterFeed?count=5`)
+        axios.get(`${config.apiEndpoint}/socials/twitter/feed?count=${this.twitterFeedCount}`)
           .then((response) => {
             this.tweets = response.data;
           });
       },
       getFansTweets() {
-        axios.get(`${config.apiEndpoint}/socials/fanTweets?count=5`)
+        axios.get(`${config.apiEndpoint}/socials/twitter/fans?count=${this.twitterFansCount}`)
           .then((response) => {
-            this.fan_tweets = response.data;
+            this.fanTweets = response.data;
           });
       },
     },
