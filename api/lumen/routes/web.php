@@ -38,7 +38,10 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
         });
     });
 
-    $app->post('/guests','GuestController@createGuest');
+    $app->group(['prefix' => 'guests/'], function ($app) {
+        $app->post('/', 'GuestController@createGuest');
+        $app->post('/verify', 'GuestController@verifyGuest');
+    });
 
     $app->group(['prefix' => 'settings/'], function ($app) {
         $app->get('/', 'SettingsController@index');

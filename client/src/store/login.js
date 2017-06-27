@@ -26,8 +26,7 @@ const mutations = {
 const actions = {
   login: (context, email) => {
     axios.post(`${config.apiEndpoint}/guests`, { email })
-      /* eslint-disable no-unused-vars */
-      .then((response) => {
+      .then(() => {
         const lastConnection = new Date();
         context.commit('setLogin', { email, lastConnection });
         localStorage.setItem('email', email);

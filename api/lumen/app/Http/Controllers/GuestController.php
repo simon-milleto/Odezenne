@@ -7,7 +7,20 @@ use Illuminate\Http\Request;
 
 class GuestController extends Controller
 {
-    public function createGuest(Request $request) {
-        Guest::firstOrCreate(['email' => $request->all()['email']]);
+    public function createGuest(Request $request)
+    {
+        $guest = Guest::firstOrCreate(['email' => $request->all()['email']]);
+        $guest->touch();
+    }
+
+    public function verifyGuest(Request $request)
+    {
+        if (Guest::where('email', '=', $request->all()['email'])->exists()) {
+            $guest_exists = true;
+        } else {
+            $guest_exists = false;
+        }
+
+        return response()->json(array('validLogin' => $guest_exists));
     }
 }
