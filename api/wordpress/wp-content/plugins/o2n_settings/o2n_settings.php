@@ -140,6 +140,14 @@ class O2nSettings
             'setting_section_youtube_options' // Section
         );
 
+        add_settings_field(
+            'youtube_max_results', // ID
+            'Max Results', // Title
+            array($this, 'youtube_max_results_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_youtube_options' // Section
+        );
+
         add_settings_section(
             'setting_section_paypal_options', // ID
             'Paypal settings', // Title
@@ -161,6 +169,29 @@ class O2nSettings
             array($this, 'paypal_client_secret_callback'), // Callback
             'api-settings', // Page
             'setting_section_paypal_options' // Section
+        );
+
+        add_settings_section(
+            'setting_section_woocommerce_options', // ID
+            'WooCommerce settings', // Title
+            array($this, 'print_options_section_info'), // Callback
+            'api-settings' // Page
+        );
+
+        add_settings_field(
+            'woocommerce_consumer_key', // ID
+            'Consumer Key', // Title
+            array($this, 'woocommerce_consumer_key_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_woocommerce_options' // Section
+        );
+
+        add_settings_field(
+            'woocommerce_consumer_secret', // ID
+            'Consumer Secret', // Title
+            array($this, 'woocommerce_consumer_secret_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_woocommerce_options' // Section
         );
     }
 
@@ -187,12 +218,21 @@ class O2nSettings
 
         if (isset($input['youtube_api_key']))
             $new_input['youtube_api_key'] = sanitize_text_field($input['youtube_api_key']);
+
+        if (isset($input['youtube_max_results']))
+            $new_input['youtube_max_results'] = sanitize_text_field($input['youtube_max_results']);
         
         if (isset($input['paypal_client_id']))
             $new_input['paypal_client_id'] = sanitize_text_field($input['paypal_client_id']);
         
         if (isset($input['paypal_client_secret']))
             $new_input['paypal_client_secret'] = sanitize_text_field($input['paypal_client_secret']);
+
+        if (isset($input['woocommerce_consumer_key']))
+            $new_input['woocommerce_consumer_key'] = sanitize_text_field($input['woocommerce_consumer_key']);
+        
+        if (isset($input['woocommerce_consumer_secret']))
+            $new_input['woocommerce_consumer_secret'] = sanitize_text_field($input['woocommerce_consumer_secret']);
 
         return $new_input;
     }
@@ -248,6 +288,14 @@ class O2nSettings
         );
     }
 
+    public function youtube_max_results_callback()
+    {
+        printf(
+            '<input type="text" id="youtube_max_results" name="settings_options[youtube_max_results]" value="%s" />',
+            isset($this->options['youtube_max_results']) ? esc_attr($this->options['youtube_max_results']) : ''
+        );
+    }
+
     public function paypal_client_id_callback()
     {
         printf(
@@ -261,6 +309,22 @@ class O2nSettings
         printf(
             '<input type="text" id="paypal_client_secret" name="settings_options[paypal_client_secret]" value="%s" />',
             isset($this->options['paypal_client_secret']) ? esc_attr($this->options['paypal_client_secret']) : ''
+        );
+    }
+
+    public function woocommerce_consumer_key_callback()
+    {
+        printf(
+            '<input type="text" id="woocommerce_consumer_key" name="settings_options[woocommerce_consumer_key]" value="%s" />',
+            isset($this->options['woocommerce_consumer_key']) ? esc_attr($this->options['woocommerce_consumer_key']) : ''
+        );
+    }
+
+    public function woocommerce_consumer_secret_callback()
+    {
+        printf(
+            '<input type="text" id="woocommerce_consumer_secret" name="settings_options[woocommerce_consumer_secret]" value="%s" />',
+            isset($this->options['woocommerce_consumer_secret']) ? esc_attr($this->options['woocommerce_consumer_secret']) : ''
         );
     }
 }

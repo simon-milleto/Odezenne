@@ -29,10 +29,10 @@ class SettingsController extends Controller
     public function setSettings(Request $request)
     {
         foreach ($request->all() as $label => $value) {
-            $setting = Settings::firstOrCreate(['label' => $label]);
-
-            $setting->setAttribute('value', $value);
-            $setting->save();
+            Settings::updateOrCreate(
+                ['label' => $label],
+                ['value' => $value]
+            );
         }
         
 

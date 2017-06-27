@@ -28,7 +28,9 @@ class SocialController extends Controller
     public function youtubeFeed()
     {
         $videos = [];
-        $api_key = env('YOUTUBE_API_KEY');
+
+        $api_key = Settings::where('label', 'youtube_api_key')->limit(1)->pluck('value')[0];
+        $max_results = Settings::where('label', 'youtube_max_results')->limit(1)->pluck('value')[0];
 
         //search channels of user
         $json = file_get_contents('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=alo2zen&key=' . $api_key);
@@ -36,12 +38,12 @@ class SocialController extends Controller
         $playlist_id = $channels->items[0]->contentDetails->relatedPlaylists->uploads;
 
         //search playlist items of upload channel
-        $json = file_get_contents('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=' . $playlist_id . '&key=' . $api_key);
+        $json = file_get_contents('https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=' . $max_results . '&playlistId=' . $playlist_id . '&key=' . $api_key);
         $items = json_decode($json)->items;
 
         foreach ($items as $item) {
-            //search videos of the playlist items of the upload channel
-            $json = file_get_contents('https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,status&id=' . $item->snippet->resourceId->videoId . '&maxResults=5&key=' . $api_key);
+            // search videos of the playlist items of the upload channel
+            $json = file_get_contents('https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,status&id=' . $item->contentDetails->videoId . '&maxResults=' . $max_results . '&key=' . $api_key);
             $video = json_decode($json);
             array_push($videos, $video);
         }

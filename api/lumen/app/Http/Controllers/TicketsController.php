@@ -8,6 +8,8 @@ use Automattic\WooCommerce\Client;
 
 use App\Exceptions\Handler;
 
+use App\Settings;
+
 use PayPal\Api\Payer;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
@@ -237,10 +239,13 @@ class TicketsController extends Controller
     {
         $host = env('APP_ADMIN');
 
+        $woocommerce_consumer_key = Settings::where('label', 'woocommerce_consumer_key')->limit(1)->pluck('value')[0];
+        $woocommerce_consumer_secret = Settings::where('label', 'woocommerce_consumer_secret')->limit(1)->pluck('value')[0];
+
         return new Client(
             $host,
-            env('WOOCOMMERCE_CONSUMER_KEY'),
-            env('WOOCOMMERCE_CONSUMER_SECRET'),
+            $woocommerce_consumer_key,
+            $woocommerce_consumer_secret,
             [
                 'wp_api' => true,
                 'version' => 'wc/v2',
@@ -251,10 +256,14 @@ class TicketsController extends Controller
 
     protected function _setupPaypal()
     {
+
+        $paypal_client_id = Settings::where('label', 'paypal_client_id')->limit(1)->pluck('value')[0];
+        $paypal_client_secret = Settings::where('label', 'paypal_client_secret')->limit(1)->pluck('value')[0];
+
         $apiContext = new ApiContext(
             new OAuthTokenCredential(
-                env('PAYPAL_CLIENT_ID'),
-                env('PAYPAL_CLIENT_SECRET')
+                $paypal_client_id,
+                $paypal_client_secret
             )
         );
 
