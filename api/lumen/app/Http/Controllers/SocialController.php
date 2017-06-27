@@ -111,9 +111,10 @@ class SocialController extends Controller
 
         $api_key = Settings::where('label', 'youtube_api_key')->limit(1)->pluck('value')[0];
         $max_results = Settings::where('label', 'youtube_max_results')->limit(1)->pluck('value')[0];
+        $username = Settings::where('label', 'youtube_username')->limit(1)->pluck('value')[0];
 
         //search channels of user
-        $json = file_get_contents('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=alo2zen&key=' . $api_key);
+        $json = file_get_contents('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=' . $username . '&key=' . $api_key);
         $channels = json_decode($json);
         $playlist_id = $channels->items[0]->contentDetails->relatedPlaylists->uploads;
 

@@ -85,12 +85,24 @@ class O2nSettings
             array($this, 'sanitize') // Sanitize
         );
 
+        /***********************************
+        ************** TWITTER *************
+        ***********************************/
+
         // Options section
         add_settings_section(
             'setting_section_twitter_options', // ID
             'Twitter settings', // Title
             array($this, 'print_options_section_info'), // Callback
             'api-settings' // Page
+        );
+
+        add_settings_field(
+            'twitter_username', // ID
+            'Username', // Title
+            array($this, 'twitter_username_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_twitter_options' // Section
         );
 
         add_settings_field(
@@ -125,11 +137,23 @@ class O2nSettings
             'setting_section_twitter_options' // Section
         );
 
+        /***********************************
+        ************** YOUTUBE *************
+        ***********************************/
+
         add_settings_section(
             'setting_section_youtube_options', // ID
             'Youtube settings', // Title
             array($this, 'print_options_section_info'), // Callback
             'api-settings' // Page
+        );
+
+        add_settings_field(
+            'youtube_username', // ID
+            'Username', // Title
+            array($this, 'youtube_username_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_youtube_options' // Section
         );
 
         add_settings_field(
@@ -147,6 +171,10 @@ class O2nSettings
             'api-settings', // Page
             'setting_section_youtube_options' // Section
         );
+
+        /***********************************
+        ************** PAYPAL **************
+        ***********************************/
 
         add_settings_section(
             'setting_section_paypal_options', // ID
@@ -170,6 +198,10 @@ class O2nSettings
             'api-settings', // Page
             'setting_section_paypal_options' // Section
         );
+
+        /***********************************
+        ************ WOO COMMERCE **********
+        ***********************************/
 
         add_settings_section(
             'setting_section_woocommerce_options', // ID
@@ -204,6 +236,14 @@ class O2nSettings
     public function sanitize($input)
     {
         $new_input = array();
+
+        /***********************************
+        ************** TWITTER *************
+        ***********************************/
+
+        if (isset($input['twitter_username']))
+            $new_input['twitter_username'] = sanitize_text_field($input['twitter_username']);
+
         if (isset($input['twitter_oauth_access_token']))
             $new_input['twitter_oauth_access_token'] = sanitize_text_field($input['twitter_oauth_access_token']);
         
@@ -216,17 +256,32 @@ class O2nSettings
         if (isset($input['twitter_consumer_secret']))
             $new_input['twitter_consumer_secret'] = sanitize_text_field($input['twitter_consumer_secret']);
 
+        /***********************************
+        ************** YOUTUBE *************
+        ***********************************/
+
+        if (isset($input['youtube_username']))
+            $new_input['youtube_username'] = sanitize_text_field($input['youtube_username']);
+
         if (isset($input['youtube_api_key']))
             $new_input['youtube_api_key'] = sanitize_text_field($input['youtube_api_key']);
 
         if (isset($input['youtube_max_results']))
             $new_input['youtube_max_results'] = sanitize_text_field($input['youtube_max_results']);
+
+        /***********************************
+        ************** PAYPAL **************
+        ***********************************/
         
         if (isset($input['paypal_client_id']))
             $new_input['paypal_client_id'] = sanitize_text_field($input['paypal_client_id']);
         
         if (isset($input['paypal_client_secret']))
             $new_input['paypal_client_secret'] = sanitize_text_field($input['paypal_client_secret']);
+
+        /***********************************
+        ************ WOO COMMERCE **********
+        ***********************************/
 
         if (isset($input['woocommerce_consumer_key']))
             $new_input['woocommerce_consumer_key'] = sanitize_text_field($input['woocommerce_consumer_key']);
@@ -248,6 +303,19 @@ class O2nSettings
     /**
      * Get the settings option array and print one of its values
      */
+
+    /***********************************
+    ************** TWITTER *************
+    ***********************************/
+
+    public function twitter_username_callback()
+    {
+        printf(
+            '<input type="text" id="twitter_username" name="settings_options[twitter_username]" value="%s" />',
+            isset($this->options['twitter_username']) ? esc_attr($this->options['twitter_username']) : ''
+        );
+    }
+
     public function twitter_oauth_access_token_callback()
     {
         printf(
@@ -280,6 +348,18 @@ class O2nSettings
         );
     }
 
+    /***********************************
+    ************** YOUTUBE *************
+    ***********************************/
+
+    public function youtube_username_callback()
+    {
+        printf(
+            '<input type="text" id="youtube_username" name="settings_options[youtube_username]" value="%s" />',
+            isset($this->options['youtube_username']) ? esc_attr($this->options['youtube_username']) : ''
+        );
+    }
+
     public function youtube_api_key_callback()
     {
         printf(
@@ -296,6 +376,10 @@ class O2nSettings
         );
     }
 
+    /***********************************
+    ************** PAYPAL **************
+    ***********************************/
+
     public function paypal_client_id_callback()
     {
         printf(
@@ -311,6 +395,10 @@ class O2nSettings
             isset($this->options['paypal_client_secret']) ? esc_attr($this->options['paypal_client_secret']) : ''
         );
     }
+
+    /***********************************
+    ************ WOO COMMERCE **********
+    ***********************************/
 
     public function woocommerce_consumer_key_callback()
     {
