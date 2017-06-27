@@ -25,5 +25,6 @@ const expirationDate = moment(localStorage.getItem('cartExpiration'));
 if (currentDate.isBefore(expirationDate)) {
   store.commit('initializeCart', localCartProducts);
 } else {
-  localStorage.clear();
+  localStorage.removeItem('cartTickets');
+  localStorage.removeItem('cartExpiration');
 }

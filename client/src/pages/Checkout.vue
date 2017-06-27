@@ -132,7 +132,8 @@
       updateOrder(transactionId, creationTime) {
         axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId: this.order.id, transactionId, creationTime })
           .then(() => {
-            localStorage.clear();
+            localStorage.removeItem('cartTickets');
+            localStorage.removeItem('cartExpiration');
           });
       },
       showPaymentButton(orderId) {
@@ -152,7 +153,8 @@
               .then((response) => {
                 axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId, transactionId: response.id })
                   .then(() => {
-                    localStorage.clear();
+                    localStorage.removeItem('cartTickets');
+                    localStorage.removeItem('cartExpiration');
                   });
               });
           },
