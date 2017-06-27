@@ -23,6 +23,7 @@
 
 <style lang="scss">
   @import '../../assets/scss/01_settings/typography';
+  @import '../../assets/scss/01_settings/colors';
 
   .c-counter {
     display: flex;
@@ -32,11 +33,13 @@
   .c-counter__button {
     font-size: $font-big;
     line-height: $font-big;
+    color:$_white;
   }
 
   .c-counter__value {
     margin: 0 15px;
     font-size: $font-big;
     font-weight: bold;
+    color:$_white;
   }
 </style>

@@ -4,7 +4,7 @@
     <header class="c-accordion__header">
       <slot name="header"></slot>
       <button class="c-accordion__toggle" @click.prevent="toggle">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" style="enable-background:new 0 0 40 40; fill:#fff;" xml:space="preserve">
           <path d="M39.7,25.5H25.5v14.2H14.5V25.5H0.3V14.5h14.2V0.3h11.1v14.2h14.2V25.5z"/>
         </svg>
       </button>

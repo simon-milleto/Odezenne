@@ -95,7 +95,8 @@
   .c-ticket {
     position: relative;
     margin: 25px 50px;
-    border: 5px solid $primary-color;
+    border: 5px solid $_black;
+    background-color: $_white;
   }
 
   .c-ticket__info {
@@ -112,14 +113,14 @@
 
   .c-ticket__city {
     display: block;
-    font-size: $font-huge;
+    font-size: $font-biggest;
     font-weight: bold;
     text-transform: uppercase;
   }
 
   .c-ticket__date {
     display: block;
-    font-size: $font-biggest;
+    font-size: $font-bigger;
     font-weight: lighter;
     text-transform: uppercase;
   }
@@ -132,11 +133,12 @@
 
   .c-ticket__order {
     padding: 20px;
-    background-color: $primary-color;
+    background-color: $_black;
   }
 
   .c-ticket__price {
     font-size: $font-normal;
+    color:$_white;
   }
 
   .c-ticket__amount {
@@ -147,6 +149,7 @@
 
   .c-ticket__amount-label {
     margin-right: 25px;
+    color:$_white;
   }
 
   .c-ticket__cart {
@@ -157,5 +160,6 @@
     font-size: $font-small;
     text-align: center;
     text-transform: uppercase;
+    color:$_white;
   }
 </style>

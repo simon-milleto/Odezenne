@@ -1,6 +1,11 @@
 <template>
   <main>
     <div class="o-container">
+      <form>
+        <div class="search">
+            <input type="text" v-model="searchString" placeholder="Search" />
+        </div>
+      </form>
       <div class="o-grid o-grid--guttered">
         <search></search>
         <ticket v-for="ticket in tickets"
@@ -81,4 +86,32 @@
 
 <style lang="scss">
   @import '../assets/scss/05_objects/container';
+  @import '../assets/scss/01_settings/typography';
+  @import '../assets/scss/01_settings/colors';
+
+h1{
+font-size: $font-huge;
+font-weight: bold;
+text-align: center;
+padding-top: 70px;
+}
+
+.search{
+    background-color:$_black;
+    width: 300px;
+    padding: 5px;
+    margin: 45px auto 80px;
+    margin-top: 20px;
+    position:relative;
+}
+
+.search input{
+    background: #fff;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: $font-smaller;
+    font-family: inherit;
+}
+
 </style>
