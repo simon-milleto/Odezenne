@@ -14,8 +14,6 @@
                 :ticket="ticket"
                 :key="ticket.id"></ticket>
       </div>
-      <cart></cart>
-    </div>
   </main>
 </template>
 
