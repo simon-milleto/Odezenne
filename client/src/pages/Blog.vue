@@ -32,7 +32,6 @@
       loadPosts() {
         axios.get(`${config.cmsEndpoint}/posts`)
         .then((response) => {
-          console.log('GET Posts : ', response.data);
           this.posts = response.data;
         });
       },
