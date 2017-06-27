@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use App\Settings;
 
 use \TwitterAPIExchange;
-use \Instagram;
-
-session_start();
 
 class SocialController extends Controller
 {
