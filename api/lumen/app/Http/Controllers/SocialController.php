@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -24,7 +23,7 @@ class SocialController extends Controller
     $oauth_access_token_secret = Settings::where('label', 'twitter_oauth_access_token_secret')->limit(1)->pluck('value')[0];
     $consumer_key = Settings::where('label', 'twitter_consumer_key')->limit(1)->pluck('value')[0];
     $consumer_secret = Settings::where('label', 'twitter_consumer_secret')->limit(1)->pluck('value')[0];
-    $user_name = Settings::where('label', 'twitter_user_name')->limit(1)->pluck('value')[0];
+    $username = Settings::where('label', 'twitter_username')->limit(1)->pluck('value')[0];
 
     $settings = array(
       'oauth_access_token' => $oauth_access_token,
@@ -35,7 +34,7 @@ class SocialController extends Controller
 
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
     $requestMethod = 'GET';
-    $getfield = "?screen_name={$user_name}&count={$count}&include_rts=false";
+    $getfield = "?screen_name={$username}&count={$count}&include_rts=false";
 
     $twitter = new TwitterAPIExchange($settings);
     $tweets = $twitter->setGetfield($getfield)
@@ -135,6 +134,20 @@ class SocialController extends Controller
         }
 
         return response()->json($videos);
+    }
+
+    public function soundcloudFeed(Request $request)
+    {
+      $count = $request->input('count') ? $request->input('count') : 5;
+     // API ID
+      $api_key = Settings::where('label', 'soundcloud_api_key')->limit(1)->pluck('value')[0];
+      // ID of the user you are fetching for
+      $user_id = Settings::where('label', 'soundcloud_user_id')->limit(1)->pluck('value')[0];
+      $soundcloud_url = "http://api.soundcloud.com/users/{$user_id}/tracks.json?client_id={$api_key}&limit={$count}";
+
+     $tracks_json = file_get_contents($soundcloud_url);
+
+     return response($tracks_json);
     }
 
     /**

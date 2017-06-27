@@ -32,6 +32,10 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
         $app->group(['prefix' => 'instagram/'], function ($app) {
             $app->get('/', 'SocialController@instagramFeed');
         });
+
+        $app->group(['prefix' => 'soundcloud/'], function ($app) {
+            $app->get('/', 'SocialController@soundcloudFeed');
+        });
     });
 
     $app->post('/guests','GuestController@createGuest');
