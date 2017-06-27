@@ -1,9 +1,11 @@
 <template>
   <main>
+    <o-header></o-header>
     <div class="o-container">
       <form>
         <div class="search">
             <input type="text" v-model="searchString" placeholder="Search" />
+                    <i class="material-icons right">search</i>
         </div>
       </form>
       <div class="o-grid o-grid--guttered">
@@ -90,7 +92,7 @@
   @import '../assets/scss/01_settings/colors';
 
 h1{
-font-size: $font-huge;
+font-size: $font-hugest;
 font-weight: bold;
 text-align: center;
 padding-top: 70px;
@@ -112,6 +114,14 @@ padding-top: 70px;
     padding: 10px;
     font-size: $font-smaller;
     font-family: inherit;
+}
+
+.right{
+    float: right;
+    position: relative;
+    left: 50px;
+    bottom: 40px;
+    font-size: 40px !important;
 }
 
 </style>
