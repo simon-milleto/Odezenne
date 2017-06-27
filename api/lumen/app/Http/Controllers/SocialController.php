@@ -113,6 +113,10 @@ class SocialController extends Controller
         $max_results = Settings::where('label', 'youtube_max_results')->limit(1)->pluck('value')[0];
         $username = Settings::where('label', 'youtube_username')->limit(1)->pluck('value')[0];
 
+        if (empty($max_results) || $max_results <= 0) {
+            $max_results = 10;
+        }
+
         //search channels of user
         $json = file_get_contents('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=' . $username . '&key=' . $api_key);
         $channels = json_decode($json);
