@@ -1,11 +1,15 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Settings;
 
 use \TwitterAPIExchange;
+use \Instagram;
+
+session_start();
 
 class SocialController extends Controller
 {
@@ -134,5 +138,57 @@ class SocialController extends Controller
         }
 
         return response()->json($videos);
+    }
+
+    /**
+     * Returns a list of instagram naked pictures
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function instagramFeed()
+    {
+
+        $userId =  '710a5321f4964a3192b8c25bcac4028a';
+        $token = '5652917423.1677ed0.69aa5818c79c4a828f840475516e1265';
+        $url = "https://api.instagram.com/v1/users/self/?access_token=$token";
+        $max_results = 9;
+
+        $images = [];
+
+        $curl_connection = curl_init($url);
+        curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);
+
+        //Data are stored in $data
+        $data = json_decode(curl_exec($curl_connection), true);
+        curl_close($curl_connection);
+
+        $userId = $data['data']['id'];
+
+
+
+
+
+        $json_profile = file_get_contents("https://api.instagram.com/v1/users/$userId/?access_token=$token");
+        $json = file_get_contents("https://api.instagram.com/v1/users/$userId/media/recent/?access_token=" . $token . "&$max_results");
+        $a_json_profile = json_decode($json_profile, true);
+        $a_json = json_decode($json, true);
+
+
+
+        $i = 0;
+        foreach ($a_json['data'] as $key => $value) {
+            if ($i < $max_results) {
+            $images[$i]['post_url'] = $value['link'];
+            $images[$i]['images_url'] = $value['images']['standard_resolution']['url'];
+            $images[$i]['alt'] = $value['caption']['text'];
+
+            $i++;
+            }
+        }
+
+        return response()->json($images);
+
     }
 }

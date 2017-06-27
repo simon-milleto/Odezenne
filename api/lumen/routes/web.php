@@ -28,6 +28,10 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
         $app->group(['prefix' => 'youtube/'], function ($app) {
             $app->get('/', 'SocialController@youtubeFeed');
         });
+
+        $app->group(['prefix' => 'instagram/'], function ($app) {
+            $app->get('/', 'SocialController@instagramFeed');
+        });
     });
 
     $app->post('/guests','GuestController@createGuest');
