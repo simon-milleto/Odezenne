@@ -147,11 +147,9 @@ class SocialController extends Controller
      */
     public function instagramFeed()
     {
-
-        $userId =  '710a5321f4964a3192b8c25bcac4028a';
-        $token = '5652917423.1677ed0.69aa5818c79c4a828f840475516e1265';
+        $token = Settings::where('label', 'instagram_token')->limit(1)->pluck('value')[0];
         $url = "https://api.instagram.com/v1/users/self/?access_token=$token";
-        $max_results = 9;
+        $max_results = Settings::where('label', 'instagram_max_results')->limit(1)->pluck('value')[0];
 
         $images = [];
 
@@ -166,16 +164,10 @@ class SocialController extends Controller
 
         $userId = $data['data']['id'];
 
-
-
-
-
         $json_profile = file_get_contents("https://api.instagram.com/v1/users/$userId/?access_token=$token");
         $json = file_get_contents("https://api.instagram.com/v1/users/$userId/media/recent/?access_token=" . $token . "&$max_results");
         $a_json_profile = json_decode($json_profile, true);
         $a_json = json_decode($json, true);
-
-
 
         $i = 0;
         foreach ($a_json['data'] as $key => $value) {
@@ -189,6 +181,5 @@ class SocialController extends Controller
         }
 
         return response()->json($images);
-
     }
 }

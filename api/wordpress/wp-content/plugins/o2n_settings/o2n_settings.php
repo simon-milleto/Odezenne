@@ -183,26 +183,42 @@ class O2nSettings
             'api-settings' // Page
         );
 
+        // add_settings_field(
+        //     'instagram_username', // ID
+        //     'Username', // Title
+        //     array($this, 'instagram_username_callback'), // Callback
+        //     'api-settings', // Page
+        //     'setting_section_instagram_options' // Section
+        // );
+
+        // add_settings_field(
+        //     'instagram_client_id', // ID
+        //     'Client Id', // Title
+        //     array($this, 'instagram_client_id_callback'), // Callback
+        //     'api-settings', // Page
+        //     'setting_section_instagram_options' // Section
+        // );
+
+        // add_settings_field(
+        //     'instagram_client_secret', // ID
+        //     'Client Secret', // Title
+        //     array($this, 'instagram_client_secret_callback'), // Callback
+        //     'api-settings', // Page
+        //     'setting_section_instagram_options' // Section
+        // );
+
         add_settings_field(
-            'instagram_username', // ID
-            'Username', // Title
-            array($this, 'instagram_username_callback'), // Callback
+            'instagram_max_results', // ID
+            'Max Results', // Title
+            array($this, 'instagram_max_results_callback'), // Callback
             'api-settings', // Page
             'setting_section_instagram_options' // Section
         );
 
         add_settings_field(
-            'instagram_client_id', // ID
-            'Client Id', // Title
-            array($this, 'instagram_client_id_callback'), // Callback
-            'api-settings', // Page
-            'setting_section_instagram_options' // Section
-        );
-
-        add_settings_field(
-            'instagram_client_secret', // ID
-            'Client Secret', // Title
-            array($this, 'instagram_client_secret_callback'), // Callback
+            'instagram_token', // ID
+            'Token', // Title
+            array($this, 'instagram_token_callback'), // Callback
             'api-settings', // Page
             'setting_section_instagram_options' // Section
         );
@@ -308,14 +324,20 @@ class O2nSettings
         ************** INSTAGRAM ***********
         ***********************************/
 
-        if (isset($input['instagram_username']))
-            $new_input['instagram_username'] = sanitize_text_field($input['instagram_username']);
+        // if (isset($input['instagram_username']))
+        //     $new_input['instagram_username'] = sanitize_text_field($input['instagram_username']);
 
-        if (isset($input['instagram_client_id']))
-            $new_input['instagram_client_id'] = sanitize_text_field($input['instagram_client_id']);
+        // if (isset($input['instagram_client_id']))
+        //     $new_input['instagram_client_id'] = sanitize_text_field($input['instagram_client_id']);
 
-        if (isset($input['instagram_client_secret']))
-            $new_input['instagram_client_secret'] = sanitize_text_field($input['instagram_client_secret']);
+        // if (isset($input['instagram_client_secret']))
+        //     $new_input['instagram_client_secret'] = sanitize_text_field($input['instagram_client_secret']);
+
+        if (isset($input['instagram_max_results']))
+            $new_input['instagram_max_results'] = sanitize_text_field($input['instagram_max_results']);
+
+        if (isset($input['instagram_token']))
+            $new_input['instagram_token'] = sanitize_text_field($input['instagram_token']);
 
         /***********************************
         ************** PAYPAL **************
@@ -428,27 +450,43 @@ class O2nSettings
     ************** INSTAGRAM ***********
     ***********************************/
 
-    public function instagram_username_callback()
+    // public function instagram_username_callback()
+    // {
+    //     printf(
+    //         '<input type="text" id="instagram_username" name="settings_options[instagram_username]" value="%s" />',
+    //         isset($this->options['instagram_username']) ? esc_attr($this->options['instagram_username']) : ''
+    //     );
+    // }
+
+    // public function instagram_client_id_callback()
+    // {
+    //     printf(
+    //         '<input type="text" id="instagram_client_id" name="settings_options[instagram_client_id]" value="%s" />',
+    //         isset($this->options['instagram_client_id']) ? esc_attr($this->options['instagram_client_id']) : ''
+    //     );
+    // }
+
+    // public function instagram_client_secret_callback()
+    // {
+    //     printf(
+    //         '<input type="text" id="instagram_client_secret" name="settings_options[instagram_client_secret]" value="%s" />',
+    //         isset($this->options['instagram_client_secret']) ? esc_attr($this->options['instagram_client_secret']) : ''
+    //     );
+    // }
+
+    public function instagram_max_results_callback()
     {
         printf(
-            '<input type="text" id="instagram_username" name="settings_options[instagram_username]" value="%s" />',
-            isset($this->options['instagram_username']) ? esc_attr($this->options['instagram_username']) : ''
+            '<input type="number" id="instagram_max_results" name="settings_options[instagram_max_results]" value="%s" />',
+            isset($this->options['instagram_max_results']) ? esc_attr($this->options['instagram_max_results']) : ''
         );
     }
 
-    public function instagram_client_id_callback()
+    public function instagram_token_callback()
     {
         printf(
-            '<input type="text" id="instagram_client_id" name="settings_options[instagram_client_id]" value="%s" />',
-            isset($this->options['instagram_client_id']) ? esc_attr($this->options['instagram_client_id']) : ''
-        );
-    }
-
-    public function instagram_client_secret_callback()
-    {
-        printf(
-            '<input type="text" id="instagram_client_secret" name="settings_options[instagram_client_secret]" value="%s" />',
-            isset($this->options['instagram_client_secret']) ? esc_attr($this->options['instagram_client_secret']) : ''
+            '<input type="text" id="instagram_token" name="settings_options[instagram_token]" value="%s" />',
+            isset($this->options['instagram_token']) ? esc_attr($this->options['instagram_token']) : ''
         );
     }
 
