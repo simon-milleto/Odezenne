@@ -122,7 +122,6 @@
 
         axios.post(`${config.apiEndpoint}/tickets/checkout`, { items: formattedItems, user: this.user })
           .then((response) => {
-            console.log(response.data);
             this.order.isOrdered = true;
             this.order.id = response.data.id;
             this.order.total = response.data.total;
@@ -133,7 +132,6 @@
       updateOrder(transactionId, creationTime) {
         axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId: this.order.id, transactionId, creationTime })
           .then((response) => {
-            console.log(response.data);
             localStorage.clear();
           });
       },
@@ -154,7 +152,6 @@
               .then((response) => {
                 axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId, transactionId: response.id })
                   .then((response2) => {
-                    console.log(response2.data);
                     localStorage.clear();
                   });
               });
