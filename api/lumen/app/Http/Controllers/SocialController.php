@@ -161,7 +161,7 @@ class SocialController extends Controller
         $url = "https://api.instagram.com/v1/users/self/?access_token=$token";
         $max_results = Settings::where('label', 'instagram_max_results')->limit(1)->pluck('value')[0];
 
-        $images = [];
+        $posts = [];
 
         $curl_connection = curl_init($url);
         curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);
@@ -182,14 +182,44 @@ class SocialController extends Controller
         $i = 0;
         foreach ($a_json['data'] as $key => $value) {
             if ($i < $max_results) {
-            $images[$i]['post_url'] = $value['link'];
-            $images[$i]['images_url'] = $value['images']['standard_resolution']['url'];
-            $images[$i]['alt'] = $value['caption']['text'];
+              $posts[$i]['post_url'] = $value['link'];
+              $posts[$i]['images_url'] = $value['images']['standard_resolution']['url'];
+              $posts[$i]['alt'] = $value['caption']['text'];
 
-            $i++;
+              $i++;
             }
         }
 
-        return response()->json($images);
+        return response()->json($posts);
+    }
+
+    public function instagramFan()
+    {
+        $token = Settings::where('label', 'instagram_token')->limit(1)->pluck('value')[0];
+        $url = "https://api.instagram.com/v1/tags/odezenne/media/recent?access_token=$token&count=20";
+        $max_results = Settings::where('label', 'instagram_max_results')->limit(1)->pluck('value')[0];
+
+        $posts = [];
+
+        $curl_connection = curl_init($url);
+        curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);
+
+        //Data are stored in $data
+        $data = json_decode(curl_exec($curl_connection), true);
+        curl_close($curl_connection);
+        
+        $i = 0;
+        foreach ($data['data'] as $key => $value) {
+            if ($i < $max_results) {
+              $posts[$i]['post_url'] = $value['link'];
+              $posts[$i]['images_url'] = $value['images']['standard_resolution']['url'];
+
+              $i++;
+            }
+        }
+
+        return response()->json($posts);
     }
 }

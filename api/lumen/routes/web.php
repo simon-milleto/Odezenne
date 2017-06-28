@@ -30,7 +30,8 @@ $app->group(['prefix' => 'api/v1/'], function ($app) {
         });
 
         $app->group(['prefix' => 'instagram/'], function ($app) {
-            $app->get('/', 'SocialController@instagramFeed');
+            $app->get('/feed', 'SocialController@instagramFeed');
+            $app->get('/fans', 'SocialController@instagramFan');
         });
 
         $app->group(['prefix' => 'soundcloud/'], function ($app) {
