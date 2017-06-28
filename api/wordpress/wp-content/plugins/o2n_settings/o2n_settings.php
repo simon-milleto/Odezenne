@@ -247,6 +247,23 @@ class O2nSettings
           'api-settings', // Page
           'setting_section_soundcloud_options' // Section
         );
+
+        /***********************************
+        ********* Google Analytics *********
+        ***********************************/
+        add_settings_section(
+          'setting_section_analytics_options', // ID
+          'Analytics settings', // Title
+          array($this, 'print_options_section_info'), // Callback
+          'api-settings' // Page
+        );
+        add_settings_field(
+          'analytics_api_key', // ID
+          'API key', // Title
+          array($this, 'analytics_api_key_callback'), // Callback
+          'api-settings', // Page
+          'setting_section_analytics_options' // Section
+        );
     }
     /**
      * Sanitize each setting field as needed
@@ -303,6 +320,13 @@ class O2nSettings
             $new_input['paypal_client_id'] = sanitize_text_field($input['paypal_client_id']);
         if (isset($input['paypal_client_secret']))
             $new_input['paypal_client_secret'] = sanitize_text_field($input['paypal_client_secret']);
+
+        /***********************************
+        ************* ANALYTICS ************
+        ***********************************/
+        if (isset($input['analytics_api_key']))
+            $new_input['analytics_api_key'] = sanitize_text_field($input['analytics_api_key']);
+
         /***********************************
         ************ WOO COMMERCE **********
         ***********************************/
@@ -453,6 +477,17 @@ class O2nSettings
         printf(
             '<input type="text" id="woocommerce_consumer_secret" name="settings_options[woocommerce_consumer_secret]" value="%s" />',
             isset($this->options['woocommerce_consumer_secret']) ? esc_attr($this->options['woocommerce_consumer_secret']) : ''
+        );
+    }
+    
+    /***********************************
+    ************* ANALYTICS ************
+    ***********************************/
+    public function analytics_api_key_callback()
+    {
+        printf(
+            '<input type="text" id="analytics_api_key" name="settings_options[analytics_api_key]" value="%s" />',
+            isset($this->options['analytics_api_key']) ? esc_attr($this->options['analytics_api_key']) : ''
         );
     }
 }
