@@ -1,6 +1,5 @@
 <template>
   <main>
-    <header></header>
     <div class="o-container">
       <div class="o-grid o-grid--guttered">
         <ticket v-for="ticket in tickets"

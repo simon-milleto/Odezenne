@@ -1,6 +1,5 @@
 <template>
   <main>
-    <header></header>
     <div class="o-container">
       <div>
         <post v-for="post in posts"

@@ -1,6 +1,5 @@
 <template>
   <main>
-    <header></header>
     <div class="o-container">
       <div class="c-checkout__cart">
         <div class="c-checkout__cart-item"

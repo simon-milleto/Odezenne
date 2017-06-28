@@ -1,10 +1,18 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <o-header></o-header>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
+  import OHeader from './components/Header';
+
   export default {
     name: 'app',
+    components: {
+      OHeader,
+    },
   };
 </script>
 
