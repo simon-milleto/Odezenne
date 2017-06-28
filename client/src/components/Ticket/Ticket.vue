@@ -94,7 +94,7 @@
 
   .c-ticket {
     position: relative;
-    margin: 25px 50px;
+    margin: 35px 50px;
     border: 5px solid $_black;
     background-color: $_white;
   }
@@ -103,6 +103,11 @@
     position: relative;
     top: -40px;
     left: -50px;
+    background-color: white;
+    padding-left: 15px;
+    display: block;
+    padding-bottom: 20px;
+    line-height: 25px;
   }
 
   .c-ticket__city,
@@ -120,13 +125,14 @@
 
   .c-ticket__date {
     display: block;
-    font-size: $font-bigger;
+    font-size: $font-big;
     font-weight: lighter;
     text-transform: uppercase;
   }
 
   .c-ticket__place {
     display: block;
+    line-height: 10px;
     font-size: $font-big;
     font-weight: lighter;
   }

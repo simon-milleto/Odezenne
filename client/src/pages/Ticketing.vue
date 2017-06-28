@@ -1,11 +1,19 @@
 <template>
   <main>
     <o-header></o-header>
-    <div class="o-container">
-      <form>
-        <div class="search">
-            <input type="text" v-model="searchString" placeholder="Search" />
-                    <i class="material-icons right">search</i>
+    <header>
+    <h1>BILLETTERIE</h1>
+    </header>
+      <div class="o-container">
+        <form>
+          <div class="search">
+            <input type="text" v-model="searchString" placeholder="Rechercher une ville" />
+          </div>
+        </form>
+        <div class="o-grid o-grid--guttered">
+          <ticket v-for="ticket in tickets"
+                  :ticket="ticket"
+                  :key="ticket.id"></ticket>
         </div>
       </form>
       <div class="o-grid o-grid--guttered">
@@ -90,36 +98,42 @@
   @import '../assets/scss/01_settings/colors';
 
 h1{
-font-size: $font-hugest;
-font-weight: bold;
-text-align: center;
-padding-top: 70px;
+  font-size: $font-hugest;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 70px;
 }
 
 .search{
-    background-color:$_black;
-    width: 300px;
-    padding: 5px;
-    margin: 45px auto 80px;
-    margin-top: 20px;
-    position:relative;
+  width: 300px;
+  margin: 45px auto 80px;
+  margin-top: 20px;
+  position:relative;
 }
 
-.search input{
-    background: #fff;
-    border: none;
-    width: 100%;
-    padding: 10px;
-    font-size: $font-smaller;
-    font-family: inherit;
+input{
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: white;
+  border-bottom: 1px solid $_black;
+  display: block;
+  width: 300px;
+  font-size: $font-smaller;
+  padding: .25em;
+  box-sizing: border-box;
+  outline: none;
+  font-family: $primary-font-family;
+  letter-spacing: 2px;
 }
 
 .right{
-    float: right;
-    position: relative;
-    left: 50px;
-    bottom: 40px;
-    font-size: 40px !important;
+  float: right;
+  position: relative;
+  left: 50px;
+  bottom: 40px;
+  font-size: 40px !important;
 }
 
 </style>
