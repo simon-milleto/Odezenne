@@ -38,12 +38,26 @@ class TicketsController extends Controller
 
         foreach ($tickets as $ticket) {
             if ($ticket['meta_data'][0]['value'] === 'Event') {
+
+                $city = '';
+                $zipcode = '';
+
+                foreach ($ticket['attributes'] as $attributes) {
+                    if ($attributes['name'] === 'Ville') {
+                        $city = $attributes['options'][0];
+                    }
+                    if ($attributes['name'] === 'Code Postal') {
+                        $zipcode = $attributes['options'][0];
+                    }
+                }
+
                 $formattedTickets[] = [
                     'id' => $ticket['id'],
                     'name' => $ticket['name'],
                     'price' => $ticket['price'],
                     'in_stock' => $ticket['in_stock'],
-                    'city' => $ticket['attributes'][0]['options'][0],
+                    'city' => $city,
+                    'zipcode' => $zipcode,
                     'location' => $ticket['meta_data'][6]['value'],
                     'date' => $ticket['meta_data'][1]['value'],
                     'start_time' => $ticket['meta_data'][3]['value'] . ':' . $ticket['meta_data'][4]['value'],

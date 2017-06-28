@@ -16,7 +16,7 @@ services:
       - ./api/wordpress:/var/www/html/wordpress
     environment:
       - "ENV=development"
-      - "API_HOST=https://o2n_nginx"
+      - "API_HOST=http://o2n_nginx"
       - "WORDPRESS_DB_NAME=wordpress"
       - "WORDPRESS_DB_USER=wordpress"
       - "WORDPRESS_DB_HOST=o2n_wordpress_db:3306"

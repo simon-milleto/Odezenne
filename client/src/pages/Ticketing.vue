@@ -13,7 +13,9 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   import axios from 'axios';
+
   import config from '../config';
 
   import Ticket from '../components/Ticket/Ticket';
@@ -26,6 +28,11 @@
         tickets: [],
       };
     },
+    computed: {
+      ...mapGetters({
+        postCode: 'postCode',
+      }),
+    },
     mounted() {
       this.getTickets();
     },
@@ -33,8 +40,22 @@
       getTickets() {
         axios.get(`${config.apiEndpoint}/tickets`)
           .then((response) => {
-            this.tickets = response.data;
+            this.orderTickets(response.data);
           });
+      },
+      orderTickets(tickets) {
+        const formattedZipcode = this.postCode.substring(0, 2);
+
+        const upcomingTickets = tickets.filter(ticket => new Date(ticket.date) >= new Date());
+
+        this.tickets = upcomingTickets.filter((ticket) => {
+          const formattedTicketZipcode = ticket.zipcode.substring(0, 2);
+          return formattedZipcode === formattedTicketZipcode;
+        });
+
+        upcomingTickets.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        this.tickets = this.tickets.concat(upcomingTickets);
       },
     },
     components: {
