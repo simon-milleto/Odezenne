@@ -235,6 +235,28 @@ class SocialController extends Controller
         return response()->json($posts);
     }
 
+    public function facebookFeed()
+    {
+      $client_id = '1689651564677710';
+      $client_secret = '2ea2a48e6137c57bd2fbfc925362af5b';
+
+      // Get access token
+      $json = file_get_contents("https://graph.facebook.com/v2.9/oauth/access_token?client_id=$client_id&client_secret=$client_secret&grant_type=client_credentials");
+      $data = json_decode($json, true);
+      $access_token = $data['access_token'];
+
+      // Get Page id from page name
+      $json = file_get_contents("https://graph.facebook.com/v2.9/odezenne?access_token=$access_token");
+      $data = json_decode($json, true);
+      $page_id = $data['id'];
+
+      // Get Feed
+      $json = file_get_contents("https://graph.facebook.com/v2.9/$page_id/feed?access_token=$access_token&limit=10");
+      $posts = json_decode($json, true);  
+
+      return response()->json($posts);
+    }
+
     public function curlfunction($url)
     {
       $curl_connection = curl_init($url);
