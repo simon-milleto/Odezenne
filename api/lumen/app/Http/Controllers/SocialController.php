@@ -163,14 +163,7 @@ class SocialController extends Controller
 
         $posts = [];
 
-        $curl_connection = curl_init($url);
-        curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);
-
-        //Data are stored in $data
-        $data = json_decode(curl_exec($curl_connection), true);
-        curl_close($curl_connection);
+        $data = $this->curlfunction($url);
 
         $userId = $data['data']['id'];
 
@@ -201,14 +194,7 @@ class SocialController extends Controller
 
         $posts = [];
 
-        $curl_connection = curl_init($url);
-        curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);
-
-        //Data are stored in $data
-        $data = json_decode(curl_exec($curl_connection), true);
-        curl_close($curl_connection);
+        $data = $this->curlfunction($url);
         
         $i = 0;
         foreach ($data['data'] as $key => $value) {
@@ -221,5 +207,18 @@ class SocialController extends Controller
         }
 
         return response()->json($posts);
+    }
+
+    public function curlfunction($url)
+    {
+      $curl_connection = curl_init($url);
+      curl_setopt($curl_connection, CURLOPT_CONNECTTIMEOUT, 30);
+      curl_setopt($curl_connection, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl_connection, CURLOPT_SSL_VERIFYPEER, false);
+
+      $data = json_decode(curl_exec($curl_connection), true);
+      curl_close($curl_connection);
+
+      return $data;
     }
 }
