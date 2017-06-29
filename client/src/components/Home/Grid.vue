@@ -32,6 +32,7 @@
 
   export default {
     name: 'grid',
+    props: ['filter'],
     data() {
       return {
         tweets: [],
@@ -40,7 +41,7 @@
         soundcloudSongs: [],
         twitterFeedCount: 5,
         twitterFansCount: 5,
-        posts: [],
+        allPosts: [],
         youtubePaginationParam: '',
         twitterPaginationParam: '',
         twitterFanPaginationParam: '',
@@ -53,7 +54,6 @@
     },
     methods: {
       getData() {
-        console.log('getData');
         const twitterFeed = axios.get(`${config.apiEndpoint}/socials/twitter/feed${this.twitterPaginationParam}`);
         const fanTweets = axios.get(`${config.apiEndpoint}/socials/twitter/fans${this.twitterFanPaginationParam}`);
         const youtubeVideos = axios.get(`${config.apiEndpoint}/socials/youtube${this.youtubePaginationParam}`);
@@ -87,7 +87,7 @@
       },
       shufflePosts(temp) {
         const shuffledTemp = shuffle(temp);
-        this.posts.push(...shuffledTemp);
+        this.allPosts.push(...shuffledTemp);
       },
       getRandomSize() {
         const width = Math.floor((Math.random() * 100) + 500);
@@ -98,6 +98,11 @@
         const top = Math.floor((Math.random() * 10) + 1);
         const left = Math.floor((Math.random() * 10) + 1);
         return `margin-top:${top}%;margin-left:${left}%;`;
+      },
+    },
+    computed: {
+      posts() {
+        return this.allPosts.filter(post => this.filter.indexOf(post.type) !== -1);
       },
     },
     components: {
