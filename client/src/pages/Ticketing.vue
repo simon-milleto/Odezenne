@@ -3,6 +3,7 @@
     <o-header></o-header>
     <div class="o-container">
       <div class="o-grid o-grid--guttered">
+        <search></search>
         <ticket v-for="ticket in tickets"
                 :ticket="ticket"
                 :key="ticket.id"></ticket>
@@ -20,22 +21,35 @@
 
   import Ticket from '../components/Ticket/Ticket';
   import Cart from '../components/Ticket/Cart';
+  import Search from '../components/Ticket/Search';
   import OHeader from '../components/Header';
 
   export default {
     name: 'ticketing',
     data() {
       return {
-        tickets: [],
+        allTickets: [],
+        search: '',
       };
     },
     computed: {
       ...mapGetters({
         postCode: 'postCode',
       }),
+      tickets() {
+        return this.allTickets.filter((ticket) => {
+          const lowerCaseCity = ticket.city.toLowerCase();
+          const lowerCaseSearch = this.search.toLowerCase();
+
+          return lowerCaseCity.indexOf(lowerCaseSearch) !== -1;
+        });
+      },
     },
     mounted() {
       this.getTickets();
+      this.$on('emitSearch', (search) => {
+        this.search = search;
+      });
     },
     methods: {
       getTickets() {
@@ -44,25 +58,26 @@
             this.orderTickets(response.data);
           });
       },
-      orderTickets(tickets) {
+      orderTickets(allTickets) {
         const formattedZipcode = this.postCode.substring(0, 2);
 
-        const upcomingTickets = tickets.filter(ticket => new Date(ticket.date) >= new Date());
+        const upcomingTickets = allTickets.filter(ticket => new Date(ticket.date) >= new Date());
 
-        this.tickets = upcomingTickets.filter((ticket) => {
+        this.allTickets = upcomingTickets.filter((ticket) => {
           const formattedTicketZipcode = ticket.zipcode.substring(0, 2);
           return formattedZipcode === formattedTicketZipcode;
         });
 
         upcomingTickets.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        this.tickets = this.tickets.concat(upcomingTickets);
+        this.allTickets = this.allTickets.concat(upcomingTickets);
       },
     },
     components: {
       Ticket,
       Cart,
       OHeader,
+      Search,
     },
   };
 </script>
