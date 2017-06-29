@@ -1,5 +1,5 @@
 <template>
-  <div v-html="tweet.html">
+  <div v-html="tweet.html" :style="position">
   </div>
 </template>
 
@@ -7,7 +7,7 @@
 
   export default {
     name: 'tweet',
-    props: ['tweet'],
+    props: ['tweet', 'position'],
     mounted() {
       window.twttr.widgets.load();
     },

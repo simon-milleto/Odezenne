@@ -18,6 +18,7 @@ class SocialController extends Controller
   public function twitterFeed(Request $request)
   {
     $count = $request->input('count') ? $request->input('count') : 5;
+    $max_id = $request->input('max_id') ? $request->input('max_id') : null;
 
     $oauth_access_token = Settings::where('label', 'twitter_oauth_access_token')->limit(1)->pluck('value')[0];
     $oauth_access_token_secret = Settings::where('label', 'twitter_oauth_access_token_secret')->limit(1)->pluck('value')[0];
@@ -36,6 +37,9 @@ class SocialController extends Controller
     $requestMethod = 'GET';
     $getfield = "?screen_name={$username}&count={$count}&include_rts=false";
 
+    // If max id is set we add the param to the getfield
+    $max_id ? $getfield .= "&max_id={$max_id}" : '';
+
     $twitter = new TwitterAPIExchange($settings);
     $tweets = $twitter->setGetfield($getfield)
     ->buildOauth($url, $requestMethod)
@@ -50,6 +54,7 @@ class SocialController extends Controller
       ->buildOauth($url, $requestMethod)
       ->performRequest();
       $tweet->html = json_decode($html)->html;
+      $tweet->type = 'tweet';
     }
 
     return response()->json($tweets);
@@ -64,6 +69,7 @@ class SocialController extends Controller
   public function fanTweets(Request $request)
   {
     $count = $request->input('count') ? $request->input('count') : 5;
+    $max_id = $request->input('max_id') ? $request->input('max_id') : null;
 
     $oauth_access_token = Settings::where('label', 'twitter_oauth_access_token')->limit(1)->pluck('value')[0];
     $oauth_access_token_secret = Settings::where('label', 'twitter_oauth_access_token_secret')->limit(1)->pluck('value')[0];
@@ -79,7 +85,10 @@ class SocialController extends Controller
 
     $url = 'https://api.twitter.com/1.1/search/tweets.json';
     $requestMethod = 'GET';
-    $getfield = "?q=%23odezenne&result_type=mixed&count={$count}";
+    $getfield = "?q=odezenne&result_type=mixed&count={$count}";
+
+    // If max id is set we add the param to the getfield
+    $max_id ? $getfield .= "&max_id={$max_id}" : '';
 
     $twitter = new TwitterAPIExchange($settings);
     $tweets = $twitter->setGetfield($getfield)
@@ -95,6 +104,7 @@ class SocialController extends Controller
       ->buildOauth($url, $requestMethod)
       ->performRequest();
       $tweet->html = json_decode($html)->html;
+      $tweet->type = 'tweet';
     }
 
     return response()->json($tweets->statuses);
@@ -105,9 +115,11 @@ class SocialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function youtubeFeed()
+    public function youtubeFeed(Request $request)
     {
         $videos = [];
+
+        $page = $request->input('page') ? $request->input('page') : null;
 
         $api_key = Settings::where('label', 'youtube_api_key')->limit(1)->pluck('value')[0];
         $max_results = Settings::where('label', 'youtube_max_results')->limit(1)->pluck('value')[0];
@@ -123,17 +135,26 @@ class SocialController extends Controller
         $playlist_id = $channels->items[0]->contentDetails->relatedPlaylists->uploads;
 
         //search playlist items of upload channel
-        $json = file_get_contents('https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=' . $max_results . '&playlistId=' . $playlist_id . '&key=' . $api_key);
-        $items = json_decode($json)->items;
+        if ($page) {
+          $infos = json_decode(file_get_contents('https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=' . $max_results . '&playlistId=' . $playlist_id . '&key=' . $api_key . '&pageToken=' . $page));
+        } else {
+          $infos = json_decode(file_get_contents('https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=' . $max_results . '&playlistId=' . $playlist_id . '&key=' . $api_key));
+        }
+
+        $items = $infos->items;
+        if(isset($infos->nextPageToken)) {
+          $nextPage = $infos->nextPageToken;
+        }
 
         foreach ($items as $item) {
             // search videos of the playlist items of the upload channel
             $json = file_get_contents('https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,status&id=' . $item->contentDetails->videoId . '&maxResults=' . $max_results . '&key=' . $api_key);
             $video = json_decode($json);
+            $video->type = 'youtube';
             array_push($videos, $video);
         }
 
-        return response()->json($videos);
+        return response()->json(array('videos' => $videos, 'nextPage' => $nextPage));
     }
 
     public function soundcloudFeed(Request $request)
@@ -145,9 +166,13 @@ class SocialController extends Controller
       $user_id = Settings::where('label', 'soundcloud_user_id')->limit(1)->pluck('value')[0];
       $soundcloud_url = "http://api.soundcloud.com/users/{$user_id}/tracks.json?client_id={$api_key}&limit={$count}";
 
-     $tracks_json = file_get_contents($soundcloud_url);
+     $tracks = json_decode(file_get_contents($soundcloud_url));
 
-     return response($tracks_json);
+     foreach ($tracks as &$track) {
+       $track->type = 'soundcloud';
+     }
+
+     return response()->json($tracks);
     }
 
     /**
@@ -178,6 +203,7 @@ class SocialController extends Controller
               $posts[$i]['post_url'] = $value['link'];
               $posts[$i]['images_url'] = $value['images']['standard_resolution']['url'];
               $posts[$i]['alt'] = $value['caption']['text'];
+              $posts[$i]['type'] = $value['type']['instagram'];
 
               $i++;
             }
@@ -195,7 +221,7 @@ class SocialController extends Controller
         $posts = [];
 
         $data = $this->curlfunction($url);
-        
+
         $i = 0;
         foreach ($data['data'] as $key => $value) {
             if ($i < $max_results) {
