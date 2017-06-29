@@ -1,20 +1,25 @@
 <template>
     <div class="o-grid">
-      <div v-for="post in posts" class="o-grid__cell--6/12 element-wrapper">
-        <youtube v-if="post.type === 'youtube'"
-                :youtube="post"
-                :position="getPosition() + '' + getRandomSize()"
-                class="element"></youtube>
-        <tweet v-if="post.type === 'tweet'"
-                :tweet="post"
-                :position="getPosition()"
-                class="element"></tweet>
-        <soundcloud v-if="post.type === 'soundcloud'"
-                :soundcloud="post"
-                :position="getPosition()"
-                class="element"></soundcloud>
-      </div>
-      <div>
+      <transition-group mode="out-in" name="fade" class="o-grid">
+        <div v-for="post in posts" 
+            :key="getPostId(post)" 
+            v-show="showPost(post.type)"
+            class="o-grid__cell--6/12 element-wrapper">
+          <youtube v-if="post.type === 'youtube'"
+                  :youtube="post"
+                  :position="getPosition() + '' + getRandomSize()"
+                  class="element"></youtube>
+          <tweet v-if="post.type === 'tweet'"
+                  :tweet="post"
+                  :position="getPosition()"
+                  class="element"></tweet>
+          <soundcloud v-if="post.type === 'soundcloud'"
+                  :soundcloud="post"
+                  :position="getPosition()"
+                  class="element"></soundcloud>
+        </div>
+      </transition-group>
+      <div class="o-grid__cell--12/12">
         <infinite-loading v-if="firstLoaded" :on-infinite="onInfinite" ref="infiniteLoading"></infinite-loading>
       </div>
     </div>
@@ -41,7 +46,7 @@
         soundcloudSongs: [],
         twitterFeedCount: 5,
         twitterFansCount: 5,
-        allPosts: [],
+        posts: [],
         youtubePaginationParam: '',
         twitterPaginationParam: '',
         twitterFanPaginationParam: '',
@@ -86,8 +91,6 @@
 
             this.shufflePosts(temp);
 
-            // aeb5b3f63ac0518f8362010439a77ca1
-
             if (this.tweets.length > 0 ||
                 this.fanTweets.length > 0 ||
                 this.youtubeVideos.length > 0 ||
@@ -108,7 +111,7 @@
       },
       shufflePosts(temp) {
         const shuffledTemp = shuffle(temp);
-        this.allPosts.push(...shuffledTemp);
+        this.posts.push(...shuffledTemp);
       },
       getRandomSize() {
         const width = Math.floor((Math.random() * 100) + 500);
@@ -120,10 +123,15 @@
         const left = Math.floor((Math.random() * 10) + 1);
         return `margin-top:${top}%;margin-left:${left}%;`;
       },
-    },
-    computed: {
-      posts() {
-        return this.allPosts.filter(post => this.filter.indexOf(post.type) !== -1);
+      showPost(type) {
+        return this.filter.indexOf(type) !== -1;
+      },
+      getPostId(post) {
+        if (post.type === 'youtube') {
+          return post.items[0].id;
+        }
+
+        return post.id;
       },
     },
     components: {
@@ -135,13 +143,21 @@
   };
 </script>
 
-<style lang="scss">
-.element-wrapper{
-  position:relative;
-  min-height: 300px;
-  max-width:100%;
-  .element{
-    max-width:90%;
+<style lang="scss" scoped>
+  .element-wrapper{
+    position:relative;
+    min-height: 300px;
+    max-width:100%;
+    
+    .element{
+      max-width:90%;
+    }
   }
-}
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .4s
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0
+  }
 </style>

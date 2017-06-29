@@ -10,10 +10,11 @@
             </div>
         </header>
         <nav :class="{active: opened}">
-            <router-link class="router-link" :to="{ name: 'Home' }" exact @click.native="burgerAction">Home</router-link>
-            <router-link class="router-link" :to="{ name: 'Blog' }" @click.native="burgerAction">Blog</router-link>
-            <router-link class="router-link" :to="{ name: 'Billetterie' }" @click.native="burgerAction">Billeterie</router-link>
+            <router-link class="router-link" :to="{ name: 'Home' }" exact @click.native="burgerAction">Giga Timeline</router-link>
             <router-link class="router-link" :to="{ name: 'Checkout' }" @click.native="burgerAction">Shop</router-link>
+            <router-link class="router-link" :to="{ name: 'Billetterie' }" @click.native="burgerAction">Billeterie</router-link>
+            <router-link class="router-link" :to="{ name: 'Billetterie' }" @click.native="burgerAction">Historique</router-link>
+            <router-link class="router-link" :to="{ name: 'Blog' }" @click.native="burgerAction">Blog</router-link>
             <div class="RS">
                 <a href="#"><img src="../assets/images/twitter.png"></a>
                 <a href="#"><img src="../assets/images/facebook-logo.png"></a>
@@ -66,10 +67,10 @@
         align-items: center;
         background-color: rgba(0,0,0,0.9);
         position: absolute;
-        top: -500px;
+        top: -550px;
         width: 100%;
         z-index: -1;
-        height: 500px;
+        height: 550px;
         z-index: 10;
     }
     nav>a {
