@@ -44,7 +44,7 @@ return [
         'http://client.o2n'                     => true,
         'http://client.o2n:8081'                => true,
         'https://o2n.bramvanosta.com'           => true,
-        'https://wordpress.o2n'                  => true,
+        'https://wordpress.o2n'                 => true,
         'https://admin.o2n.bramvanosta.com'     => true,
         // Enabling all origins might be insecure. Consider before using in production.
         S::VALUE_ALLOW_ORIGIN_ALL  => false,

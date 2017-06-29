@@ -59,26 +59,47 @@
         const youtubeVideos = axios.get(`${config.apiEndpoint}/socials/youtube${this.youtubePaginationParam}`);
         const soundcloudSongs = axios.get(`${config.apiEndpoint}/socials/soundcloud`);
         this.loading = true;
+
         Promise.all([twitterFeed, fanTweets, youtubeVideos, soundcloudSongs])
-        .then(([respTwitterFeed, respFanTweets, respYoutubeVideos, respSoundcloudSongs]) => {
-          this.tweets = respTwitterFeed.data;
-          this.twitterPaginationParam = `?max_id=${respTwitterFeed.data[respTwitterFeed.data.length - 1].id}`;
-          this.fanTweets = respFanTweets.data;
-          this.twitterFanPaginationParam = `?max_id=${respFanTweets.data[respFanTweets.data.length - 1].id}`;
-          this.youtubeVideos = respYoutubeVideos.data.videos;
-          this.youtubePaginationParam = `?page=${respYoutubeVideos.data.nextPage}`;
-          this.soundcloudSongs = respSoundcloudSongs.data;
+          .then(([respTwitterFeed, respFanTweets, respYoutubeVideos, respSoundcloudSongs]) => {
+            const temp = [];
 
-          const temp = [...respTwitterFeed.data,
-            ...respFanTweets.data,
-            ...respYoutubeVideos.data.videos,
-            ...respSoundcloudSongs.data];
-          this.shufflePosts(temp);
+            if (respTwitterFeed.data.valid) {
+              temp.push(...respTwitterFeed.data.tweets);
+              this.tweets = respTwitterFeed.data.tweets;
+              this.twitterPaginationParam = `?max_id=${this.tweets[this.tweets.length - 1].id}`;
+            }
+            if (respFanTweets.data.valid) {
+              temp.push(...respFanTweets.data.tweets);
+              this.fanTweets = respFanTweets.data.tweets;
+              this.twitterFanPaginationParam = `?max_id=${this.fanTweets[this.fanTweets.length - 1].id}`;
+            }
+            if (respYoutubeVideos.data.valid) {
+              temp.push(...respYoutubeVideos.data.videos);
+              this.youtubeVideos = respYoutubeVideos.data.videos;
+              this.youtubePaginationParam = `?page=${respYoutubeVideos.data.nextPage}`;
+            }
+            if (respSoundcloudSongs.data.valid) {
+              temp.push(...respSoundcloudSongs.data.tracks);
+              this.soundcloudSongs = respSoundcloudSongs.data.tracks;
+            }
 
-          this.firstLoaded = true;
-          this.loading = false;
-          this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
-        });
+            this.shufflePosts(temp);
+
+            // aeb5b3f63ac0518f8362010439a77ca1
+
+            if (this.tweets.length > 0 ||
+                this.fanTweets.length > 0 ||
+                this.youtubeVideos.length > 0 ||
+                this.soundcloudSongs.length > 0) {
+              this.firstLoaded = true;
+            }
+
+            this.loading = false;
+            if (this.$refs.infiniteLoading) {
+              this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
+            }
+          });
       },
       onInfinite() {
         if (!this.loading) {
