@@ -53,7 +53,7 @@
         </div>
         <div class="c-checkout__input">
           <label for="postcode">Code postal</label>
-          <input id="postcode" type="text" name="postcode" v-model="user.postcode" v-validate="'required|digits:{5}'" :class="{'input': true, 'is-danger': errors.has('postcode') }">
+          <input id="postcode" type="text" name="postcode" v-model="user.postcode" v-validate="'required|digits:5'" :class="{'input': true, 'is-danger': errors.has('postcode') }">
           <span v-show="errors.has('postcode')" class="help is-danger">{{ errors.first('postcode') }}</span>
         </div>
         <div class="c-checkout__input">
@@ -79,6 +79,7 @@
   import { mapGetters } from 'vuex';
   import axios from 'axios';
   import currency from 'currency.js';
+  import OHeader from '../components/Header';
 
   import config from '../config';
   import validationMessage from '../validationMessage';
@@ -115,12 +116,13 @@
     filters: {
       currency: price => currency(price).format(),
     },
+    mounted() {
+      this.$validator.updateDictionary(validationMessage);
+      this.$validator.setLocale('en');
+    },
     methods: {
       checkout() {
-        this.$validator.updateDictionary(validationMessage);
-        this.$validator.setLocale('en');
         this.$validator.validateAll().then((result) => {
-          console.log(result);
           if (result) {
             const formattedItems = [];
 
