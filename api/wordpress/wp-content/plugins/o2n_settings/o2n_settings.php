@@ -179,6 +179,41 @@ class O2nSettings
         );
 
         /***********************************
+        ************* FACEBOOK ************
+        ***********************************/
+
+        add_settings_section(
+            'setting_section_facebook_options', // ID
+            'Facebook settings', // Title
+            array($this, 'print_options_section_info'), // Callback
+            'api-settings' // Page
+        );
+
+        add_settings_field(
+            'facebook_max_results', // ID
+            'Max Results', // Title
+            array($this, 'facebook_max_results_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_facebook_options' // Section
+        );
+
+        add_settings_field(
+            'client_id', // ID
+            'Client ID', // Title
+            array($this, 'facebook_client_id_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_facebook_options' // Section
+        );
+
+        add_settings_field(
+            'client_secret', // ID
+            'Client Secret', // Title
+            array($this, 'facebook_client_secret_callback'), // Callback
+            'api-settings', // Page
+            'setting_section_facebook_options' // Section
+        );
+
+        /***********************************
         ************** PAYPAL **************
         ***********************************/
         add_settings_section(
@@ -314,6 +349,19 @@ class O2nSettings
             $new_input['instagram_token'] = sanitize_text_field($input['instagram_token']);
 
         /***********************************
+        ************** FACEBOOK ***********
+        ***********************************/
+
+        if (isset($input['facebook_max_results']))
+            $new_input['facebook_max_results'] = sanitize_text_field($input['facebook_max_results']);
+
+        if (isset($input['facebook_client_id']))
+            $new_input['facebook_client_id'] = sanitize_text_field($input['facebook_client_id']);
+
+        if (isset($input['facebook_client_secret']))
+            $new_input['facebook_client_secret'] = sanitize_text_field($input['facebook_client_secret']);
+
+        /***********************************
         ************** PAYPAL **************
         ***********************************/
         if (isset($input['paypal_client_id']))
@@ -442,6 +490,34 @@ class O2nSettings
         printf(
             '<input type="text" id="instagram_token" name="settings_options[instagram_token]" value="%s" />',
             isset($this->options['instagram_token']) ? esc_attr($this->options['instagram_token']) : ''
+        );
+    }
+
+    /***********************************
+    ************** FACEBOOK ***********
+    ***********************************/
+
+    public function facebook_max_results_callback()
+    {
+        printf(
+            '<input type="number" id="facebook_max_results" name="settings_options[facebook_max_results]" value="%s" />',
+            isset($this->options['facebook_max_results']) ? esc_attr($this->options['facebook_max_results']) : ''
+        );
+    }
+
+    public function facebook_client_id_callback()
+    {
+        printf(
+            '<input type="text" id="facebook_client_id" name="settings_options[facebook_client_id]" value="%s" />',
+            isset($this->options['facebook_client_id']) ? esc_attr($this->options['facebook_client_id']) : ''
+        );
+    }
+
+    public function facebook_client_secret_callback()
+    {
+        printf(
+            '<input type="text" id="facebook_client_secret" name="settings_options[facebook_client_secret]" value="%s" />',
+            isset($this->options['facebook_client_secret']) ? esc_attr($this->options['facebook_client_secret']) : ''
         );
     }
 

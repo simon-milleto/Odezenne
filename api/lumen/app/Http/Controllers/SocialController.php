@@ -237,8 +237,9 @@ class SocialController extends Controller
 
     public function facebookFeed()
     {
-      $client_id = '1689651564677710';
-      $client_secret = '2ea2a48e6137c57bd2fbfc925362af5b';
+      $client_id = Settings::where('label', 'facebook_client_id')->limit(1)->pluck('value')[0];
+      $client_secret = Settings::where('label', 'facebook_client_secret')->limit(1)->pluck('value')[0];
+      $max_results = Settings::where('label', 'facebook_max_results')->limit(1)->pluck('value')[0];
 
       // Get access token
       $json = file_get_contents("https://graph.facebook.com/v2.9/oauth/access_token?client_id=$client_id&client_secret=$client_secret&grant_type=client_credentials");
@@ -251,7 +252,7 @@ class SocialController extends Controller
       $page_id = $data['id'];
 
       // Get Feed
-      $json = file_get_contents("https://graph.facebook.com/v2.9/$page_id/feed?access_token=$access_token&limit=10");
+      $json = file_get_contents("https://graph.facebook.com/v2.9/$page_id/feed?access_token=$access_token&limit=$max_results");
       $posts = json_decode($json, true);  
 
       return response()->json($posts);
