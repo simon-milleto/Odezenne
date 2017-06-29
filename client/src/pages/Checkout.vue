@@ -80,11 +80,11 @@
   import { mapGetters } from 'vuex';
   import axios from 'axios';
   import currency from 'currency.js';
-  import messages from 'vee-validate/dist/locale/fr';
 
   import OHeader from '../components/Header';
 
   import config from '../config';
+  import validationMessage from '../validationMessage';
 
   export default {
     name: 'checkout',
@@ -120,25 +120,8 @@
     },
     methods: {
       checkout() {
-        this.$validator.addLocale(messages);
-        this.$validator.setLocale('fr');
-        this.$validator.updateDictionary({
-          fr: {
-            messages: {
-              postcode: () => 'Veuillez saisir un code postal de 5 chiffres',
-            },
-            attributes: {
-              firstName: 'Le champ prénom',
-              lastName: 'Le champ nom',
-              firstNname: 'Le champ prénom',
-              email: 'Le champ email',
-              phoneNumber: 'Le champ numéro de téléphone',
-              city: 'Le champ ville',
-              address: 'Le champ adresse',
-              postcode: 'Le champ code postal',
-            },
-          },
-        });
+        this.$validator.updateDictionary(validationMessage);
+        this.$validator.setLocale('en');
         this.$validator.validateAll().then((result) => {
           console.log(result);
           if (result) {
