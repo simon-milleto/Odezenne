@@ -79,7 +79,8 @@
             respFanTweets,
             respYoutubeVideos,
             respSoundcloudSongs,
-            respFacebookFeed]) => {
+            respFacebookFeed,
+            ]) => {
             const temp = [];
 
             if (respTwitterFeed.data.valid) {
@@ -102,8 +103,8 @@
               this.soundcloudSongs = respSoundcloudSongs.data.tracks;
             }
             if (respFacebookFeed.data.valid) {
-              temp.push(...respFacebookFeed.data.tracks);
-              this.FacebookFeed = respFacebookFeed.data.posts;
+              temp.push(...respFacebookFeed.data.posts);
+              this.facebookFeed = respFacebookFeed.data.posts;
             }
 
             this.shufflePosts(temp);
