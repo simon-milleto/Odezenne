@@ -195,7 +195,7 @@
     position: relative;
     border: 5px solid #000000;}
 
-    .c-checkout__cart-item-title{
+.c-checkout__cart-item-title{
     display: block;
     font-size: 2.6rem;
     font-weight: bold;
@@ -234,9 +234,9 @@
 }
 
 .c-checkout__cart-action{
-  padding-top: 25px;
-  text-transform: uppercase;
-  font-weight: 600;
+    padding-top: 25px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 .c-checkout__input label{

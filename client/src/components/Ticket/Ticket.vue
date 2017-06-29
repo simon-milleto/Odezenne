@@ -1,23 +1,24 @@
 <template>
-  <div class="o-grid__cell o-grid__cell--4/12">
+  <div class="c-ticket-container">
     <div class="c-ticket">
-      <div class="c-ticket__info">
-        <span class="c-ticket__city">{{ ticket.city }}</span>
+      <div class="c-ticket__order">
+        <div class="c-ticket__info">
         <span class="c-ticket__date">{{ formattedDate }}</span>
+        <span class="c-ticket__city">{{ ticket.city }} - </span>
         <span class="c-ticket__place">{{ ticket.location }}</span>
       </div>
-      <div class="c-ticket__order">
         <accordion>
-          <span class="c-ticket__price" slot="header">{{ formattedPrice }}€</span>
           <div class="c-ticket__buy" slot="content">
             <div class="c-ticket__amount">
               <label class="c-ticket__amount-label">Nombre de places</label>
               <counter :number="amount" :id="ticket.id" @onMinus="removeItem" @onPlus="addItem"></counter>
+              <span class="c-ticket__price" slot="header">{{ formattedPrice }}€</span>
+              <button class="c-ticket__cart" @click="addToCart">Ajouter au panier</button>
             </div>
-            <button class="c-ticket__cart" @click="addToCart">Ajouter au panier</button>
           </div>
         </accordion>
       </div>
+    <hr class="c-ticket__trait">
     </div>
   </div>
 </template>
@@ -45,7 +46,7 @@
     },
     computed: {
       formattedDate() {
-        return moment(this.ticket.date).format('dddd Do MMMM');
+        return moment(this.ticket.date).format('Do.MM');
       },
       formattedPrice() {
         currency.settings.separator = ' ';
@@ -92,22 +93,11 @@
   @import '../../assets/scss/01_settings/typography';
   @import '../../assets/scss/05_objects/grid';
 
-  .c-ticket {
-    position: relative;
-    margin: 35px 50px;
-    border: 5px solid $_black;
-    background-color: $_white;
-  }
 
-  .c-ticket__info {
-    position: relative;
-    top: -40px;
-    left: -50px;
-    background-color: white;
-    padding-left: 15px;
-    display: block;
-    padding-bottom: 20px;
-    line-height: 25px;
+  .c-ticket-container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
   }
 
   .c-ticket__city,
@@ -117,55 +107,80 @@
   }
 
   .c-ticket__city {
-    display: block;
-    font-size: $font-biggest;
+    font-size: $font-bigger;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 80px;
+    letter-spacing: 1px;
+  }
+
+  .c-ticket__date {
+    font-size: $font-big;
     font-weight: bold;
     text-transform: uppercase;
   }
 
-  .c-ticket__date {
-    display: block;
-    font-size: $font-big;
-    font-weight: lighter;
-    text-transform: uppercase;
-  }
-
   .c-ticket__place {
-    display: block;
     line-height: 10px;
     font-size: $font-big;
-    font-weight: lighter;
+    font-weight: bold;
+    letter-spacing: 2px;
   }
 
   .c-ticket__order {
-    padding: 20px;
-    background-color: $_black;
+    padding: 15px;
+    background-color: $_white;
   }
 
   .c-ticket__price {
-    font-size: $font-normal;
+    font-size: $font-big;
     color:$_white;
+    padding-left: 30px;
   }
 
   .c-ticket__amount {
     display: flex;
     align-items: center;
-    padding: 30px 0;
+    padding: 35px 15px;
   }
 
   .c-ticket__amount-label {
     margin-right: 25px;
     color:$_white;
+    font-size: $font-big;
+    letter-spacing:3px;
   }
 
   .c-ticket__cart {
-    width: calc(100% - 30px);
-    margin: 0 15px;
     padding: 10px 20px;
-    border: 3px solid $neutral-color;
-    font-size: $font-small;
+    border: 3px solid #ffffff;
+    font-size: $font-smaller;
     text-align: center;
     text-transform: uppercase;
-    color:$_white;
+    color: #ffffff;
+    margin-left: auto;
+  }
+
+  .c-ticket__order{
+    .c-accordion__toggle path{
+    fill: #000;
+    }
+  }
+
+  .c-ticket__order:hover{
+    background-color: $_black;
+    color: #fff;
+    .c-accordion__toggle path{
+    fill: $_white;
+    }
+  }
+
+  .c-ticket__trait{
+    border: 1px solid;
+    border-color: grey;
+    margin-top: auto;}
+
+  @media(min-width: 720px) {
+
   }
 </style>

@@ -1,7 +1,9 @@
 <template>
   <div class="c-cart">
-    <button class="c-cart__button"></button>
-    <div class="c-cart__content">
+    <a class='dropdown-button btn' href='#' >
+      <img class="cart_shop" src="../../assets/images/shop.svg" @click.prevent="toggleCart">
+    </a>
+    <div class="c-cart__content" v-if="isOpen">
       <div class="c-cart__item"
            v-for="ticket in tickets">
         <div class="c-cart__item-label">
@@ -32,6 +34,11 @@
 
   export default {
     name: 'cart',
+    data() {
+      return {
+        isOpen: false,
+      };
+    },
     computed: {
       ...mapGetters({
         tickets: 'cartTickets',
@@ -65,6 +72,10 @@
       checkout() {
         router.push({ name: 'Checkout' });
       },
+      toggleCart() {
+        console.log('test');
+        this.isOpen = !this.isOpen;
+      },
     },
     components: {
       Counter,
@@ -75,17 +86,31 @@
 <style lang="scss">
   @import '../../assets/scss/01_settings/colors';
 
+
+.cart_shop{
+    width: 25px;
+    position: absolute;
+    top: 70px;
+    right: 130px;
+  }
+
   .c-cart__content {
     display: inline-flex;
     flex-direction: column;
+    border: 2px solid;
+    padding: 20px;
+    position: absolute;
+    top: 120px;
+    right: 130px;
   }
 
   .c-cart{
+    // float: right;
     margin-left: auto;
     margin-right: auto;
-    width: 300px;
-  }
-
+    width: 300px; 
+  }   
+   
   .c-cart__item {
     display: inline-flex;
     align-items: center;
@@ -115,7 +140,7 @@
   }
 
   .c-cart__action {
-    margin: 20px 0;
+    // margin: 20px 0;
   }
 
   .c-cart__total {

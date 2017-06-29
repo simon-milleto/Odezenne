@@ -1,16 +1,13 @@
 <template>
   <main>
     <o-header></o-header>
-    <header>
-    <h1>BILLETTERIE</h1>
-    </header>
       <div class="o-container">
         <form>
           <div class="search">
             <input type="text" v-model="searchString" placeholder="Rechercher une ville" />
           </div>
         </form>
-        <div class="o-grid o-grid--guttered">
+        <div class="o-grid">
           <ticket v-for="ticket in tickets"
                   :ticket="ticket"
                   :key="ticket.id"></ticket>
@@ -92,17 +89,20 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '../assets/scss/05_objects/container';
   @import '../assets/scss/01_settings/typography';
   @import '../assets/scss/01_settings/colors';
 
-h1{
-  font-size: $font-hugest;
-  font-weight: bold;
-  text-align: center;
-  padding-top: 70px;
-}
+.logo {
+    text-align: center;
+    margin: 80px 0;
+    width: 100%;
+  }
+
+.logo img {
+    width: 40%;
+  }
 
 .search{
   width: 300px;
@@ -111,12 +111,11 @@ h1{
   position:relative;
 }
 
-input{
+.search input{
   -webkit-appearance: none;
   border: none;
   border-radius: 0;
   background-color: transparent;
-  color: white;
   border-bottom: 1px solid $_black;
   display: block;
   width: 300px;
@@ -134,6 +133,13 @@ input{
   left: 50px;
   bottom: 40px;
   font-size: 40px !important;
+}
+
+@media (max-width: 760px) {
+.cart_shop{
+    top: 70px;
+    right: 30px;
+}
 }
 
 </style>
