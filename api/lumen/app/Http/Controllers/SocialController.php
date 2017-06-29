@@ -237,6 +237,8 @@ class SocialController extends Controller
 
     public function facebookFeed()
     {
+      $posts_full = [];
+
       $client_id = Settings::where('label', 'facebook_client_id')->limit(1)->pluck('value')[0];
       $client_secret = Settings::where('label', 'facebook_client_secret')->limit(1)->pluck('value')[0];
       $max_results = Settings::where('label', 'facebook_max_results')->limit(1)->pluck('value')[0];
@@ -252,10 +254,19 @@ class SocialController extends Controller
       $page_id = $data['id'];
 
       // Get Feed
-      $json = file_get_contents("https://graph.facebook.com/v2.9/$page_id/feed?access_token=$access_token&limit=$max_results");
-      $posts = json_decode($json, true);  
+      $json = file_get_contents("https://graph.facebook.com/v2.9/$page_id/posts?access_token=$access_token&limit=$max_results");
+      $posts = json_decode($json, true);
+      $posts = $posts['data'];
 
-      return response()->json($posts);
+      foreach ($posts as $post) {
+        $post_id = $post['id'];
+        $json = file_get_contents("https://graph.facebook.com/v2.9/$post_id?fields=permalink_url&access_token=$access_token");
+        $post_url = json_decode($json, true);
+
+        array_push($posts_full, $post_url['permalink_url']);
+      }
+
+      return response()->json($posts_full);
     }
 
     public function curlfunction($url)
