@@ -79,7 +79,6 @@
   import { mapGetters } from 'vuex';
   import axios from 'axios';
   import currency from 'currency.js';
-  import OHeader from '../components/Header';
 
   import config from '../config';
   import validationMessage from '../validationMessage';
