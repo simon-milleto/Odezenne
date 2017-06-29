@@ -1,6 +1,5 @@
 <template>
   <main>
-    <o-header></o-header>
     <div class="o-container">
       <div class="c-checkout__cart">
         <div class="c-checkout__cart-item"
@@ -80,8 +79,6 @@
   import { mapGetters } from 'vuex';
   import axios from 'axios';
   import currency from 'currency.js';
-
-  import OHeader from '../components/Header';
 
   import config from '../config';
   import validationMessage from '../validationMessage';
@@ -181,9 +178,6 @@
           },
         }, '#paypal-button');
       },
-    },
-    components: {
-      OHeader,
     },
   };
 </script>

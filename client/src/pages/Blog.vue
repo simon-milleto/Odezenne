@@ -1,6 +1,5 @@
 <template>
   <main>
-    <o-header></o-header>
     <div class="o-container">
       <div>
         <post v-for="post in posts"
@@ -14,7 +13,6 @@
 <script>
   import axios from 'axios';
   import config from '../config';
-  import OHeader from '../components/Header';
 
   import Post from '../components/Blog/Post';
 
@@ -38,7 +36,6 @@
     },
     components: {
       Post,
-      OHeader,
     },
   };
 </script>

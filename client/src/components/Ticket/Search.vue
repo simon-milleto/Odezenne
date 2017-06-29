@@ -29,6 +29,18 @@
     .search-input{
       width: 30%;
       margin: 0 auto;
+      input{
+        width: 100%;
+        height: 50px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        font-family: "Roboto Condensed";
+        font-size: 1rem;
+        font-weight: 700;
+        position: relative;
+        text-align: center;
+      }
     }
   }
 </style>

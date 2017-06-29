@@ -1,6 +1,5 @@
 <template>
   <main>
-    <o-header></o-header>
     <div class="o-container">
         <home-filter></home-filter>
         <grid :filter="filter"></grid>
@@ -11,7 +10,6 @@
 <script>
   import Grid from '../components/Home/Grid';
   import HomeFilter from '../components/Home/HomeFilter';
-  import OHeader from '../components/Header';
 
   export default {
     name: 'home',
@@ -28,7 +26,6 @@
     components: {
       HomeFilter,
       Grid,
-      OHeader,
     },
   };
 </script>
