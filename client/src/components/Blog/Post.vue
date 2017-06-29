@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '../../assets/scss/01_settings/colors';
   @import '../../assets/scss/01_settings/typography';
   @import '../../assets/scss/05_objects/grid';
