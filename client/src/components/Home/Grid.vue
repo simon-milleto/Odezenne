@@ -96,6 +96,7 @@
                 this.youtubeVideos.length > 0 ||
                 this.soundcloudSongs.length > 0) {
               this.firstLoaded = true;
+              this.$emit('loaded');
             }
 
             this.loading = false;
