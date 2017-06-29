@@ -33,12 +33,12 @@
       <form class="c-checkout__form">
         <div class="c-checkout__input">
           <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" name="firstName" v-model="user.firstName" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('firstName') }">
+          <input id="firstName" type="text" name="firstName" v-model="user.firstName" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('firstName') }">
           <span v-show="errors.has('firstName')" class="help is-danger">{{ errors.first('firstName') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="lastName">Nom</label>
-          <input id="lastName" type="text" name="lastName" v-model="user.lastName" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('lastName') }">
+          <input id="lastName" type="text" name="lastName" v-model="user.lastName" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('lastName') }">
           <span v-show="errors.has('lastName')" class="help is-danger">{{ errors.first('lastName') }}</span>
         </div>
         <div class="c-checkout__input">
@@ -58,7 +58,7 @@
         </div>
         <div class="c-checkout__input">
           <label for="city">Ville</label>
-          <input id="city" type="text" name="city" v-model="user.city" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('city') }">
+          <input id="city" type="text" name="city" v-model="user.city" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('city') }">
           <span v-show="errors.has('city')" class="help is-danger">{{ errors.first('city') }}</span>
         </div>
         <div class="c-checkout__input">
