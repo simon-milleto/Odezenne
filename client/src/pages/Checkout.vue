@@ -78,12 +78,12 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import currency from 'currency.js';
   import axios from 'axios';
+  import currency from 'currency.js';
+  import messages from 'vee-validate/dist/locale/fr';
 
   import OHeader from '../components/Header';
 
-  import messages from '../../node_modules/vee-validate/dist/locale/fr';
   import config from '../config';
 
   export default {
