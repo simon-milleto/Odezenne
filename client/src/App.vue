@@ -1,6 +1,6 @@
 <template>
   <div>
-    <o-header></o-header>
+    <o-header v-if="currentRoute != '/login'"></o-header>
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
@@ -12,6 +12,16 @@
 
   export default {
     name: 'app',
+    data() {
+      return {
+        currentRoute: this.$route.path,
+      };
+    },
+    watch: {
+      $route(to, from) {
+        this.currentRoute = from.path;
+      },
+    },
     components: {
       OHeader,
     },
