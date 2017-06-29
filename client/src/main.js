@@ -4,6 +4,7 @@ import Vue from 'vue';
 import moment from 'moment';
 import axios from 'axios';
 import VueAnalytics from 'vue-analytics';
+import VeeValidate from 'vee-validate';
 
 import App from './App';
 import router from './router';
@@ -21,6 +22,8 @@ axios.get(`${config.apiEndpoint}/tools/analytics`).then((response) => {
     router, // Using the router
   });
 });
+
+Vue.use(VeeValidate);
 
 /* eslint-disable no-new */
 new Vue({

@@ -31,37 +31,44 @@
           <span class="c-checkout__cart-total">Total : {{ total | currency }}€</span>
         </div>
       </div>
-      <div class="c-checkout__form">
+      <form class="c-checkout__form">
         <div class="c-checkout__input">
           <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" name="firstName" v-model="user.firstName">
+          <input id="firstName" type="text" name="firstName" v-model="user.firstName" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('firstName') }">
+          <span v-show="errors.has('firstName')" class="help is-danger">{{ errors.first('firstName') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="lastName">Nom</label>
-          <input id="lastName" type="text" name="lastName" v-model="user.lastName">
+          <input id="lastName" type="text" name="lastName" v-model="user.lastName" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('lastName') }">
+          <span v-show="errors.has('lastName')" class="help is-danger">{{ errors.first('lastName') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="email">Adresse mail</label>
-          <input id="email" type="text" name="email" v-model="user.email">
+          <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" id="email" type="text" name="email" v-model="user.email">
+          <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="address">Adresse</label>
-          <input id="address" type="text" name="address" v-model="user.address">
+          <input id="address" type="text" name="address" v-model="user.address" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('address') }">
+          <span v-show="errors.has('address')" class="help is-danger">{{ errors.first('address') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="postcode">Code postal</label>
-          <input id="postcode" type="text" name="postcode" v-model="user.postcode">
+          <input id="postcode" type="text" name="postcode" v-model="user.postcode" v-validate="'required|digits:{5}'" :class="{'input': true, 'is-danger': errors.has('postcode') }">
+          <span v-show="errors.has('postcode')" class="help is-danger">{{ errors.first('postcode') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="city">Ville</label>
-          <input id="city" type="text" name="city" v-model="user.city">
+          <input id="city" type="text" name="city" v-model="user.city" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('city') }">
+          <span v-show="errors.has('city')" class="help is-danger">{{ errors.first('city') }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="phoneNumber">Numéro de téléphone</label>
-          <input id="phoneNumber" type="text" name="phoneNumber" v-model="user.phoneNumber">
+          <input id="phoneNumber" type="text" name="phoneNumber" v-model="user.phoneNumber" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('phoneNumber') }">
+          <span v-show="errors.has('phoneNumber')" class="help is-danger">{{ errors.first('phoneNumber') }}</span>
         </div>
         <button @click.prevent="checkout">Commander</button>
-      </div>
+      </form>
       <div class="c-checkout__payment" v-if="order.isOrdered">
         <div id="paypal-button"></div>
       </div>
@@ -73,8 +80,10 @@
   import { mapGetters } from 'vuex';
   import currency from 'currency.js';
   import axios from 'axios';
+
   import OHeader from '../components/Header';
 
+  import messages from '../../node_modules/vee-validate/dist/locale/fr';
   import config from '../config';
 
   export default {
@@ -111,24 +120,52 @@
     },
     methods: {
       checkout() {
-        const formattedItems = [];
-
-        this.tickets.forEach((ticket) => {
-          formattedItems.push({
-            id: ticket.id,
-            quantity: ticket.amount,
-            information: ticket.information,
-          });
+        this.$validator.addLocale(messages);
+        this.$validator.setLocale('fr');
+        this.$validator.updateDictionary({
+          fr: {
+            messages: {
+              postcode: () => 'Veuillez saisir un code postal de 5 chiffres',
+            },
+            attributes: {
+              firstName: 'Le champ prénom',
+              lastName: 'Le champ nom',
+              firstNname: 'Le champ prénom',
+              email: 'Le champ email',
+              phoneNumber: 'Le champ numéro de téléphone',
+              city: 'Le champ ville',
+              address: 'Le champ adresse',
+              postcode: 'Le champ code postal',
+            },
+          },
         });
+        this.$validator.validateAll().then((result) => {
+          console.log(result);
+          if (result) {
+            const formattedItems = [];
 
-        axios.post(`${config.apiEndpoint}/tickets/checkout`, { items: formattedItems, user: this.user })
-          .then((response) => {
-            this.order.isOrdered = true;
-            this.order.id = response.data.id;
-            this.order.total = response.data.total;
+            this.tickets.forEach((ticket) => {
+              formattedItems.push({
+                id: ticket.id,
+                quantity: ticket.amount,
+                information: ticket.information,
+              });
+            });
 
-            this.showPaymentButton(response.data.id);
-          });
+            axios.post(`${config.apiEndpoint}/tickets/checkout`, { items: formattedItems, user: this.user })
+              .then((response) => {
+                this.order.isOrdered = true;
+                this.order.id = response.data.id;
+                this.order.total = response.data.total;
+
+                this.showPaymentButton(response.data.id);
+              });
+          } else {
+            console.log('Correct them errors!');
+          }
+        }).catch(() => {
+          console.log('Correct them errors!');
+        });
       },
       updateOrder(transactionId, creationTime) {
         axios.put(`${config.apiEndpoint}/tickets/checkout`, { orderId: this.order.id, transactionId, creationTime })

@@ -69,7 +69,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .login-page {
     display: flex;
     align-items: center;
