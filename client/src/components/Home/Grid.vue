@@ -13,6 +13,10 @@
                   :tweet="post"
                   :position="getPosition()"
                   class="element"></tweet>
+          <facebook v-if="post.type === 'facebook'"
+                :facebook="post"
+                :position="getPosition()"
+                class="element"></facebook>
           <soundcloud v-if="post.type === 'soundcloud'"
                   :soundcloud="post"
                   :position="getPosition()"
@@ -34,6 +38,7 @@
   import Tweet from '../Social/Tweet';
   import Youtube from '../Social/Youtube';
   import Soundcloud from '../Social/Soundcloud';
+  import Facebook from '../Social/Facebook';
 
   export default {
     name: 'grid',
@@ -47,6 +52,8 @@
         twitterFeedCount: 5,
         twitterFansCount: 5,
         posts: [],
+
+        facebookFeed: [],
         youtubePaginationParam: '',
         twitterPaginationParam: '',
         twitterFanPaginationParam: '',
@@ -63,10 +70,16 @@
         const fanTweets = axios.get(`${config.apiEndpoint}/socials/twitter/fans${this.twitterFanPaginationParam}`);
         const youtubeVideos = axios.get(`${config.apiEndpoint}/socials/youtube${this.youtubePaginationParam}`);
         const soundcloudSongs = axios.get(`${config.apiEndpoint}/socials/soundcloud`);
+        const facebookFeed = axios.get(`${config.apiEndpoint}/socials/facebook/feed`);
         this.loading = true;
 
-        Promise.all([twitterFeed, fanTweets, youtubeVideos, soundcloudSongs])
-          .then(([respTwitterFeed, respFanTweets, respYoutubeVideos, respSoundcloudSongs]) => {
+        Promise.all([twitterFeed, fanTweets, youtubeVideos, soundcloudSongs, facebookFeed])
+          .then(([
+            respTwitterFeed,
+            respFanTweets,
+            respYoutubeVideos,
+            respSoundcloudSongs,
+            respFacebookFeed]) => {
             const temp = [];
 
             if (respTwitterFeed.data.valid) {
@@ -88,12 +101,17 @@
               temp.push(...respSoundcloudSongs.data.tracks);
               this.soundcloudSongs = respSoundcloudSongs.data.tracks;
             }
+            if (respFacebookFeed.data.valid) {
+              temp.push(...respFacebookFeed.data.tracks);
+              this.FacebookFeed = respFacebookFeed.data.posts;
+            }
 
             this.shufflePosts(temp);
 
             if (this.tweets.length > 0 ||
                 this.fanTweets.length > 0 ||
                 this.youtubeVideos.length > 0 ||
+                this.facebookFeed.length > 0 ||
                 this.soundcloudSongs.length > 0) {
               this.firstLoaded = true;
               this.$emit('loaded');
@@ -139,6 +157,7 @@
       Tweet,
       Youtube,
       Soundcloud,
+      Facebook,
       InfiniteLoading,
     },
   };

@@ -222,7 +222,7 @@ class SocialController extends Controller
               $posts[$i]['post_url'] = $value['link'];
               $posts[$i]['images_url'] = $value['images']['standard_resolution']['url'];
               $posts[$i]['alt'] = $value['caption']['text'];
-              $posts[$i]['type'] = $value['type']['instagram'];
+              $posts[$i]['type'] = 'instagram';
 
               $i++;
             }
@@ -277,15 +277,21 @@ class SocialController extends Controller
       $posts = json_decode($json, true);
       $posts = $posts['data'];
 
+      if (empty($client_id) || empty($client_secret)) {
+          return response()->json(array('valid' => false));
+        }
+
       foreach ($posts as $post) {
         $post_id = $post['id'];
         $json = file_get_contents("https://graph.facebook.com/v2.9/$post_id?fields=permalink_url&access_token=$access_token");
         $post_url = json_decode($json, true);
 
-        array_push($posts_full, $post_url['permalink_url']);
+        $post_url['type'] = 'facebook';
+
+        array_push($posts_full, $post_url);
       }
 
-      return response()->json($posts_full);
+      return response()->json(array('valid' => true, 'posts' => $posts_full));
     }
 
     public function curlfunction($url)
