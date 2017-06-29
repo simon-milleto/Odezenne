@@ -41,7 +41,7 @@ const router = new Router({
       meta: { requiresAuth: true },
     },
     {
-      path: '/checkout',
+      path: '/billetterie/checkout',
       name: 'Checkout',
       component: Checkout,
       meta: { requiresAuth: true },
