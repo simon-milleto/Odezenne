@@ -1,8 +1,8 @@
 <template>
     <div class="o-grid">
       <transition-group mode="out-in" name="fade" class="o-grid">
-        <div v-for="post in posts" 
-            :key="getPostId(post)" 
+        <div v-for="post in posts"
+            :key="getPostId(post)"
             v-show="showPost(post.type)"
             class="o-grid__cell--6/12 element-wrapper">
           <youtube v-if="post.type === 'youtube'"
@@ -21,6 +21,10 @@
                   :soundcloud="post"
                   :position="getPosition()"
                   class="element"></soundcloud>
+          <instagram v-if="post.type === 'instagram'"
+                  :instagram="post"
+                  :position="getPosition()"
+                  class="element"></instagram>
         </div>
       </transition-group>
       <div class="o-grid__cell--12/12">
@@ -39,6 +43,7 @@
   import Youtube from '../Social/Youtube';
   import Soundcloud from '../Social/Soundcloud';
   import Facebook from '../Social/Facebook';
+  import Instagram from '../Social/Instagram';
 
   export default {
     name: 'grid',
@@ -52,7 +57,7 @@
         twitterFeedCount: 5,
         twitterFansCount: 5,
         posts: [],
-
+        instagramFeed: [],
         facebookFeed: [],
         youtubePaginationParam: '',
         twitterPaginationParam: '',
@@ -70,16 +75,19 @@
         const fanTweets = axios.get(`${config.apiEndpoint}/socials/twitter/fans${this.twitterFanPaginationParam}`);
         const youtubeVideos = axios.get(`${config.apiEndpoint}/socials/youtube${this.youtubePaginationParam}`);
         const soundcloudSongs = axios.get(`${config.apiEndpoint}/socials/soundcloud`);
+        const instagramFeed = axios.get(`${config.apiEndpoint}/socials/instagram/feed`);
         const facebookFeed = axios.get(`${config.apiEndpoint}/socials/facebook/feed`);
-        this.loading = true;
 
-        Promise.all([twitterFeed, fanTweets, youtubeVideos, soundcloudSongs, facebookFeed])
+        this.loading = true;
+        Promise.all([twitterFeed, fanTweets, youtubeVideos,
+          soundcloudSongs, facebookFeed, instagramFeed])
           .then(([
             respTwitterFeed,
             respFanTweets,
             respYoutubeVideos,
             respSoundcloudSongs,
             respFacebookFeed,
+            respInstagramFeed,
             ]) => {
             const temp = [];
 
@@ -107,13 +115,19 @@
               this.facebookFeed = respFacebookFeed.data.posts;
             }
 
+            if (respInstagramFeed.data.valid) {
+              temp.push(...respInstagramFeed.data.posts);
+              this.instagramFeed = respInstagramFeed.data.posts;
+            }
+
             this.shufflePosts(temp);
 
             if (this.tweets.length > 0 ||
                 this.fanTweets.length > 0 ||
                 this.youtubeVideos.length > 0 ||
                 this.facebookFeed.length > 0 ||
-                this.soundcloudSongs.length > 0) {
+                this.soundcloudSongs.length > 0 ||
+                this.instagramFeed.length > 0) {
               this.firstLoaded = true;
               this.$emit('loaded');
             }
@@ -160,6 +174,7 @@
       Soundcloud,
       Facebook,
       InfiniteLoading,
+      Instagram,
     },
   };
 </script>
@@ -169,7 +184,7 @@
     position:relative;
     min-height: 300px;
     max-width:100%;
-    
+
     .element{
       max-width:90%;
     }

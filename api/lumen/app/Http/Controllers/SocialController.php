@@ -174,7 +174,7 @@ class SocialController extends Controller
     public function soundcloudFeed(Request $request)
     {
       $count = $request->input('count') ? $request->input('count') : 5;
-      
+
       $api_key = Settings::where('label', 'soundcloud_api_key')->limit(1)->pluck('value');
       $user_id = Settings::where('label', 'soundcloud_user_id')->limit(1)->pluck('value');
 
@@ -219,6 +219,7 @@ class SocialController extends Controller
         $i = 0;
         foreach ($a_json['data'] as $key => $value) {
             if ($i < $max_results) {
+              $posts[$i]['id'] = $value['id'];
               $posts[$i]['post_url'] = $value['link'];
               $posts[$i]['images_url'] = $value['images']['standard_resolution']['url'];
               $posts[$i]['alt'] = $value['caption']['text'];
@@ -228,7 +229,7 @@ class SocialController extends Controller
             }
         }
 
-        return response()->json($posts);
+        return response()->json(array('valid' => true, 'posts' => $posts));
     }
 
     public function instagramFan()
