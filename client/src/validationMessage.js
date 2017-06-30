@@ -5,11 +5,11 @@ const validationMessage = {
     custom: {
       firstName: {
         required: 'Le prénom est obligatoire',
-        alpha: 'Veuillez saisir seulement des caractères alphabétiques',
+        alpha_dash: 'Veuillez saisir seulement des caractères alphabétiques',
       },
       lastName: {
         required: 'Le nom est obligatoire',
-        alpha: 'Veuillez saisir seulement des caractères alphabétiques',
+        alpha_dash: 'Veuillez saisir seulement des caractères alphabétiques',
       },
       email: {
         required: 'L\'adresse mail est obligatoire',
@@ -21,7 +21,7 @@ const validationMessage = {
       },
       city: {
         required: 'La ville est obligatoire',
-        alpha: 'Veuillez saisir seulement des caractères alphabétiques',
+        alpha_dash: 'Veuillez saisir seulement des caractères alphabétiques',
       },
       address: {
         required: 'L\'adresse est obligatoire',

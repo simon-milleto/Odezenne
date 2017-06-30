@@ -146,28 +146,26 @@ class TicketsController extends Controller
         }else{
             $errors['errors']['phoneNumber'] = (object) array('field' => 'phoneNumber', 'msg' => "Le numéro de téléphone est obligatoire");
         }
-        if (empty($errors['errors'])){
-            $order = [
-                'payment_method' => 'paypal',
-                'payment_method_title' => 'PayPal',
-                'billing' => [
-                    'first_name' => $user['firstName'],
-                    'last_name' => $user['lastName'],
-                    'address_1' => $user['address'],
-                    'postcode' => $user['postcode'],
-                    'city' => $user['city'],
-                    'email' => $user['email'],
-                    'phone' => $user['phoneNumber'],
-                ],
-                'line_items' => $formattedItems,
-                'meta_data' => $metaData
-            ];
-            $orderResponse = $woocommerce->post('orders', $order);
-            return response()->json($orderResponse);
-        }
-        else{
+        if (!empty($errors['errors'])){
             return response()->json($errors);
         }
+        $order = [
+            'payment_method' => 'paypal',
+            'payment_method_title' => 'PayPal',
+            'billing' => [
+                'first_name' => $user['firstName'],
+                'last_name' => $user['lastName'],
+                'address_1' => $user['address'],
+                'postcode' => $user['postcode'],
+                'city' => $user['city'],
+                'email' => $user['email'],
+                'phone' => $user['phoneNumber'],
+            ],
+            'line_items' => $formattedItems,
+            'meta_data' => $metaData
+        ];
+        $orderResponse = $woocommerce->post('orders', $order);
+        return response()->json($orderResponse);
     }
 
     /**
