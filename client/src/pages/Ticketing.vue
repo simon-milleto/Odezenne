@@ -1,8 +1,10 @@
 <template>
   <main>
     <div class="o-container">
-      <div class="o-grid o-grid--guttered">
         <search v-if="isLoaded"></search>
+    </div>
+    <div class="o-container">
+      <div class="o-grid o-grid--guttered">
         <loader v-if="!isLoaded"></loader>
         <ticket v-for="ticket in tickets"
                 :ticket="ticket"
