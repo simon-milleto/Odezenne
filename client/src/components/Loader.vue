@@ -3,7 +3,7 @@
         <div class=page-loader>
             <div class="loader-container">
                 <img src="../assets/images/mouche.gif" class="loader" ref="loader">
-                <span class="loading">Chargement <span>.</span><span>.</span><span>.</span></span>
+                <span class="loading"><span>.</span><span>.</span><span>.</span></span>
             </div>
         </div>
     </transition>
