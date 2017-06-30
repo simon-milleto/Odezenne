@@ -59,6 +59,7 @@
         posts: [],
         instagramFeed: [],
         facebookFeed: [],
+        facebookPaginationParam: '',
         youtubePaginationParam: '',
         twitterPaginationParam: '',
         twitterFanPaginationParam: '',
@@ -76,7 +77,8 @@
         const youtubeVideos = axios.get(`${config.apiEndpoint}/socials/youtube${this.youtubePaginationParam}`);
         const soundcloudSongs = axios.get(`${config.apiEndpoint}/socials/soundcloud`);
         const instagramFeed = axios.get(`${config.apiEndpoint}/socials/instagram/feed`);
-        const facebookFeed = axios.get(`${config.apiEndpoint}/socials/facebook/feed`);
+        const facebookFeed = axios.get(`${config.apiEndpoint}/socials/facebook/feed${this.facebookPaginationParam}`);
+
 
         this.loading = true;
         Promise.all([twitterFeed, fanTweets, youtubeVideos,
@@ -113,6 +115,7 @@
             if (respFacebookFeed.data.valid) {
               temp.push(...respFacebookFeed.data.posts);
               this.facebookFeed = respFacebookFeed.data.posts;
+              this.facebookPaginationParam = `?page=${respFacebookFeed.data.nextPage}`;
             }
 
             if (respInstagramFeed.data.valid) {
