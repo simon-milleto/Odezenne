@@ -12,9 +12,9 @@
         </header>
         <nav :class="{active: opened}">
             <router-link class="router-link" :to="{ name: 'Home' }" exact @click.native="burgerAction">Giga Timeline</router-link>
-            <router-link class="router-link" :to="{ name: 'Checkout' }" @click.native="burgerAction">Shop</router-link>
+            <a href="#" class="router-link">Shop</a>
             <router-link class="router-link" :to="{ name: 'Billetterie' }" @click.native="burgerAction">Billeterie</router-link>
-            <router-link class="router-link" :to="{ name: 'Billetterie' }" @click.native="burgerAction">Historique</router-link>
+            <a href="#" class="router-link">Historique</a>
             <router-link class="router-link" :to="{ name: 'Blog' }" @click.native="burgerAction">Blog</router-link>
             <div class="RS">
                 <a href="#"><img src="../assets/images/twitter.png"></a>
