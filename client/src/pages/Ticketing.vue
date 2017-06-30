@@ -7,7 +7,6 @@
                 :ticket="ticket"
                 :key="ticket.id"></ticket>
       </div>
-      <cart></cart>
     </div>
   </main>
 </template>
@@ -19,7 +18,6 @@
   import config from '../config';
 
   import Ticket from '../components/Ticket/Ticket';
-  import Cart from '../components/Ticket/Cart';
   import Search from '../components/Ticket/Search';
 
   export default {
@@ -73,7 +71,6 @@
     },
     components: {
       Ticket,
-      Cart,
       Search,
     },
   };

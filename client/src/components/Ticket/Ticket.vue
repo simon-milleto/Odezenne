@@ -46,7 +46,7 @@
     },
     computed: {
       formattedDate() {
-        return moment(this.ticket.date).format('Do.MM');
+        return moment(this.ticket.date).format('D.MM');
       },
       formattedPrice() {
         currency.settings.separator = ' ';
