@@ -1,5 +1,5 @@
 <template>
-  <div class="c-ticket-container">
+  <div class="c-ticket-container" :class="{'c-ticket-container--regional' : regional}">
     <div class="c-ticket">
       <div class="c-ticket__order" :class="{'c-ticket__order--id-open': isOpen}">
         <div class="c-ticket__info">
@@ -34,7 +34,7 @@
 
   export default {
     name: 'ticket',
-    props: ['ticket'],
+    props: ['ticket', 'regional'],
     data() {
       return {
         amount: 1,
@@ -104,6 +104,19 @@
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+    padding-top: 60px;
+    &--regional{
+      color: $_red;
+      padding-bottom: 70px;
+      hr{
+        border: 1px solid;
+        border-color: $_red;
+        margin-top: auto;
+      }
+      .c-ticket__order .c-accordion__toggle path{
+        fill:$_red;
+      }
+    }
   }
 
   .c-ticket__city,
@@ -135,7 +148,6 @@
 
   .c-ticket__order {
     padding: 15px;
-    background-color: $_white;
   }
 
   .c-ticket__price {
@@ -188,5 +200,17 @@
     border: 1px solid;
     border-color: grey;
     margin-top: auto;
+  }
+
+  .regional .c-ticket__order .c-accordion__toggle path{
+    fill:$_red;
+  }
+
+    .regional .c-ticket__order:hover{
+    background-color: $_black;
+    color: #fff;
+    .c-accordion__toggle path{
+    fill: $_white;
+    }
   }
 </style>

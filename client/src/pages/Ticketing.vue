@@ -1,11 +1,13 @@
 <template>
   <main>
     <div class="o-container">
-        <search v-if="isLoaded"></search>
-    </div>
-    <div class="o-container">
       <div class="o-grid o-grid--guttered">
         <loader v-if="!isLoaded"></loader>
+        <search></search>
+        <ticket v-for="regionalTicket in regionalTickets"
+                :ticket="regionalTicket"
+                :key="regionalTicket.id"
+                :regional="true"></ticket>
         <ticket v-for="ticket in tickets"
                 :ticket="ticket"
                 :key="ticket.id"></ticket>
@@ -29,6 +31,7 @@
     data() {
       return {
         allTickets: [],
+        regionalTickets: [],
         search: '',
         isLoaded: false,
       };
@@ -65,10 +68,11 @@
 
         if (this.postCode) {
           const formattedZipcode = this.postCode.substring(0, 2);
-          this.allTickets = upcomingTickets.filter((ticket) => {
+          const filteredRegionalTickets = upcomingTickets.filter((ticket) => {
             const formattedTicketZipcode = ticket.zipcode.substring(0, 2);
             return formattedZipcode === formattedTicketZipcode;
           });
+          this.regionalTickets = this.regionalTickets.concat(filteredRegionalTickets);
         }
 
         upcomingTickets.sort((a, b) => new Date(a.date) - new Date(b.date));
