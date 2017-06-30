@@ -6,15 +6,15 @@
           <form class="login-form">
             <div class="inputs-container">
               <div class="email-input">
-                <input type="email" v-model="email" placeholder="Adresse mail *" required @click="toolTipAction" />
+                <input type="email" v-model="email" placeholder="Adresse mail *" required @click="toolTipAction" ref="email"/>
                 <img src="../assets/images/trait_2.svg">
               </div>
               <div class="postcode-input">
-                <input type="text" v-model="postCode" placeholder="Code postal *" required @click="toolTipAction" maxlength="5"/>
+                <input type="text" v-model="postCode" placeholder="Code postal *" required @click="toolTipAction" maxlength="5" ref="postcode"/>
                 <img src="../assets/images/trait_2.svg">
               </div>
               <div class="grammage-input">
-                <input type="text" v-model="grammage" :placeholder="question" @click="toolTipAction" required maxlength="5"/>
+                <input type="text" v-model="grammage" :placeholder="question" @click="toolTipAction" required ref="question"/>
                 <img src="../assets/images/trait_2.svg">
               </div>
               <div class="infos" :class="{active: toolTip}">
@@ -28,8 +28,8 @@
             </div>
             <p>* Champs obligatoires</p>
             <div class="mendatory">
-              <input for="mendatory" type="checkbox" v-model="mendatory"/>
-              <label id="mendatory"> J'accepte qu'Odezenne m'informent de leurs actualités</label>
+              <input id="mendatory" type="checkbox" v-model="mendatory"/>
+              <label for="mendatory"> J'accepte qu'Odezenne m'informent de leurs actualités</label>
             </div>
             <div class="drawbox" @click.prevent="onLogin">
               <div class="draw">
@@ -37,10 +37,10 @@
               </div>
             </div>
             <transition-group mode="out-in" name="translate">
-              <div class="error-log" v-if="errorMailLog != ''" :key="1">{{errorMailLog}}</div>
-              <div class="error-log" v-if="errorPostcodeLog != ''" :key="2">{{errorPostcodeLog}}</div>
-              <div class="error-log" v-if="errorQuestionLog != ''" :key="3">{{errorQuestionLog}}</div>
-              <div class="error-log" v-if="errorMendatoryLog != ''" :key="4">{{errorMendatoryLog}}</div>
+              <div class="error-log" v-if="errorMailLog != ''" :key="1"><p>{{errorMailLog}}</p></div>
+              <div class="error-log" v-if="errorPostcodeLog != ''" :key="2"><p>{{errorPostcodeLog}}</p></div>
+              <div class="error-log" v-if="errorQuestionLog != ''" :key="3"><p>{{errorQuestionLog}}</p></div>
+              <div class="error-log" v-if="errorMendatoryLog != ''" :key="4"><p>{{errorMendatoryLog}}</p></div>
             </transition-group>
           </form>
       </div>
@@ -64,12 +64,15 @@
         grammage: '',
         mendatory: '',
         toolTip: false,
-        questions: ['Tu aimes le chocolat ?', 'Tu fais cramer la barraque ?', 'Jai pas didées', 'Tu as dit bonjour ?'],
+        questions: ['Tu aimes le chocolat ?', 'Tu fais cramer la barraque ?', 'J\'ai pas d\'idées', 'Tu as dit bonjour ?'],
         question: '',
       };
     },
     mounted() {
       this.question = this.randomQuestion();
+      setTimeout(() => {
+        this.toolTipAction();
+      }, 5000);
     },
     methods: {
       ...mapActions({
@@ -120,9 +123,6 @@
         /* eslint-disable no-mixed-operators */
         const i = Math.floor(Math.random() * ((y - x) + 1) + x);
         return this.questions[i];
-      },
-      checkMendatory() {
-        console.log('Okay');
       },
     },
   };
@@ -274,6 +274,11 @@
     margin-top: 20px;
     transform: translateY(0);
     color: #fff;
+    width: 100%;
+    text-align: center;
+      p {
+        width:100%;
+      }
   }
   .error-log.active {
     transform: translateY(0px);
