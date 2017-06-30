@@ -1,6 +1,6 @@
 <template>
   <div :style="position">
-    <iframe scrolling="no" frameborder="no"
+    <iframe height="430px" scrolling="no" frameborder="no"
         :src="instagram.post_url + 'embed'"></iframe>
   </div>
 </template>
