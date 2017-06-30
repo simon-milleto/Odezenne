@@ -59,14 +59,15 @@
           });
       },
       orderTickets(allTickets) {
-        const formattedZipcode = this.postCode.substring(0, 2);
-
         const upcomingTickets = allTickets.filter(ticket => new Date(ticket.date) >= new Date());
 
-        this.allTickets = upcomingTickets.filter((ticket) => {
-          const formattedTicketZipcode = ticket.zipcode.substring(0, 2);
-          return formattedZipcode === formattedTicketZipcode;
-        });
+        if (this.postCode) {
+          const formattedZipcode = this.postCode.substring(0, 2);
+          this.allTickets = upcomingTickets.filter((ticket) => {
+            const formattedTicketZipcode = ticket.zipcode.substring(0, 2);
+            return formattedZipcode === formattedTicketZipcode;
+          });
+        }
 
         upcomingTickets.sort((a, b) => new Date(a.date) - new Date(b.date));
 
