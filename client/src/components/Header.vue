@@ -1,5 +1,5 @@
 <template>
-    <div class="top">
+    <div>
         <header>
             <img v-if="!opened" @click="burgerAction" class="burger" src="../assets/images/burger.png">
             <img v-else="opened" @click="burgerAction" class="burger" src="../assets/images/burger-close.png">
