@@ -31,6 +31,7 @@
     methods: {
       toggle() {
         this.isOpen = !this.isOpen;
+        this.$emit('onToggle');
       },
     },
   };
@@ -59,7 +60,7 @@
     height: 25px;
     transition: .3s ease;
     position: absolute;
-    right: 200px;
+    right: 25px;
     margin-top: -25px;
   }
 

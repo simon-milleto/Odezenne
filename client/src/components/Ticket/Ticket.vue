@@ -1,19 +1,19 @@
 <template>
   <div class="c-ticket-container">
     <div class="c-ticket">
-      <div class="c-ticket__order">
+      <div class="c-ticket__order" :class="{'c-ticket__order--id-open': isOpen}">
         <div class="c-ticket__info">
         <span class="c-ticket__date">{{ formattedDate }}</span>
         <span class="c-ticket__city">{{ ticket.city }} - </span>
         <span class="c-ticket__place">{{ ticket.location }}</span>
       </div>
-        <accordion>
+        <accordion @onToggle="toggleAccordion">
           <div class="c-ticket__buy" slot="content">
             <div class="c-ticket__amount">
               <label class="c-ticket__amount-label">Nombre de places</label>
               <counter :number="amount" :id="ticket.id" @onMinus="removeItem" @onPlus="addItem"></counter>
               <span class="c-ticket__price" slot="header">{{ formattedPrice }}€</span>
-              <button class="c-ticket__cart" @click="addToCart">Ajouter au panier</button>
+              <button id="reservation" class="c-ticket__cart" @click="addToCart">Réserver</button>
             </div>
           </div>
         </accordion>
@@ -42,6 +42,7 @@
           firstName: '',
           lastName: '',
         }],
+        isOpen: false,
       };
     },
     computed: {
@@ -77,8 +78,10 @@
           date: this.formattedDate,
           price: this.ticket.price,
           information: this.ticketInformation,
-        })
-        ;
+        });
+      },
+      toggleAccordion() {
+        this.isOpen = !this.isOpen;
       },
     },
     components: {
@@ -93,6 +96,9 @@
   @import '../../assets/scss/01_settings/typography';
   @import '../../assets/scss/05_objects/grid';
 
+  .c-ticket {
+    position: relative;
+  }
 
   .c-ticket-container{
     margin-left: auto;
@@ -161,21 +167,24 @@
     margin-left: auto;
   }
 
-  .c-ticket__order{
-    .c-accordion__toggle path{
-    fill: #000;
+  .c-ticket__order {
+    transition: background-color .3s ease;
+
+    .c-accordion__toggle path {
+      fill: #000;
+    }
+
+    &:hover, &.c-ticket__order--id-open {
+      background-color: $_black;
+      color: #fff;
+
+      .c-accordion__toggle path {
+        fill: $_white;
+      }
     }
   }
 
-  .c-ticket__order:hover{
-    background-color: $_black;
-    color: #fff;
-    .c-accordion__toggle path{
-    fill: $_white;
-    }
-  }
-
-  .c-ticket__trait{
+  .c-ticket__trait {
     border: 1px solid;
     border-color: grey;
     margin-top: auto;
