@@ -13,7 +13,7 @@
     name: 'home-filter',
     data() {
       return {
-        filters: ['Tout', 'Vidéos', 'Audio', 'Photos', 'Text', 'Rien'],
+        filters: ['Tout', 'Vidéos', 'Audio', 'Photos', 'Texte', 'Rien'],
         filterChecked: 'Tout',
       };
     },
@@ -30,7 +30,7 @@
           case 'Audio':
             filter = ['soundcloud'];
             break;
-          case 'Text':
+          case 'Texte':
             filter = ['facebook', 'tweet'];
             break;
           case 'Rien':
