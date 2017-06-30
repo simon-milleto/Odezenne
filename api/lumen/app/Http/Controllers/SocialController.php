@@ -258,12 +258,16 @@ class SocialController extends Controller
     {
       $posts_full = [];
 
-      $client_id = Settings::where('label', 'facebook_client_id')->limit(1)->pluck('value')[0];
-      $client_secret = Settings::where('label', 'facebook_client_secret')->limit(1)->pluck('value')[0];
+      $client_id = Settings::where('label', 'facebook_client_id')->limit(1)->pluck('value');
+      $client_secret = Settings::where('label', 'facebook_client_secret')->limit(1)->pluck('value');
       $max_results = Settings::where('label', 'facebook_max_results')->limit(1)->pluck('value')[0];
 
+      if (empty($client_id) || empty($client_secret) || $client_id[0] === '' || $client_secret[0] === '') {
+        return response()->json(array('valid' => false));
+      }
+
       // Get access token
-      $json = file_get_contents("https://graph.facebook.com/v2.9/oauth/access_token?client_id=$client_id&client_secret=$client_secret&grant_type=client_credentials");
+      $json = file_get_contents("https://graph.facebook.com/v2.9/oauth/access_token?client_id=$client_id[0]&client_secret=$client_secret[0]&grant_type=client_credentials");
       $data = json_decode($json, true);
       $access_token = $data['access_token'];
 
@@ -276,10 +280,6 @@ class SocialController extends Controller
       $json = file_get_contents("https://graph.facebook.com/v2.9/$page_id/posts?access_token=$access_token&limit=$max_results");
       $posts = json_decode($json, true);
       $posts = $posts['data'];
-
-      if (empty($client_id) || empty($client_secret)) {
-          return response()->json(array('valid' => false));
-        }
 
       foreach ($posts as $post) {
         $post_id = $post['id'];
