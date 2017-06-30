@@ -12,14 +12,9 @@
 
   export default {
     name: 'app',
-    data() {
-      return {
-        currentRoute: this.$route.path,
-      };
-    },
-    watch: {
-      $route(to, from) {
-        this.currentRoute = from.path;
+    computed: {
+      currentRoute() {
+        return this.$route.path;
       },
     },
     components: {

@@ -1,5 +1,5 @@
 <template>
-    <div class=page-loader>
+    <div class="page-loader">
         <div class="loader-container">
             <img src="../assets/images/mouche.gif" class="loader" ref="loader">
             <span class="loading">Chargement <span>.</span><span>.</span><span>.</span></span>
@@ -20,10 +20,12 @@
     methods: {
       moveFly() {
         setTimeout(() => {
-          const loader = this.$refs.loader;
-          loader.style.top = `${Math.floor((Math.random() * 50) + 1)}px`;
-          loader.style.left = `${Math.floor((Math.random() * 150) + 1)}px`;
-          this.moveFly();
+          if (this.$refs.loader) {
+            const loader = this.$refs.loader;
+            loader.style.top = `${Math.floor((Math.random() * 50) + 1)}px`;
+            loader.style.left = `${Math.floor((Math.random() * 150) + 1)}px`;
+            this.moveFly();
+          }
         }, 400);
       },
     },
