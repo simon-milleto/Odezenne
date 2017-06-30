@@ -1,10 +1,12 @@
 <template>
-    <div class="page-loader">
-        <div class="loader-container">
-            <img src="../assets/images/mouche.gif" class="loader" ref="loader">
-            <span class="loading">Chargement <span>.</span><span>.</span><span>.</span></span>
+    <transition name="fade">
+        <div class=page-loader>
+            <div class="loader-container">
+                <img src="../assets/images/mouche.gif" class="loader" ref="loader">
+                <span class="loading">Chargement <span>.</span><span>.</span><span>.</span></span>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -15,7 +17,12 @@
       };
     },
     mounted() {
-      this.moveFly();
+      if (this.$refs.loader) {
+        const loader = this.$refs.loader;
+        loader.style.top = `${Math.floor((Math.random() * 50) + 1)}px`;
+        loader.style.left = `${Math.floor((Math.random() * 150) + 1)}px`;
+        this.moveFly();
+      }
     },
     methods: {
       moveFly() {
@@ -36,7 +43,7 @@
     .page-loader {
         display: flex;
         position: absolute;
-        width: 100%;
+        width: calc(100% - 100px);
         height: calc(100vh);
         top: 0;
         align-items: center;
@@ -94,6 +101,12 @@
         to {
             opacity: 0
         }
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.3s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 
 </style>

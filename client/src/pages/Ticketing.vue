@@ -2,7 +2,8 @@
   <main>
     <div class="o-container">
       <div class="o-grid o-grid--guttered">
-        <search></search>
+        <search v-if="isLoaded"></search>
+        <loader v-if="!isLoaded"></loader>
         <ticket v-for="ticket in tickets"
                 :ticket="ticket"
                 :key="ticket.id"></ticket>
@@ -19,6 +20,7 @@
 
   import Ticket from '../components/Ticket/Ticket';
   import Search from '../components/Ticket/Search';
+  import Loader from '../components/Loader';
 
   export default {
     name: 'ticketing',
@@ -26,6 +28,7 @@
       return {
         allTickets: [],
         search: '',
+        isLoaded: false,
       };
     },
     computed: {
@@ -52,6 +55,7 @@
         axios.get(`${config.apiEndpoint}/tickets`)
           .then((response) => {
             this.orderTickets(response.data);
+            this.isLoaded = true;
           });
       },
       orderTickets(allTickets) {
@@ -72,6 +76,7 @@
     components: {
       Ticket,
       Search,
+      Loader,
     },
   };
 </script>

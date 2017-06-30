@@ -1,7 +1,7 @@
 <template>
   <main>
-    <loader v-if="!loaded"></loader>
     <div class="o-container">
+        <loader v-if="!loaded"></loader>
         <home-filter v-if="loaded"></home-filter>
         <grid :filter="filter" @loaded="isLoaded"></grid>
     </div>
