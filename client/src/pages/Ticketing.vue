@@ -7,10 +7,15 @@
         <ticket v-for="regionalTicket in regionalTickets"
                 :ticket="regionalTicket"
                 :key="regionalTicket.id"
-                :regional="true"></ticket>
+                :modifier="'regional'"></ticket>
         <ticket v-for="ticket in tickets"
                 :ticket="ticket"
-                :key="ticket.id"></ticket>
+                :key="ticket.id"
+                :modifier="'current'"></ticket>
+        <ticket v-for="passedTicket in passedTickets"
+                :ticket="passedTicket"
+                :key="passedTicket.id"
+                :modifier="'passed'"></ticket>
       </div>
     </div>
   </main>
@@ -32,6 +37,7 @@
       return {
         allTickets: [],
         regionalTickets: [],
+        passedTickets: [],
         search: '',
         isLoaded: false,
       };
@@ -65,6 +71,7 @@
       },
       orderTickets(allTickets) {
         const upcomingTickets = allTickets.filter(ticket => new Date(ticket.date) >= new Date());
+        const passedTickets = allTickets.filter(ticket => new Date(ticket.date) < new Date());
 
         if (this.postCode) {
           const formattedZipcode = this.postCode.substring(0, 2);
@@ -76,8 +83,10 @@
         }
 
         upcomingTickets.sort((a, b) => new Date(a.date) - new Date(b.date));
+        passedTickets.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         this.allTickets = this.allTickets.concat(upcomingTickets);
+        this.passedTickets = this.passedTickets.concat(passedTickets);
       },
     },
     components: {

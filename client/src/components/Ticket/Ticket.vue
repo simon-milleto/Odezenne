@@ -1,5 +1,5 @@
 <template>
-  <div class="c-ticket-container" :class="{'c-ticket-container--regional' : regional}">
+  <div class="c-ticket-container" :class="'c-ticket-container--' + modifier">
     <div class="c-ticket">
       <div class="c-ticket__order" :class="{'c-ticket__order--id-open': isOpen}">
         <div class="c-ticket__info">
@@ -34,7 +34,7 @@
 
   export default {
     name: 'ticket',
-    props: ['ticket', 'regional'],
+    props: ['ticket', 'modifier'],
     data() {
       return {
         amount: 1,
