@@ -1,7 +1,7 @@
 <template>
-  <div :style="position">
-    <iframe height="430px" scrolling="no" frameborder="no"
-        :src="instagram.post_url + 'embed'"></iframe>
+  <div>
+    <iframe scrolling="no" frameborder="no" :style="position"
+        :src="instagram.post_url + 'embed'" height="430px"></iframe>
   </div>
 </template>
 

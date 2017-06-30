@@ -63,6 +63,7 @@
         youtubePaginationParam: '',
         twitterPaginationParam: '',
         twitterFanPaginationParam: '',
+        soundcloudPaginationParam: '',
         firstLoaded: false,
         loading: false,
       };
@@ -75,7 +76,7 @@
         const twitterFeed = axios.get(`${config.apiEndpoint}/socials/twitter/feed${this.twitterPaginationParam}`);
         const fanTweets = axios.get(`${config.apiEndpoint}/socials/twitter/fans${this.twitterFanPaginationParam}`);
         const youtubeVideos = axios.get(`${config.apiEndpoint}/socials/youtube${this.youtubePaginationParam}`);
-        const soundcloudSongs = axios.get(`${config.apiEndpoint}/socials/soundcloud`);
+        const soundcloudSongs = axios.get(`${config.apiEndpoint}/socials/soundcloud${this.soundcloudPaginationParam}`);
         const instagramFeed = axios.get(`${config.apiEndpoint}/socials/instagram/feed`);
         const facebookFeed = axios.get(`${config.apiEndpoint}/socials/facebook/feed${this.facebookPaginationParam}`);
 
@@ -111,6 +112,7 @@
             if (respSoundcloudSongs.data.valid) {
               temp.push(...respSoundcloudSongs.data.tracks);
               this.soundcloudSongs = respSoundcloudSongs.data.tracks;
+              this.soundcloudPaginationParam = `?page=${encodeURIComponent(respSoundcloudSongs.data.nextPage)}`;
             }
             if (respFacebookFeed.data.valid) {
               temp.push(...respFacebookFeed.data.posts);

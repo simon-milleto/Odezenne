@@ -174,6 +174,7 @@ class SocialController extends Controller
     public function soundcloudFeed(Request $request)
     {
       $count = $request->input('count') ? $request->input('count') : 5;
+      $page = $request->input('page') ? $request->input('page') : null;
 
       $api_key = Settings::where('label', 'soundcloud_api_key')->limit(1)->pluck('value');
       $user_id = Settings::where('label', 'soundcloud_user_id')->limit(1)->pluck('value');
@@ -182,15 +183,22 @@ class SocialController extends Controller
         return response()->json(array('valid' => false));
       }
 
-      $soundcloud_url = "http://api.soundcloud.com/users/{$user_id[0]}/tracks.json?client_id={$api_key[0]}&limit={$count}";
+      if ($page) {
+        $soundcloud_url = $page;
+      } else {
+        $soundcloud_url = "https://api.soundcloud.com/users/{$user_id[0]}/tracks.json?client_id={$api_key[0]}&limit={$count}&linked_partitioning=1";
+      }
 
-      $tracks = json_decode(file_get_contents($soundcloud_url));
+      $data = json_decode(file_get_contents($soundcloud_url));
+
+      $tracks = $data->collection;
+      $nextPage = $data->next_href;
 
       foreach ($tracks as &$track) {
         $track->type = 'soundcloud';
       }
 
-      return response()->json(array('valid' => true, 'tracks' => $tracks));
+      return response()->json(array('valid' => true, 'tracks' => $tracks, 'nextPage' => $nextPage));
     }
 
     /**
