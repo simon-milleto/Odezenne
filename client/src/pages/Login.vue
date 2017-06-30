@@ -64,7 +64,7 @@
         grammage: '',
         mendatory: '',
         toolTip: false,
-        questions: ['Tu aimes le chocolat ?', 'Tu fais cramer la barraque ?', 'J\'ai pas d\'idées', 'Tu as dit bonjour ?'],
+        questions: ['Oui ou non ?', 'Tu fais cramer la barraque ?', 'De quelle planète viens-tu ?', 'Tu as dit bonjour ?'],
         question: '',
       };
     },
