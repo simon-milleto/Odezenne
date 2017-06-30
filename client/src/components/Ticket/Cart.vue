@@ -1,14 +1,11 @@
 <template>
-  <div class="c-cart">
-    <a class='dropdown-button btn' href='#' >
-      <img class="cart_shop" src="../../assets/images/shop.svg" @click.prevent="toggleCart">
-    </a>
-    <div class="c-cart__content" v-if="isOpen">
+  <div class="c-cart" :style="{ maxHeight: contentHeight + 'px' }">
+    <div class="c-cart__content" ref="content">
       <div class="c-cart__item"
            v-for="ticket in tickets">
         <div class="c-cart__item-label">
-          <span class="c-cart__item-title">{{ ticket.city }} - {{ ticket.place }}</span>
           <span class="c-cart__item-date">{{ ticket.date }}</span>
+          <span class="c-cart__item-title">{{ ticket.city }} - {{ ticket.place }}</span>
         </div>
         <div class="c-cart__item-information">
           <span class="c-cart__item-price">{{ ticket.price | currency }}€</span>
@@ -34,17 +31,16 @@
 
   export default {
     name: 'cart',
-    data() {
-      return {
-        isOpen: false,
-      };
-    },
+    props: ['isOpen'],
     computed: {
       ...mapGetters({
         tickets: 'cartTickets',
       }),
       total() {
         return this.tickets.reduce((a, b) => a + (b.amount * b.price), 0);
+      },
+      contentHeight() {
+        return this.isOpen ? this.$refs.content.offsetHeight : 0;
       },
     },
     filters: {
@@ -86,30 +82,22 @@
 <style lang="scss">
   @import '../../assets/scss/01_settings/colors';
 
-
-.cart_shop{
-    width: 25px;
+  .c-cart {
+    max-height: 153px;
     position: absolute;
-    top: 70px;
-    right: 130px;
+    overflow: hidden;
+    top: 75px;
+    right: 30px;
+    transition: .3s ease;
   }
 
   .c-cart__content {
     display: inline-flex;
     flex-direction: column;
+    background-color: $_white;
     border: 2px solid;
     padding: 20px;
-    position: absolute;
-    top: 120px;
-    right: 130px;
-  }
-
-  .c-cart{
-    // float: right;
-    margin-left: auto;
-    margin-right: auto;
-    width: 300px; 
-  }   
+  }  
    
   .c-cart__item {
     display: inline-flex;
@@ -124,10 +112,12 @@
 
   .c-cart__item-title {
     display: block;
+    font-weight: bold;
   }
 
   .c-cart__item-date {
     display: block;
+    font-weight: bold;
   }
 
   .c-cart__item-information {
@@ -137,10 +127,6 @@
 
   .c-cart__item-price {
     margin-right: 15px;
-  }
-
-  .c-cart__action {
-    // margin: 20px 0;
   }
 
   .c-cart__total {

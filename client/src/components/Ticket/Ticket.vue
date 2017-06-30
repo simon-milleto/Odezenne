@@ -178,9 +178,6 @@
   .c-ticket__trait{
     border: 1px solid;
     border-color: grey;
-    margin-top: auto;}
-
-  @media(min-width: 720px) {
-
+    margin-top: auto;
   }
 </style>

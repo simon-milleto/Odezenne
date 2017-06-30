@@ -1,24 +1,14 @@
 <template>
   <main>
-    <o-header></o-header>
-      <div class="o-container">
-        <form>
-          <div class="search">
-            <input type="text" v-model="searchString" placeholder="Rechercher une ville" />
-          </div>
-        </form>
-        <div class="o-grid">
-          <ticket v-for="ticket in tickets"
-                  :ticket="ticket"
-                  :key="ticket.id"></ticket>
-        </div>
-      </form>
+    <div class="o-container">
       <div class="o-grid o-grid--guttered">
         <search></search>
         <ticket v-for="ticket in tickets"
                 :ticket="ticket"
                 :key="ticket.id"></ticket>
       </div>
+      <cart></cart>
+    </div>
   </main>
 </template>
 
@@ -133,13 +123,6 @@
   left: 50px;
   bottom: 40px;
   font-size: 40px !important;
-}
-
-@media (max-width: 760px) {
-.cart_shop{
-    top: 70px;
-    right: 30px;
-}
 }
 
 </style>
