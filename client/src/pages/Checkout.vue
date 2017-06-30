@@ -33,38 +33,45 @@
       <form class="c-checkout__form">
         <div class="c-checkout__input">
           <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" name="firstName" v-model="user.firstName" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('firstName') }">
+          <input id="firstName" type="text" name="firstName" v-model="user.firstName" :class="{'input': true, 'is-danger': (errors.has('firstName') || serverErrors.firstName)}" v-validate="'required|alpha_dash'">
           <span v-show="errors.has('firstName')" class="help is-danger">{{ errors.first('firstName') }}</span>
+          <span v-if="serverErrors.firstName" class="help is-danger">{{ serverErrors.firstName.msg }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="lastName">Nom</label>
-          <input id="lastName" type="text" name="lastName" v-model="user.lastName" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('lastName') }">
+          <input id="lastName" type="text" name="lastName" v-model="user.lastName"  :class="{'input': true, 'is-danger': (errors.has('lastName') || serverErrors.lastName) }" v-validate="'required|alpha_dash'">
           <span v-show="errors.has('lastName')" class="help is-danger">{{ errors.first('lastName') }}</span>
+          <span v-if="serverErrors.lastName" class="help is-danger">{{ serverErrors.lastName.msg }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="email">Adresse mail</label>
-          <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" id="email" type="text" name="email" v-model="user.email">
+          <input id="email" type="text" name="email" v-model="user.email" :class="{'input': true, 'is-danger': (errors.has('email') || serverErrors.email) }" v-validate="'required|email'">
           <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+          <span v-if="serverErrors.email" class="help is-danger">{{ serverErrors.email.msg }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="address">Adresse</label>
-          <input id="address" type="text" name="address" v-model="user.address" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('address') }">
+          <input id="address" type="text" name="address" v-model="user.address"  :class="{'input': true, 'is-danger': (errors.has('address') || serverErrors.address) }" v-validate="'required'">
           <span v-show="errors.has('address')" class="help is-danger">{{ errors.first('address') }}</span>
+          <span v-if="serverErrors.address" class="help is-danger">{{ serverErrors.address.msg }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="postcode">Code postal</label>
-          <input id="postcode" type="text" name="postcode" v-model="user.postcode" v-validate="'required|digits:5'" :class="{'input': true, 'is-danger': errors.has('postcode') }">
+          <input id="postcode" type="text" name="postcode" v-model="user.postcode"  :class="{'input': true, 'is-danger': (errors.has('postcode') || serverErrors.postcode) }" v-validate="'required|digits:5'">
           <span v-show="errors.has('postcode')" class="help is-danger">{{ errors.first('postcode') }}</span>
+          <span v-if="serverErrors.postcode" class="help is-danger">{{ serverErrors.postcode.msg }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="city">Ville</label>
-          <input id="city" type="text" name="city" v-model="user.city" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('city') }">
+          <input id="city" type="text" name="city" v-model="user.city"  :class="{'input': true, 'is-danger': (errors.has('city') || serverErrors.city) }" v-validate="'required|alpha_dash'">
           <span v-show="errors.has('city')" class="help is-danger">{{ errors.first('city') }}</span>
+          <span v-if="serverErrors.city" class="help is-danger">{{ serverErrors.city.msg }}</span>
         </div>
         <div class="c-checkout__input">
           <label for="phoneNumber">Numéro de téléphone</label>
-          <input id="phoneNumber" type="text" name="phoneNumber" v-model="user.phoneNumber" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('phoneNumber') }">
+          <input id="phoneNumber" type="text" name="phoneNumber" v-model="user.phoneNumber"  :class="{'input': true, 'is-danger': (errors.has('phoneNumber') || serverErrors.phoneNumber) }" v-validate="'required|numeric'">
           <span v-show="errors.has('phoneNumber')" class="help is-danger">{{ errors.first('phoneNumber') }}</span>
+          <span v-if="serverErrors.phoneNumber" class="help is-danger">{{ serverErrors.phoneNumber.msg }}</span>
         </div>
         <button @click.prevent="checkout">Commander</button>
       </form>
@@ -102,6 +109,7 @@
           city: '',
           phoneNumber: '',
         },
+        serverErrors: '',
       };
     },
     computed: {
@@ -135,17 +143,21 @@
 
             axios.post(`${config.apiEndpoint}/tickets/checkout`, { items: formattedItems, user: this.user })
               .then((response) => {
-                this.order.isOrdered = true;
-                this.order.id = response.data.id;
-                this.order.total = response.data.total;
-
-                this.showPaymentButton(response.data.id);
+                if (response.data.errors) {
+                  const spreadedErrors = { ...response.data.errors };
+                  this.serverErrors = spreadedErrors;
+                } else {
+                  this.order.isOrdered = true;
+                  this.order.id = response.data.id;
+                  this.order.total = response.data.total;
+                  this.showPaymentButton(response.data.id);
+                }
               });
           } else {
-            console.log('Correct them errors!');
+            console.log('Correct the errors!');
           }
         }).catch(() => {
-          console.log('Correct them errors!');
+          console.log('Correct the errors!');
         });
       },
       updateOrder(transactionId, creationTime) {

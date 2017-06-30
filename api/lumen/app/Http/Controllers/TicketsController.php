@@ -82,6 +82,7 @@ class TicketsController extends Controller
         $user = $request->all()['user'];
         $formattedItems = array();
         $metaData = array();
+        $errors = array('errors' => array());
 
         foreach ($items as $item) {
             $formattedItems[] = [
@@ -108,25 +109,65 @@ class TicketsController extends Controller
             }
         }
 
-        $order = [
-            'payment_method' => 'paypal',
-            'payment_method_title' => 'PayPal',
-            'billing' => [
-                'first_name' => $user['firstName'],
-                'last_name' => $user['lastName'],
-                'address_1' => $user['address'],
-                'postcode' => $user['postcode'],
-                'city' => $user['city'],
-                'email' => $user['email'],
-                'phone' => $user['phoneNumber'],
-            ],
-            'line_items' => $formattedItems,
-            'meta_data' => $metaData
-        ];
-
-        $orderResponse = $woocommerce->post('orders', $order);
-
-        return response()->json($orderResponse);
+        if (!isset($user['firstName']) || empty($user['firstName'])){
+            $errors['errors']['firstName'] = (object) array('field' => 'firstName', 'msg' => "Le prénom est obligatoire");
+        }
+        if (!isset($user['lastName']) || empty($user['lastName'])){
+            $errors['errors']['lastName'] = (object) array('field' => 'lastName', 'msg' => "Le nom est obligatoire");
+        }
+        if (isset($user['email']) && !empty($user['email'])){
+            if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)){
+                $errors['errors']['email'] = (object) array('field' => 'email', 'msg' => "Veuillez saisir une adresse mail valide");
+            }
+        }else{
+            $errors['errors']['email'] = (object) array('field' => 'email', 'msg' => "L'adresse mail est obligatoire");
+        }
+        if (!isset($user['address']) || empty($user['address'])){
+            $errors['errors']['address'] = (object) array('field' => 'address', 'msg' => "L'adresse est obligatoire");
+        }
+        if (isset($user['postcode']) && !empty($user['postcode'])){
+            if (!preg_match('#^[0-9]{5}$#', $user['postcode'])){
+                $errors['errors']['postcode'] = (object) array('field' => 'postcode', 'msg' => "Veuillez saisir seulement 5 chiffres");
+            }
+        }else{
+            $errors['errors']['postcode'] = (object) array('field' => 'postcode', 'msg' => "Le code postal est obligatoire");
+        }
+        if (isset($user['city']) && !empty($user['city'])){
+            if (!preg_match("/[^\w-]/", $user['city'])){
+                $errors['errors']['city'] = (object) array('field' => 'city', 'msg' => "Veuillez saisir seulement des caractères alphabétiques");
+            }
+        }else{
+            $errors['errors']['city'] = (object) array('field' => 'city', 'msg' => "La ville est obligatoire");
+        }
+        if (isset($user['phoneNumber']) && !empty($user['phoneNumber'])){
+            if (!preg_match("/^[0-9]+$/", $user['phoneNumber'])){
+                $errors['errors']['phoneNumber'] = (object) array('field' => 'phoneNumber', 'msg' => "Veuillez saisir un numéro de valide");
+            }
+        }else{
+            $errors['errors']['phoneNumber'] = (object) array('field' => 'phoneNumber', 'msg' => "Le numéro de téléphone est obligatoire");
+        }
+        if (empty($errors['errors'])){
+            $order = [
+                'payment_method' => 'paypal',
+                'payment_method_title' => 'PayPal',
+                'billing' => [
+                    'first_name' => $user['firstName'],
+                    'last_name' => $user['lastName'],
+                    'address_1' => $user['address'],
+                    'postcode' => $user['postcode'],
+                    'city' => $user['city'],
+                    'email' => $user['email'],
+                    'phone' => $user['phoneNumber'],
+                ],
+                'line_items' => $formattedItems,
+                'meta_data' => $metaData
+            ];
+            $orderResponse = $woocommerce->post('orders', $order);
+            return response()->json($orderResponse);
+        }
+        else{
+            return response()->json($errors);
+        }
     }
 
     /**
